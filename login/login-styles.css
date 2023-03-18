@@ -22,7 +22,7 @@ body {
     right: 0%;
     top: 0%;
     bottom: 0%;
-    background: url(./recourses/login-backgroud.png);
+    background: url(../recourses/login-backgroud.png);
     display: flex;
     justify-content: center;
     align-items: center;
