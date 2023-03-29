@@ -70,7 +70,7 @@ nav ul li img {
 nav ul li a {
     text-decoration: none;
     color: #A4A8D1;
-    font-size: 13px;
+    font-size: 11.5px;
 }
 
 footer {
@@ -82,6 +82,7 @@ footer {
     flex-direction: column;
     align-items: center;
     height: 150px;
+    background-color: white;
 }
 
 footer hr {
@@ -130,7 +131,7 @@ footer img:last-of-type {
 footer p {
     margin-top: -40px;
     color: #A4A8D1;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -142,30 +143,107 @@ footer p {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60%;
+    flex-direction: column;
+    padding-bottom: 100px;
 }
-.empty-contianer {
+
+.empty {
+    height: 60%;
+    padding-bottom: 0px;
+}
+
+.empty-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.empty-contianer img {
+
+.empty-container img {
     width: 40%;
     margin-bottom: 3%;
     max-height: 300px;
 }
-.empty-contianer p {
-font-size: 2.1vw;
-color: #5A1499;
-text-align: center;
+
+.empty-container p {
+    font-size: 1.2vw;
+    color: #5A1499;
+    text-align: center;
 }
 
-@media screen and (max-width:676px){
-    .empty-contianer img {
+.root .filter {
+    align-self: center;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-right: 10%;
+}
+
+.root .filter span {
+    margin-bottom: 5px;
+}
+
+.root .session {
+    width: 60%;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.root .session h2 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22.25px;
+    line-height: 18px;
+    text-align: center;
+    color: #5A1499;
+    margin-bottom: 30px;
+}
+
+.root .session .paper {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13.1666px;
+    text-align: center;
+    color: #A4A8D1;
+    border-bottom: 1px solid #A4A8D1;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+.root .session .paper span {
+    display: inline-block;
+}
+
+.root .session .paper span:first-of-type {
+    width: 20%;
+    text-align: center;
+}
+
+.root .session .paper span:last-of-type {
+    width: 80%;
+    text-align: start;
+}
+
+@media screen and (max-width:676px) {
+    .empty-container img {
         width: 90%;
     }
-    .empty-contianer p {
-    font-size: 4.1vw;
+
+    .empty-container p {
+        font-size: 2.6vw;
+    }
+
+    .root .session {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width:950px) {
+    .root .session {
+        width: 75%;
     }
 }
