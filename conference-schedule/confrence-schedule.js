@@ -96,3 +96,301 @@ let addAllSessions = (sessions) => {
     document.querySelector(".root").appendChild(createSession(e))
   );
 };
+
+let papers = [
+  {
+    title: "AI Technology",
+    abstract:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    status: true,
+    id: 3023,
+    document: "URL-to-one-drive",
+    authors: [
+      {
+        id: 14,
+        affiliation: "PHD",
+        main: true,
+      },
+      {
+        id: 15,
+        affiliation: "PHD",
+        main: false,
+      },
+      {
+        id: 16,
+        affiliation: "PHD",
+        main: false,
+      },
+    ],
+  },
+  {
+    title: "Cryptography",
+    abstract:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    status: true,
+    id: 3024,
+    document: "URL-to-one-drive",
+    authors: [
+      {
+        id: 15,
+        affiliation: "PHD",
+        main: true,
+      },
+      {
+        id: 16,
+        affiliation: "PHD",
+        main: false,
+      },
+      {
+        id: 17,
+        affiliation: "PHD",
+        main: false,
+      },
+    ],
+  },
+  {
+    title: "Python",
+    abstract:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    status: true,
+    id: 1023,
+    document: "URL-to-one-drive",
+    authors: [
+      {
+        id: 14,
+        affiliation: "PHD",
+        main: true,
+      },
+      {
+        id: 15,
+        affiliation: "PHD",
+        main: false,
+      },
+      {
+        id: 16,
+        affiliation: "PHD",
+        main: false,
+      },
+    ],
+  },
+  {
+    title: "Java",
+    abstract:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    status: true,
+    id: 3533,
+    document: "URL-to-one-drive",
+    authors: [
+      {
+        id: 18,
+        affiliation: "PHD",
+        main: true,
+      },
+      {
+        id: 19,
+        affiliation: "PHD",
+        main: false,
+      },
+      {
+        id: 20,
+        affiliation: "PHD",
+        main: false,
+      },
+    ],
+  },
+  {
+    title: "C++",
+    abstract:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    status: true,
+    id: 5443,
+    document: "URL-to-one-drive",
+    authors: [
+      {
+        id: 14,
+        affiliation: "PHD",
+        main: true,
+      },
+      {
+        id: 16,
+        affiliation: "PHD",
+        main: false,
+      },
+      {
+        id: 18,
+        affiliation: "PHD",
+        main: false,
+      },
+    ],
+  },
+];
+papers = JSON.stringify(papers);
+localStorage["papers"] = papers;
+
+let reviews = [
+  {
+    reviewer: 4,
+    paper: 5443,
+    overall: 1,
+    contribution: 0,
+    strength:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    weakness:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    accepted: true,
+    done: true,
+  },
+  {
+    reviewer: 5,
+    paper: 3533,
+    overall: 2,
+    contribution: 1,
+    strength:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    weakness:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    accepted: false,
+    done: true,
+  },
+  {
+    reviewer: 6,
+    paper: 1023,
+    overall: -1,
+    contribution: -1,
+    strength:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    weakness:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    accepted: true,
+    done: true,
+  },
+  {
+    reviewer: 7,
+    paper: 3023,
+    overall: 0,
+    contribution: 2,
+    strength:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    weakness:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemo" +
+      "laborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    accepted: true,
+    done: true,
+  },
+];
+reviews = JSON.stringify(reviews);
+localStorage["reviews"] = reviews;
+let date = new Date("10-March-2023 12:45:00");
+let dateView = date.toDateString().split(" ");
+dateView.shift();
+dateView = dateView.join(" ");
+console.log(date);
+let confrences = [
+  {
+    "start-date": new Date("10-March-2023"),
+    "end-date": new Date("22-March-2023"),
+    location: "Toronto",
+    venue: "Building 1",
+    sessions: [
+      {
+        day: new Date("10-March-2023"),
+        room: 75,
+        partitions: [
+          {
+            paper: 1023,
+            presenter: 16,
+            time: new Date("11-March-2023 14:00:00"),
+          },
+          {
+            paper: 3024,
+            presenter: 17,
+            time: new Date("11-March-2023 15:00:00"),
+          },
+          {
+            paper: 5443,
+            presenter: 18,
+            time: new Date("11-March-2023 16:00:00"),
+          },
+        ],
+      },
+      {
+        day: new Date("11-March-2023"),
+        room: 75,
+        partitions: [
+          {
+            paper: 1023,
+            presenter: 16,
+            time: new Date("11-March-2023 14:00:00"),
+          },
+          {
+            paper: 3024,
+            presenter: 17,
+            time: new Date("11-March-2023 15:00:00"),
+          },
+          {
+            paper: 5443,
+            presenter: 18,
+            time: new Date("11-March-2023 16:00:00"),
+          },
+        ],
+      },
+      {
+        day: new Date("12-March-2023"),
+        room: 75,
+        partitions: [
+          {
+            paper: 1023,
+            presenter: 16,
+            time: new Date("11-March-2023 14:00:00"),
+          },
+          {
+            paper: 3024,
+            presenter: 17,
+            time: new Date("11-March-2023 15:00:00"),
+          },
+          {
+            paper: 5443,
+            presenter: 18,
+            time: new Date("11-March-2023 16:00:00"),
+          },
+        ],
+      },
+      {
+        day: new Date("13-March-2023"),
+        room: 75,
+        partitions: [
+          {
+            paper: 1023,
+            presenter: 16,
+            time: new Date("11-March-2023 14:00:00"),
+          },
+          {
+            paper: 3024,
+            presenter: 17,
+            time: new Date("11-March-2023 15:00:00"),
+          },
+          {
+            paper: 5443,
+            presenter: 18,
+            time: new Date("11-March-2023 16:00:00"),
+          },
+        ],
+      },
+    ],
+  },
+];
+
+confrences = JSON.stringify(confrences);
+localStorage["conferences"] = confrences;
