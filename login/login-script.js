@@ -26,4 +26,3 @@ togglePassword.addEventListener("click", function () {
     password.getAttribute("type") === "password" ? "text" : "password";
   password.setAttribute("type", type);
 });
-
