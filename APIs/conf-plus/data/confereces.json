@@ -11,18 +11,15 @@
         "partitions": [
           {
             "paper": 1023,
-            "presenter": 16,
-            "time": "2023-03-11T11:00:00.000Z"
+            "presenter": 16
           },
           {
             "paper": 3024,
-            "presenter": 17,
-            "time": "2023-03-11T12:00:00.000Z"
+            "presenter": 17
           },
           {
             "paper": 5443,
-            "presenter": 18,
-            "time": "2023-03-11T13:00:00.000Z"
+            "presenter": 18
           }
         ]
       },
@@ -33,18 +30,15 @@
         "partitions": [
           {
             "paper": 1023,
-            "presenter": 16,
-            "time": "2023-03-11T11:00:00.000Z"
+            "presenter": 16
           },
           {
             "paper": 3024,
-            "presenter": 17,
-            "time": "2023-03-11T12:00:00.000Z"
+            "presenter": 17
           },
           {
             "paper": 5443,
-            "presenter": 18,
-            "time": "2023-03-11T13:00:00.000Z"
+            "presenter": 18
           }
         ]
       },
@@ -55,18 +49,15 @@
         "partitions": [
           {
             "paper": 1023,
-            "presenter": 16,
-            "time": "2023-03-11T11:00:00.000Z"
+            "presenter": 16
           },
           {
             "paper": 3024,
-            "presenter": 17,
-            "time": "2023-03-11T12:00:00.000Z"
+            "presenter": 17
           },
           {
             "paper": 5443,
-            "presenter": 18,
-            "time": "2023-03-11T13:00:00.000Z"
+            "presenter": 18
           }
         ]
       },
@@ -77,18 +68,15 @@
         "partitions": [
           {
             "paper": 1023,
-            "presenter": 16,
-            "time": "2023-03-11T11:00:00.000Z"
+            "presenter": 16
           },
           {
             "paper": 3024,
-            "presenter": 17,
-            "time": "2023-03-11T12:00:00.000Z"
+            "presenter": 17
           },
           {
             "paper": 5443,
-            "presenter": 18,
-            "time": "2023-03-11T13:00:00.000Z"
+            "presenter": 18
           }
         ]
       }
