@@ -3,7 +3,6 @@ import * as repo from "../../repository.js";
 export async function GET(request, { params }) {
   try {
     let { id } = params;
-    id = parseInt(id);
     const response = await repo.readConference(id);
     if (response.done) {
       return NextResponse.json(response.conference);
@@ -16,4 +15,6 @@ export async function GET(request, { params }) {
     console.log(err);
   }
 }
+
+// api/conference/[id]
 
