@@ -194,6 +194,14 @@ export async function readAllReviews() {
     reviews: reviews,
   };
 }
+export async function readAllConferences() {
+  let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
+  conferences = JSON.parse(conferences);
+  return {
+    done: true,
+    conferences: conferences,
+  };
+}
 export async function updateReview(id, review) {
   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
   reviews = JSON.parse(reviews);
@@ -216,7 +224,7 @@ export async function deleteReview(id) {
   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
   reviews = JSON.parse(reviews);
   const index = reviews.findIndex((review) => review.paper === id);
-  console.log(reviews)
+  console.log(reviews);
   if (index >= 0) {
     const review = reviews[index];
     reviews.splice(index, 1);
