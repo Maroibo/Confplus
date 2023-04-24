@@ -3,7 +3,6 @@ import * as repo from "../../repository.js";
 export async function GET(request, { params }) {
   try {
     let { id } = params;
-    id = parseInt(id);
     const response = await repo.readPaper(id);
     if (response.done) {
       return NextResponse.json(response.paper);
@@ -19,7 +18,6 @@ export async function GET(request, { params }) {
 export async function POST(request, { params }) {
   try {
     let { id } = params;
-    id = parseInt(id);
     const paper = await request.json();
     const response = await repo.updatePaper(id, paper);
     if (response.done) {

@@ -1,1 +1,13 @@
-[{"reviewer":4,"paper":5443,"overall":1,"contribution":0,"strength":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","weakness":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","accepted":true,"done":true},{"reviewer":5,"paper":3533,"overall":2,"contribution":1,"strength":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","weakness":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","accepted":false,"done":true},{"reviewer":7,"paper":3023,"overall":0,"contribution":2,"strength":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","weakness":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","accepted":true,"done":true},{"reviewer":7,"paper":3023,"overall":2,"contribution":0,"strength":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","weakness":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","accepted":true,"done":false,"id":"RmtcHZTppxz__c3lb9_EN"}]
+[
+  {
+    "reviewer": 7,
+    "paper": 3023,
+    "overall": 2,
+    "contribution": 0,
+    "strength": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "weakness": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "accepted": true,
+    "done": false,
+    "id": "RmtcHZTppxz__c3lb9_EN"
+  }
+]

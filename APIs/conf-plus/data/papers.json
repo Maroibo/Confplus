@@ -1,1 +1,82 @@
-[{"title":"GPT-4","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"document":"URL-to-one-drive","authors":[{"id":14,"affiliation":"PHD","main":true},{"id":15,"affiliation":"PHD","main":false},{"id":16,"affiliation":"PHD","main":false}],"id":3023},{"title":"Cryptography","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":3024,"document":"URL-to-one-drive","authors":[{"id":15,"affiliation":"PHD","main":true},{"id":16,"affiliation":"PHD","main":false},{"id":17,"affiliation":"PHD","main":false}]},{"title":"Python","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":1023,"document":"URL-to-one-drive","authors":[{"id":14,"affiliation":"PHD","main":true},{"id":15,"affiliation":"PHD","main":false},{"id":16,"affiliation":"PHD","main":false}]},{"title":"Java","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":3533,"document":"URL-to-one-drive","authors":[{"id":18,"affiliation":"PHD","main":true},{"id":19,"affiliation":"PHD","main":false},{"id":20,"affiliation":"PHD","main":false}]},{"title":"C++","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":5443,"document":"URL-to-one-drive","authors":[{"id":14,"affiliation":"PHD","main":true},{"id":16,"affiliation":"PHD","main":false},{"id":18,"affiliation":"PHD","main":false}]}]
+[
+  {
+    "title": "Introduction to Python",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218a",
+    "document": "URL-to-one-drive",
+    "authors": [
+      {
+        "id": 14,
+        "affiliation": "University of British Columbia",
+        "main": true
+      },
+      { "id": 16, "affiliation": "University of Toronto", "main": false },
+      { "id": 18, "affiliation": "University of Toronto", "main": false }
+    ]
+  },
+  {
+    "title": "Data Structures and Algorithms",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218b",
+    "document": "URL-to-one-drive",
+    "authors": [
+      { "id": 22, "affiliation": "University of Toronto", "main": true },
+      {
+        "id": 23,
+        "affiliation": "University of British Columbia",
+        "main": false
+      },
+      { "id": 25, "affiliation": "University of Waterloo", "main": false }
+    ]
+  },
+  {
+    "title": "Artificial Intelligence",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218c",
+    "document": "URL-to-one-drive",
+    "authors": [
+      { "id": 31, "affiliation": "University of Toronto", "main": true },
+      {
+        "id": 32,
+        "affiliation": "University of British Columbia",
+        "main": false
+      },
+      { "id": 34, "affiliation": "McGill University", "main": false }
+    ]
+  },
+  {
+    "title": "Web Development",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218d",
+    "document": "URL-to-one-drive",
+    "authors": [
+      {
+        "id": 41,
+        "affiliation": "University of British Columbia",
+        "main": true
+      },
+      { "id": 42, "affiliation": "University of Toronto", "main": false },
+      { "id": 44, "affiliation": "University of Waterloo", "main": false }
+    ]
+  },
+  {
+    "title": "Introduction to Data Structures",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qwery9142",
+    "document": "URL-to-one-drive",
+    "authors": [
+      { "id": 10, "affiliation": "Stanford University", "main": true },
+      {
+        "id": 12,
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": false
+      },
+      { "id": 16, "affiliation": "Princeton University", "main": false }
+    ]
+  }
+]
