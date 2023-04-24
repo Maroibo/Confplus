@@ -6,6 +6,7 @@ const PAPER_PATH = "data/papers.json";
 const REVIEW_PATH = "data/reviews.json";
 const CONFERENCE_PATH = "data/confereces.json";
 const USER_PATH = "data/users.json";
+const INSTITUTION_PATH = "data/institutions.json";
 export async function createPaper(paper) {
   const createdId = nanoid();
   if (validatePaper(paper)) {
@@ -200,6 +201,14 @@ export async function readAllConferences() {
   return {
     done: true,
     conferences: conferences,
+  };
+}
+export async function readAllInstitutions() {
+  let institutions = await fs.promises.readFile(INSTITUTION_PATH, "utf8");
+  institutions = JSON.parse(institutions);
+  return {
+    done: true,
+    institutions: institutions,
   };
 }
 export async function updateReview(id, review) {
