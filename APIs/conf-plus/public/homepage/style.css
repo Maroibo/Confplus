@@ -48,9 +48,18 @@ nav ul {
 }
 
 nav ul a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
     color: #A4A8D1;
     font-weight: 500;
     font-size: 1.4em;
+}
+
+.home-icon, .login-icon {
+    width: 1.5em;
+    height: 1.5em;
 }
 
 .top-container {
