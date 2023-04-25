@@ -4,20 +4,27 @@ getConferences();
 const conferencesList = [];
 
 function showMoreConferences() {
-    conferenceCardsContainer.innerHTML = conferencesList.map(conference => conferenceToHTML(conference)).join("");
+    conferenceCardsContainer.removeChild(conferenceCardsContainer.lastChild);
+    for (let index = 0; index < conferencesList.length; index++) {
+        const conference = conferencesList[index];
+        if (index > 2) {
+          const loadMoreBtn = document.createElement("button");
+          loadMoreBtn.classList.add("load-more-btn");
+          loadMoreBtn.innerText = "Load more";
+          conferenceCardsContainer.appendChild(loadMoreBtn);
+          loadMoreBtn.addEventListener('click', showMoreConferences);
+          break;
+        }
+        conferenceCardsContainer.appendChild(conferenceToHTML(conference));
+      }
+      conferencesList.splice(0, 3);
 }
 
 async function getConferences() {
     const response = await fetch("/api/conference");
     const conferences = await response.json();
     conferencesList.push(...conferences);
-    if (conferences.length > 3) {
-        conferenceCardsContainer.innerHTML = conferences.slice(0, 3).map(conference => conferenceToHTML(conference)).join("") + "<button class='load-more-btn'>Load more</button>";
-    } else {
-        conferenceCardsContainer.innerHTML = conferences.map(conference => conferenceToHTML(conference)).join("");
-    }
-    const loadMoreBtn = document.querySelector('.load-more-btn');
-    loadMoreBtn.addEventListener('click', showMoreConferences);
+    showMoreConferences();
 }
 
 function conferenceToHTML(conference) {
@@ -32,14 +39,62 @@ function conferenceToHTML(conference) {
     const endMonth = monthNames[endDate.getMonth()];
     const endYear = endDate.getFullYear();
 
-    return `<div class="conference-card">
-                <div class="conference-img-container"><img src="../recourses/Photos/toronto.jpg" alt="Toranto"></div>
-                <div class="conference-details-container">
-                    <div class="conference-title-container"><h3 class="conference-title">${conference.title}</h3></div>
-                    <div class="conference-date-container"><img src="../recourses/icons/calendar.svg" alt="Calendar icon" class="calendar-icon"><p class="conference-date"> ${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}</p></div>
-                </div>
-            </div>
-            `;
+    const conferenceCard = document.createElement("div");
+    conferenceCard.classList.add("conference-card");
+    conferenceCard.dataset.conferenceID = conference.id;
+
+    const conferenceImgContainer = document.createElement("div");
+    conferenceImgContainer.classList.add("conference-img-container");
+
+    const conferenceImg = document.createElement("img");
+    conferenceImg.src = "../recourses/Photos/toronto.jpg";
+    conferenceImg.alt = "Toranto";
+    conferenceImgContainer.appendChild(conferenceImg);
+
+    conferenceCard.appendChild(conferenceImgContainer);
+
+    const conferenceDetailsContainer = document.createElement("div");
+    conferenceDetailsContainer.classList.add("conference-details-container");
+
+    const conferenceTitleContainer = document.createElement("div");
+    conferenceTitleContainer.classList.add("conference-title-container");
+
+    const conferenceTitle = document.createElement("h3");
+    conferenceTitle.classList.add("conference-title");
+    conferenceTitle.innerText = conference.title;
+
+    conferenceTitleContainer.appendChild(conferenceTitle);
+
+    conferenceDetailsContainer.appendChild(conferenceTitleContainer);
+
+    const conferenceDateContainer = document.createElement("div");
+    conferenceDateContainer.classList.add("conference-date-container");
+
+    const calendarIcon = document.createElement("img");
+    calendarIcon.src = "../recourses/icons/calendar.svg";
+    calendarIcon.alt = "Calendar icon";
+    calendarIcon.classList.add("calendar-icon");
+
+    conferenceDateContainer.appendChild(calendarIcon);
+
+    const conferenceDate = document.createElement("p");
+    conferenceDate.classList.add("conference-date");
+    conferenceDate.innerText = `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
+
+    conferenceDateContainer.appendChild(conferenceDate);
+
+    conferenceDetailsContainer.appendChild(conferenceDateContainer);
+
+    conferenceCard.appendChild(conferenceDetailsContainer);
+
+    conferenceCard.addEventListener('click', () => {
+        const conferenceID = conferenceCard.dataset.conferenceID;
+        goToSchedule(conferenceID);
+    });
+
+    return conferenceCard;
 }
 
-
+function goToSchedule(conferenceID) {
+    window.location.href = "../conference-schedule/confrence-schedule.html?id=" + conferenceID;
+}
