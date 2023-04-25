@@ -4,7 +4,6 @@ export async function GET(request, { params }) {
   try {
     let { id } = params;
     const type = new URL(request.url).searchParams.get("type")?.toLowerCase();
-    id = parseInt(id);
     const response = await repo.readReview(id, type);
     if (response.done) {
       return NextResponse.json(response.review);
@@ -20,7 +19,6 @@ export async function GET(request, { params }) {
 export async function DELETE(request, { params }){
     try {
         let { id } = params;
-        id = parseInt(id);
         const response = await repo.deleteReview(id);
         if (response.done) {
         return NextResponse.json(response.review);
