@@ -35,10 +35,11 @@ header {
     overflow: hidden;
     padding-left: 5%;
     padding-right: 5%;
+    gap: 1em;
 }
 
 .header-logo-container {
-    width: 10%;
+    width: clamp(100px, 10vw, 200px);
     /* outline: 1px solid hotpink; */
 }
 
@@ -99,18 +100,20 @@ nav ul a:hover, nav ul a:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 10em;
+    font-size: clamp(3em, 10vw, 10em);
     text-align: center;
     font-weight: 700;
 }
 
 .main-grid {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 880px));
     grid-auto-flow: column;
     grid-template-areas: "left right";
     padding: 4em 4em;
-    gap: 1em;
+    gap: 5em;
+    /* outline: 10px solid red; */
+    justify-content: center;
 }
 
 .conferences-container {
@@ -120,15 +123,13 @@ nav ul a:hover, nav ul a:focus {
     /* outline: 1px solid red; */
 
 }
+
 .section-title {
     color:rgba(var(--secondary-accent-clr-900), 1);
     font-size: 3em;
     font-weight: 700;
 }
 
-.conferences-container .section-title {
-    width: 880px;
-}
 
 .conference-cards-container {
     display: flex;
@@ -144,7 +145,6 @@ nav ul a:hover, nav ul a:focus {
     /* padding: 1em; */
     color: black;
     border-radius: 1em;
-    widtH: minmax(500px, 880px);
     height: 315px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
     transition: 0.15s;
@@ -171,7 +171,8 @@ nav ul a:hover, nav ul a:focus {
 }
 
 .conference-title {
-    font-size: 2em;
+    /* font-size: 2em; */
+    font-size: clamp(1.5em, 2vw, 2em);
     font-weight: 700;
     color: black;
     padding-bottom: 0.5em;
@@ -179,12 +180,13 @@ nav ul a:hover, nav ul a:focus {
 
 .confernece-venue {
     padding-bottom: 0.3em;
-    font-size: 1.3em;
+    font-size: clamp(1.1em, 1.5vw, 1.3em);
     font-weight: 400;
 }
 
 .conference-location {
-    font-size: 1.1em;
+    /* font-size: 1.1em; */
+    font-size: clamp(1em, 1.5vw, 1.1em);
     font-weight: 400;
 }
 
@@ -195,7 +197,8 @@ nav ul a:hover, nav ul a:focus {
     align-items: center;
     margin-top: auto;
     /* outline: 1px solid red; */
-    font-size: 1.3em;
+    /* font-size: 1.3em; */
+    font-size: clamp(1.1em, 1.5vw, 1.3em);
     font-weight: 400;
 }
 
@@ -242,9 +245,10 @@ nav ul a:hover, nav ul a:focus {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
     padding: 1em 2em;
     text-align: center;
-    width: 680px;
-    height: 380px;
-    font-size: 1.5em;
+    /* width: 680px; */
+    /* height: 380px; */
+    /* font-size: 1.5em; */
+    font-size: clamp(1em, 0.8vw, 2em);
     line-height: 1.8em;
     font-weight: 400;
     color:rgba(var(--secondary-accent-clr-900), 1);
@@ -267,9 +271,9 @@ nav ul a:hover, nav ul a:focus {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
     padding: 1em 2em;
     text-align: center;
-    width: 680px;
-    height: 380px;
-    font-size: 1.5em;
+    /* width: 680px; */
+    /* height: 380px; */
+    font-size: clamp(1em, 0.8vw, 2em);
     line-height: 1.8em;
     font-weight: 400;
     color:rgba(var(--secondary-accent-clr-900), 1);
@@ -317,15 +321,78 @@ footer {
     margin-inline: 1em;
 }
 
+footer .top-part {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    /* outline: 1px solid red; */
+}
+
 footer p {
-    font-size: 1.5em;
+    font-size: clamp(1em, 1.5vw, 1.5em);
     font-weight: 400;
     color: rgba(var(--secondary-accent-clr-900), 1);
+    text-align: center;
 }
 
 footer img {
-    width: 20em;
+    width: clamp(5em, 10vw, 10em);
     height: 5em;
     object-fit: cover;
     /* outline: 1px solid red; */
+}
+
+footer ul {
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        "left"
+        "right";
+    }
+
+    .main-aside {
+        display: none;
+    }
+    
+    footer ul {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+        justify-content: center;
+    }
+
+    footer ul li a img {
+        background-color: rgba(var(--secondary-accent-clr-400), 1);
+        border-radius: 50%;
+        width: 3em;
+        height: 3em;
+        transition: 0.15s;
+    }
+}
+
+/* .divider {
+    display: none;
+} */
+
+@media screen and (max-width: 650px) {
+    /* .divider {
+        display: inline;
+    } */
+    .conference-card {
+        height: 200px;
+    }
+    /* .conference-locations-container {
+        display: flex;
+        flex-direction: row;
+        outline: 1px solid red;
+        align-items: center; 
+        justify-content: space-between;
+        font-size: 1em;
+        font-weight: 400;
+    } */
 }
