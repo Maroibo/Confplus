@@ -16,12 +16,14 @@
     <link rel="stylesheet" href="./author.css" />
     <title>Author</title>
   </head>
+  <script src="./author.js" defer></script>
   <body>
     <nav>
       <img src="../recourses/ConfPlus Logo.png" alt="" />
       <ul>
         <li>
-          <img src="../recourses/icons/house-solid.svg" alt="" /><a href="#"
+          <img src="../recourses/icons/house-solid.svg" alt="" /><a
+            href="../conference-schedule/confrence-schedule.html"
             >Home</a
           >
         </li>
@@ -41,22 +43,29 @@
           <input
             type="text"
             name="title"
+            id="title"
             placeholder="Ex:Effects of Polution"
           />
           <label for="abstract">Abstract</label>
           <textarea
             name="abstract"
             placeholder="Write The Abstract of the paper..."
+            id="abstract"
           ></textarea>
           <div class="search-div">
-            <input type="search" />
-            <img src="../recourses/icons/plus-solid.svg" alt="" />
+            <input type="text" placeholder="Add Author" />
+            <img
+              src="../recourses/icons/plus-solid.svg"
+              id="add-authors"
+              alt=""
+            />
           </div>
           <div class="author-names"></div>
           <label for="document">Upload Document</label>
           <input
             type="text"
             name="document"
+            id="document"
             placeholder="Google Drive, Microsoft OneDrive, Dropbox, etc."
           />
           <input type="submit" value="Submit" />
