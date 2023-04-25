@@ -3,86 +3,6 @@
     "start-date": "2023-03-09T21:00:00.000Z",
     "end-date": "2023-03-21T21:00:00.000Z",
     "id": "Ad321-123",
-<<<<<<< Updated upstream
-    "sessions": [
-      {
-        "location": "Seoul",
-        "day": "2023-03-09T21:00:00.000Z",
-        "room": 75,
-        "partitions": [
-          {
-            "paper": 1023,
-            "presenter": 16
-          },
-          {
-            "paper": 3024,
-            "presenter": 17
-          },
-          {
-            "paper": 5443,
-            "presenter": 18
-          }
-        ]
-      },
-      {
-        "location": "Cairo",
-        "day": "2023-03-10T21:00:00.000Z",
-        "room": 75,
-        "partitions": [
-          {
-            "paper": 1023,
-            "presenter": 16
-          },
-          {
-            "paper": 3024,
-            "presenter": 17
-          },
-          {
-            "paper": 5443,
-            "presenter": 18
-          }
-        ]
-      },
-      {
-        "location": "Zurich",
-        "day": "2023-03-11T21:00:00.000Z",
-        "room": 75,
-        "partitions": [
-          {
-            "paper": 1023,
-            "presenter": 16
-          },
-          {
-            "paper": 3024,
-            "presenter": 17
-          },
-          {
-            "paper": 5443,
-            "presenter": 18
-          }
-        ]
-      },
-      {
-        "location": "Houston",
-        "day": "2023-03-12T21:00:00.000Z",
-        "room": 75,
-        "partitions": [
-          {
-            "paper": 1023,
-            "presenter": 16
-          },
-          {
-            "paper": 3024,
-            "presenter": 17
-          },
-          {
-            "paper": 5443,
-            "presenter": 18
-          }
-        ]
-      }
-    ]
-=======
     "sessions": []
   },
   {
@@ -120,6 +40,5 @@
     "end-date": "2023-03-21T21:00:00.000Z",
     "id": "hh123-321",
     "sessions": []
->>>>>>> Stashed changes
   }
 ]

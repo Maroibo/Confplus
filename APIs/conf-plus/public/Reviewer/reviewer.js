@@ -1,8 +1,12 @@
 window.onload = async () => {
   await userDisplayer();
   const user = localStorage["currentUser"];
-  const response = await fetch(`../api/review/${user}/reviewer`);
+  const response = await fetch(`../api/review/${user}?type=reviewer`);
   const reviews = await response.json();
+  reviews.map(async (e) => {
+    const card = await reviewCard(e);
+    document.querySelector(".root").appendChild(card);
+  });
 };
 let addAllSessions = (sessions) => {
   sessions.map((e) =>
@@ -71,7 +75,7 @@ const userClickHandler = (event) => {
   } else {
     const userRole = document.querySelector(".user span:last-of-type");
     if (userRole.innerHTML.toLowerCase() === "reviewer") {
-      // redirect to reviewer page
+      window.location.href = "../Reviewer/reviewer.html";
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
@@ -90,9 +94,38 @@ const moveLogOut = () => {
 };
 window.addEventListener("resize", moveLogOut);
 
-const reviewCard = (review) => {
+const reviewCard = async (review) => {
+  const response = await fetch(`../api/paper/${review.paper}`);
+  const paper = await response.json();
   const reviewContainer = document.createElement("div");
   reviewContainer.classList = "review-container";
+  const pdfContainer = document.createElement("div");
   const pdfImage = document.createElement("img");
+  pdfContainer.appendChild(pdfImage);
   pdfImage.src = "../recourses/icons/file-pdf-solid.svg";
+  const paperTitle = document.createElement("p");
+  paperTitle.innerHTML = paper.title;
+  const paperAuthor = document.createElement("p");
+  paperAuthor.innerHTML = await getAuthorNames(paper.authors);
+  const paperAbstract = document.createElement("p");
+  paperAbstract.innerHTML = paper.abstract;
+  reviewContainer.appendChild(pdfContainer);
+  reviewContainer.appendChild(paperTitle);
+  reviewContainer.appendChild(paperAuthor);
+  reviewContainer.appendChild(paperAbstract);
+  reviewContainer.addEventListener("click", () => {
+    localStorage["currentReview"] = JSON.stringify(review);
+    // redirect to review page
+  });
+  return reviewContainer;
+};
+const getAuthorNames = async (authors) => {
+  let authorNames = [];
+  for (let i = 0; i < authors.length; i++) {
+    const response = await fetch(`../api/user/${authors[i].id}`);
+    const author = await response.json();
+    console.log(author);
+    authorNames.push(`${author.last_name} ${author.first_name}`);
+  }
+  return authorNames.join(", ");
 };
