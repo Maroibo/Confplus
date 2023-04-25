@@ -55,7 +55,7 @@ const userClickHandler = (event) => {
     const logout = document.createElement("span");
     logout.innerHTML = "Logout";
     const logoutImage = document.createElement("img");
-    logoutImage.src = "../recourses/icons/Vector2.svg";
+    logoutImage.src = "../recourses/icons/arrow-right-from-bracket-solid.svg";
     logoutDiv.appendChild(logoutImage);
     logoutDiv.appendChild(logout);
     logoutDiv.addEventListener("click", () => {
