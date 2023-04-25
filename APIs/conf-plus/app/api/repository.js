@@ -160,7 +160,10 @@ export async function readReview(id, idType) {
   } else if (idType === "reviewer") {
     let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
     reviews = JSON.parse(reviews);
-    let review = reviews.filter((review) => review.reviewer === id);
+    let parsedId = parseInt(id);
+    let review = reviews.filter(
+      (review) => review.reviewers.indexOf(parsedId) >= 0
+    );
     if (review.length !== 0) {
       return {
         done: true,
