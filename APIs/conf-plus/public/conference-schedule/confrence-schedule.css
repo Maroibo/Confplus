@@ -49,9 +49,10 @@ footer {
 }
 
 .empty-container p {
-    font-size: 1.2vw;
+    font-size: 1.25vw;
     color: #5A1499;
     text-align: center;
+    font-weight: 500;
 }
 
 .root .filter {
@@ -111,7 +112,7 @@ footer {
     text-align: start;
 }
 
-.user {
+/* .user {
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-template-rows: repeat(3, 1fr);
@@ -191,7 +192,7 @@ footer {
     font-weight: 500;
     font-size: 15px;
     color: #5A1499;
-}
+} */
 
 @media screen and (max-width:676px) {
     .empty-container img {

@@ -8,6 +8,7 @@ window.onload = async () => {
     document.querySelector(".root").appendChild(card);
   });
 };
+
 let addAllSessions = (sessions) => {
   sessions.map((e) =>
     document.querySelector(".root").appendChild(createSession(e))
