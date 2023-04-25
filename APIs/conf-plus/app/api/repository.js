@@ -303,6 +303,22 @@ export async function readAllUsers() {
     users: users,
   };
 }
+export async function readUser(id) {
+  let users = await fs.promises.readFile(USER_PATH, "utf8");
+  users = JSON.parse(users);
+  let user = users.find((user) => `${user.id}` === id);
+  if (user) {
+    return {
+      done: true,
+      user: user,
+    };
+  } else {
+    return {
+      done: false,
+      user: null,
+    };
+  }
+}
 export async function readOrganizers() {
   let users = await fs.promises.readFile(USER_PATH, "utf8");
   users = JSON.parse(users);

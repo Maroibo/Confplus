@@ -72,6 +72,9 @@ const createAuthor = async (authorName, author) => {
       popup.style.top = y + "px";
       containerSpan.appendChild(popup);
     }
+    window.addEventListener("resize", (e) => {
+      movePopup(containerSpan);
+    });
   });
   return containerSpan;
 };
@@ -316,4 +319,12 @@ const makeAReview = async (paperId) => {
   });
   const reviewData = await reviewResponse.json();
   return reviewData;
+};
+const movePopup = (span) => {
+  const rect = span.getBoundingClientRect();
+  var x = rect.left;
+  var y = rect.bottom - 100;
+  var popup = document.querySelector(".popup");
+  popup.style.left = x + "px";
+  popup.style.top = y + "px";
 };

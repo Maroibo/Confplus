@@ -20,8 +20,8 @@ document
       document.getElementById("password").value = "";
       return;
     }
-    localStorage["currentUser"] = `${target.id}`;
-    // redirect to home page
+    localStorage["currentUser"] = `${results.target.id}`;
+    window.location.href = "../conference-schedule/confrence-schedule.html";
   });
 let togglePassword = document.getElementById("visiblity");
 togglePassword.addEventListener("click", function () {
