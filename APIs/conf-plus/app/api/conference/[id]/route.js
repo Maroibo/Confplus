@@ -18,3 +18,18 @@ export async function GET(request, { params }) {
 
 // api/conference/[id]
 
+export async function PUT(request, { params }) {
+  try {
+    let { id } = params;
+    const response = await repo.updateConference(id, await request.json());
+    if (response.done) {
+      return NextResponse.json(response.review);
+    } else {
+      return NextResponse.json({
+        error: "review not found",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}

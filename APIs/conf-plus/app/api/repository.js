@@ -214,24 +214,10 @@ export async function readAllInstitutions() {
     institutions: institutions,
   };
 }
-export async function updateReview(id, review) {
-  let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  reviews = JSON.parse(reviews);
-  const index = reviews.findIndex((review) => review.paper === id);
-  reviews[index] = review;
-  await fs.promises.writeFile(REVIEW_PATH, JSON.stringify(reviews));
-  if (index >= 0) {
-    return {
-      done: true,
-      review: review,
-    };
-  } else {
-    return {
-      done: false,
-      review: null,
-    };
-  }
-}
+
+
+
+
 export async function deleteReview(id) {
   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
   reviews = JSON.parse(reviews);
@@ -280,6 +266,26 @@ export async function readConference(id) {
     };
   }
 }
+
+export async function updateReview(id, review) {
+  let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
+  reviews = JSON.parse(reviews);
+  const index = reviews.findIndex((review) => review.paper === id);
+  reviews[index] = review;
+  await fs.promises.writeFile(REVIEW_PATH, JSON.stringify(reviews));
+  if (index >= 0) {
+    return {
+      done: true,
+      review: review,
+    };
+  } else {
+    return {
+      done: false,
+      review: null,
+    };
+  }
+}
+
 export async function updateConference(id, conference) {
   let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
   conferences = JSON.parse(conferences);
@@ -298,6 +304,7 @@ export async function updateConference(id, conference) {
     };
   }
 }
+
 export async function readAllUsers() {
   let users = await fs.promises.readFile(USER_PATH, "utf8");
   users = JSON.parse(users);
