@@ -1,1 +1,118 @@
-[{"title":"Introduction to Python","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":"qewu30218a","document":"URL-to-one-drive","authors":[{"id":14,"affiliation":"University of British Columbia","main":true},{"id":16,"affiliation":"University of Toronto","main":false},{"id":18,"affiliation":"University of Toronto","main":false}]},{"title":"Data Structures and Algorithms","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":"qewu30218b","document":"URL-to-one-drive","authors":[{"id":22,"affiliation":"University of Toronto","main":true},{"id":23,"affiliation":"University of British Columbia","main":false},{"id":25,"affiliation":"University of Waterloo","main":false}]},{"title":"Artificial Intelligence","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":"qewu30218c","document":"URL-to-one-drive","authors":[{"id":31,"affiliation":"University of Toronto","main":true},{"id":32,"affiliation":"University of British Columbia","main":false},{"id":34,"affiliation":"McGill University","main":false}]},{"title":"Web Development","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":"qewu30218d","document":"URL-to-one-drive","authors":[{"id":41,"affiliation":"University of British Columbia","main":true},{"id":42,"affiliation":"University of Toronto","main":false},{"id":44,"affiliation":"University of Waterloo","main":false}]},{"title":"Introduction to Data Structures","abstract":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.","status":true,"id":"qwery9142","document":"URL-to-one-drive","authors":[{"id":10,"affiliation":"Stanford University","main":true},{"id":12,"affiliation":"Massachusetts Institute of Technology","main":false},{"id":16,"affiliation":"Princeton University","main":false}]},{"title":"Test ","abstract":"asldkfjadlkf","authors":[{"email":"chloeparker@author.com","affiliation":"Peking University","main":false,"id":16},{"email":"gracegarcia@author.com","affiliation":"National University of Malaysia","main":true,"id":18}],"document":"fdafadfa","status":false,"id":"64tfBwIuNjGIED0CtVD28"},{"title":"Effects of Polution","abstract":"Pollution refers to the presence or introduction into the environment of any substance or material that has harmful or toxic effects on living organisms and the natural world. Pollution can come from various sources such as industrial activities, transportation, agriculture, and human waste.\n\nThe effects of pollution are widespread and can have significant impacts on both human health and the environment. Air pollution can lead to respiratory problems, heart disease, and cancer, while water pollution can cause gastrointestinal illnesses, skin infections, and neurological disorders. Pollution also harms wildlife, affecting their habitats and food sources, and can disrupt ecosystems and biodiversity.\n\nPollution has economic consequences, including increased healthcare costs, loss of productivity due to illness, and damage to crops and other resources. Additionally, pollution can impact tourism, trade, and other industries that rely on a healthy environment.\n\nOverall, pollution is a significant threat to the health and well-being of humans and the natural world, and effective measures must be taken to mitigate its effects and prevent further damage.","authors":[{"email":"ethanturner@author.com","affiliation":"Harvard University","main":true,"id":15}],"document":"t6t","status":false,"id":"NwWUrhRm4yjY5PgRGu7oL"}]
+[
+  {
+    "title": "Introduction to Python",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218a",
+    "document": "URL-to-one-drive",
+    "authors": [
+      {
+        "id": 14,
+        "affiliation": "University of British Columbia",
+        "main": true
+      },
+      { "id": 16, "affiliation": "University of Toronto", "main": false },
+      { "id": 18, "affiliation": "University of Toronto", "main": false }
+    ]
+  },
+  {
+    "title": "Data Structures and Algorithms",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218b",
+    "document": "URL-to-one-drive",
+    "authors": [
+      { "id": 22, "affiliation": "University of Toronto", "main": true },
+      {
+        "id": 23,
+        "affiliation": "University of British Columbia",
+        "main": false
+      },
+      { "id": 25, "affiliation": "University of Waterloo", "main": false }
+    ]
+  },
+  {
+    "title": "Artificial Intelligence",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218c",
+    "document": "URL-to-one-drive",
+    "authors": [
+      { "id": 31, "affiliation": "University of Toronto", "main": true },
+      {
+        "id": 32,
+        "affiliation": "University of British Columbia",
+        "main": false
+      },
+      { "id": 34, "affiliation": "McGill University", "main": false }
+    ]
+  },
+  {
+    "title": "Web Development",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qewu30218d",
+    "document": "URL-to-one-drive",
+    "authors": [
+      {
+        "id": 41,
+        "affiliation": "University of British Columbia",
+        "main": true
+      },
+      { "id": 42, "affiliation": "University of Toronto", "main": false },
+      { "id": 44, "affiliation": "University of Waterloo", "main": false }
+    ]
+  },
+  {
+    "title": "Introduction to Data Structures",
+    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
+    "status": true,
+    "id": "qwery9142",
+    "document": "URL-to-one-drive",
+    "authors": [
+      { "id": 10, "affiliation": "Stanford University", "main": true },
+      {
+        "id": 12,
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": false
+      },
+      { "id": 16, "affiliation": "Princeton University", "main": false }
+    ]
+  },
+  {
+    "title": "Test ",
+    "abstract": "asldkfjadlkf",
+    "authors": [
+      {
+        "email": "chloeparker@author.com",
+        "affiliation": "Peking University",
+        "main": false,
+        "id": 16
+      },
+      {
+        "email": "gracegarcia@author.com",
+        "affiliation": "National University of Malaysia",
+        "main": true,
+        "id": 18
+      }
+    ],
+    "document": "https://qucloud-my.sharepoint.com/:w:/g/personal/me2104862_qu_edu_qa/EUjPkKwDPOJKkVZchHK6rXQBvgXUSFbUWgD2ySeL_KRAww?e=7lY5jb",
+    "status": false,
+    "id": "64tfBwIuNjGIED0CtVD28"
+  },
+  {
+    "title": "Effects of Polution",
+    "abstract": "Pollution refers to the presence or introduction into the environment of any substance or material that has harmful or toxic effects on living organisms and the natural world. Pollution can come from various sources such as industrial activities, transportation, agriculture, and human waste.\n\nThe effects of pollution are widespread and can have significant impacts on both human health and the environment. Air pollution can lead to respiratory problems, heart disease, and cancer, while water pollution can cause gastrointestinal illnesses, skin infections, and neurological disorders. Pollution also harms wildlife, affecting their habitats and food sources, and can disrupt ecosystems and biodiversity.\n\nPollution has economic consequences, including increased healthcare costs, loss of productivity due to illness, and damage to crops and other resources. Additionally, pollution can impact tourism, trade, and other industries that rely on a healthy environment.\n\nOverall, pollution is a significant threat to the health and well-being of humans and the natural world, and effective measures must be taken to mitigate its effects and prevent further damage.",
+    "authors": [
+      {
+        "email": "ethanturner@author.com",
+        "affiliation": "Harvard University",
+        "main": true,
+        "id": 15
+      }
+    ],
+    "document": "t6t",
+    "status": false,
+    "id": "NwWUrhRm4yjY5PgRGu7oL"
+  }
+]
