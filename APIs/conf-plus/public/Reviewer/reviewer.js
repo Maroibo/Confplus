@@ -10,14 +10,6 @@ window.onload = async () => {
     document.querySelector(".root").appendChild(card);
   });
 };
-<<<<<<< Updated upstream
-let addAllSessions = (sessions) => {
-  sessions.map((e) =>
-    document.querySelector(".root").appendChild(createSession(e))
-  );
-};
-=======
->>>>>>> Stashed changes
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
   if (userId === undefined || userId === "") return;
@@ -59,7 +51,7 @@ const userClickHandler = (event) => {
     const logout = document.createElement("span");
     logout.innerHTML = "Logout";
     const logoutImage = document.createElement("img");
-    logoutImage.src = "../recourses/icons/Vector2.svg";
+    logoutImage.src = "../recourses/icons/arrow-right-from-bracket-solid.svg";
     logoutDiv.appendChild(logoutImage);
     logoutDiv.appendChild(logout);
     logoutDiv.addEventListener("click", () => {
