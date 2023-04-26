@@ -3,16 +3,12 @@ window.onload = async () => {
   const user = localStorage["currentUser"];
   const response = await fetch(`../api/review/${user}?type=reviewer`);
   const reviews = await response.json();
-  reviews.map(async (e) => {
+  // remove all of the reviews if the done afftibute is set to true
+  const filteredReviews = reviews.filter((e) => e.done === false);
+  filteredReviews.map(async (e) => {
     const card = await reviewCard(e);
     document.querySelector(".root").appendChild(card);
   });
-};
-
-let addAllSessions = (sessions) => {
-  sessions.map((e) =>
-    document.querySelector(".root").appendChild(createSession(e))
-  );
 };
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
@@ -116,7 +112,7 @@ const reviewCard = async (review) => {
   reviewContainer.appendChild(paperAbstract);
   reviewContainer.addEventListener("click", () => {
     localStorage["currentReview"] = JSON.stringify(review);
-    // redirect to review page
+    window.location.href = "../Reviewer/review/review.html";
   });
   return reviewContainer;
 };
@@ -125,7 +121,6 @@ const getAuthorNames = async (authors) => {
   for (let i = 0; i < authors.length; i++) {
     const response = await fetch(`../api/user/${authors[i].id}`);
     const author = await response.json();
-    console.log(author);
     authorNames.push(`${author.last_name} ${author.first_name}`);
   }
   return authorNames.join(", ");

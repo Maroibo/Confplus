@@ -1,7 +1,7 @@
+
 window.onload = async () => {
   await userDisplayer();
-}; 
-
+};
 let paperState = {
   title: "",
   abstract: "",
@@ -311,8 +311,8 @@ const makeAReview = async (paperId) => {
     paper: paperId,
     reviewers: reviewers,
     done: false,
-    overall: 0,
-    contribution: 0,
+    overall: 99,
+    contribution: 99,
     strength: "",
     weakness: "",
     accepted: false,
