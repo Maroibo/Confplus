@@ -99,6 +99,7 @@ let addAllSessions = (sessions) => {
     document.querySelector(".root").appendChild(createSession(e))
   );
 };
+
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
   if (userId === undefined || userId === "") return;
@@ -165,7 +166,7 @@ const userClickHandler = (event) => {
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-      // redirect to organizer page
+      window.location.href = "../conference-schedule/confrence-schedule.html";
     }
   }
 };

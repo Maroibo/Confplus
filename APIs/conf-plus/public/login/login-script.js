@@ -27,8 +27,8 @@ document
       window.location.href = "../Author/author.html";
     else if (results.target.role === "organizer")
       window.location.href = "../conference-schedule/confrence-schedule.html";
-    else
-      window.location.href = "../conference-schedule/confrence-schedule.html";
+    else if (results.target.role === "reviewer")
+      window.location.href = "../Reviewer/reviewer.html";
   });
 let togglePassword = document.querySelector("#visiblity");
 togglePassword.addEventListener("click", function () {

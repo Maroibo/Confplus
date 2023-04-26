@@ -122,6 +122,13 @@ p {
     align-items: center;
     height: 100%;
     color: #A4A8D1;
+    transition: 0.1s;
+}
+
+.meter span:hover, .meter span:focus {
+    background-color: #A4A8D1;
+    color: white;
+    cursor: pointer;
 }
 
 .meter span:last-child {
@@ -190,6 +197,11 @@ textarea:placeholder-shown {
     line-height: 19px;
 }
 
+.buttons button:hover, .buttons button:focus {
+    cursor: pointer;
+    outline: none;
+}
+
 button img {
     width: 13px;
     filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(348deg) brightness(106%) contrast(104%);
@@ -199,10 +211,20 @@ button img {
 button:first-of-type {
     background: #A4A8D1;
     margin-right: 5%;
+    transition: 0.1s;
+}
+
+button:first-of-type:hover, button:first-of-type:focus {
+    background: #EC4C7D;
 }
 
 button:last-of-type {
     background: #5A1499;
+    transition: 0.1s;
+}
+
+button:last-of-type:hover, button:last-of-type:focus {
+    background: #933BE3;
 }
 
 @media screen and (min-width :700px) {

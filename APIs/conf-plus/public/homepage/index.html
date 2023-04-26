@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="style.css">
+    
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,17 +18,24 @@
     <title>ConfPlus</title>
 </head>
 <body>
-    <header>
-        <div class="header-logo-container">
-            <img src="../recourses/ConfPlus Logo.png" alt="ConfPlus logo">
-        </div>
-        <nav>
-            <ul> 
-                <li><a href="index.html"><img class="home-icon" src="../recourses/icons/house-solid.svg" alt="Home icon">Home</a></li>
-                <li><a href="../login/login.html"> <img src="../recourses/icons/arrow-right-to-bracket-solid.svg" alt="Right exit arrow icon" class="login-icon"> Login</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav>
+      <a href="../homepage/index.html"><img src="../recourses/ConfPlus Logo.png" alt="" /></a>
+        
+        <ul id="nav-ul">
+          <li>
+            <img src="../recourses/icons/house-solid.svg" alt="" /><a
+              href="../homepage/index.html"
+              >Home</a
+            >
+          </li>
+          <li>
+            <img
+              src="../recourses/icons/arrow-right-to-bracket-solid.svg"
+              alt=""
+            /><a href="../login/login.html">Login</a>
+          </li>
+        </ul>
+      </nav>
     <div class="top-container">
         <img src="../recourses/conference.png" alt="">
         <div class="text-container">WELCOME TO<br>CONFPLUS</div>
@@ -62,12 +73,17 @@
                             regarding ConfPlus, please don't hesitate to contact us.
                             You can reach us by sending us an email directly, or
                             from our social media platforms.</p>
-                        <ul>
+                        <!-- <ul>
                             <li><a href=""><img class="email-us-icon" src="../recourses/icons/envelope-solid.svg" alt="Envelope icon"></a></li>
                             </a></li>
                             <li><a href=""><img class="linked-in-icon" src="../recourses/icons/linkedin-in.svg" alt="Linked in icon"></a></li>
                             <li><a href=""><img class= "facebook-icon" src="../recourses/icons/facebook.svg" alt="Facebook icon"></a></li>
-                        </ul>
+                        </ul> -->
+                        <div class="socials-container">
+                          <img src="../recourses/icons/envelope-solid.svg" alt="" />
+                          <img src="../recourses/icons/linkedin-in.svg" alt="" />
+                          <img src="../recourses/icons/facebook.svg" alt="" />
+                        </div>
                     </div>
                 
                 </div>
@@ -80,18 +96,18 @@
 
     </main>
     <footer>
-        <div class="top-part">
-            <img src="../recourses/ConfPlus Logo.png" alt="ConfPlus logo">
-            <ul>
-                <li><a href=""><img class="email-us-icon" src="../recourses/icons/envelope-solid.svg" alt="Envelope icon"></a></li>
-                </a></li>
-                <li><a href=""><img class="linked-in-icon" src="../recourses/icons/linkedin-in.svg" alt="Linked in icon"></a></li>
-                <li><a href=""><img class= "facebook-icon" src="../recourses/icons/facebook.svg" alt="Facebook icon"></a></li>
-            </ul>
+        <hr />
+        <div class="images">
+          <img src="../recourses/ConfPlus Logo (Small).png" alt="" />
+          <img src="../recourses/icons/envelope-solid.svg" alt="" />
+          <img src="../recourses/icons/linkedin-in.svg" alt="" />
+          <img src="../recourses/icons/facebook.svg" alt="" />
         </div>
-
-        <p>© ConfPlus 2023 is organized and developed by Computer Science students at Qatar University</p>
-    </footer>
+        <p>
+          © ConfPlus 2023 is organized and developed by Computer Science students
+          at Qatar University
+        </p>
+      </footer>
     <script src="./index.js" type="module"></script>
 </body>
 </html>

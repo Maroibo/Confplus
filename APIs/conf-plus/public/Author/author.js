@@ -1,4 +1,11 @@
 window.onload = async () => {
+  // Check if user is logged in or not an author
+  const userID = localStorage["currentUser"];
+  const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
+  if (userID === undefined || userID === "" || user.role !== "author") {
+    window.location.href = "../login/login.html";
+  }
+  // Display user
   await userDisplayer();
 };
 let paperState = {
@@ -10,8 +17,9 @@ let paperState = {
 const addAuthorButton = document.querySelector("#add-authors");
 addAuthorButton.addEventListener("click", async () => {
   const authorName = document.querySelector(".search-div input").value;
-  const response = await fetch("../api/user?author");
+  const response = await fetch("../api/user?type=author");
   const data = await response.json();
+
   const author = data.find(
     (author) =>
       author.first_name.toLowerCase() === authorName.toLowerCase() ||
@@ -21,7 +29,8 @@ addAuthorButton.addEventListener("click", async () => {
       author.last_name.toLowerCase() + " " + author.first_name.toLowerCase() ===
         authorName.toLowerCase()
   );
-  if (author) {
+
+  if (author && author.role === "author") {
     if (uniqueAuthors(authorName)) {
       const authorSpan = await createAuthor(
         `${author.last_name}, ${author.first_name}`,
@@ -219,6 +228,7 @@ const removeAuthor = (authorName) => {
 const submitButton = document.querySelector("input[type='submit']");
 submitButton.addEventListener("click", async (e) => {
   e.preventDefault();
+
   if (validPaper(paperState)) {
     const response = await fetch("../api/paper", {
       method: "POST",
@@ -235,7 +245,9 @@ submitButton.addEventListener("click", async (e) => {
   }
 });
 const validPaper = (paper) => {
+
   const { title, abstract, authors, document } = paper;
+
   // check that all the fields are filled and check that all the information is valid and all the author info is filled out
   if (
     title &&
@@ -244,8 +256,10 @@ const validPaper = (paper) => {
     document &&
     validAuthors(authors)
   ) {
+    
     return true;
   }
+  
   return false;
 };
 const validAuthors = (authors) => {
