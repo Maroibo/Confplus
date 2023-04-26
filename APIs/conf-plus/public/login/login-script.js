@@ -14,6 +14,8 @@ document
       },
       { found: false, target: {} }
     );
+
+
     if (Object.keys(results.target).length === 0) {
       window.alert("Email or Password are incorrect");
       document.querySelector("#email").value = "";
@@ -21,7 +23,12 @@ document
       return;
     }
     localStorage["currentUser"] = `${results.target.id}`;
-    window.location.href = "../conference-schedule/confrence-schedule.html";
+    if (results.target.role === "author")
+      window.location.href = "../Author/author.html";
+    else if (results.target.role === "organizer")
+      window.location.href = "../conference-schedule/confrence-schedule.html";
+    else
+      window.location.href = "../conference-schedule/confrence-schedule.html";
   });
 let togglePassword = document.querySelector("#visiblity");
 togglePassword.addEventListener("click", function () {

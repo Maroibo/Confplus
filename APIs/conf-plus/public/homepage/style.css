@@ -121,6 +121,7 @@ nav ul a:hover, nav ul a:focus {
     display: flex;
     flex-direction: column;
     /* outline: 1px solid red; */
+    gap: 1em;
 
 }
 

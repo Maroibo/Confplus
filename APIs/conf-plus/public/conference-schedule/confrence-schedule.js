@@ -1,6 +1,7 @@
 window.onload = async () => {
   await userDisplayer();
   const currentConference = localStorage["currentConference"];
+  
   if (typeof currentConference !== "undefined" && currentConference !== "") {
     const response = await fetch(`../api/conference/${currentConference}`);
     const conference = await response.json();
