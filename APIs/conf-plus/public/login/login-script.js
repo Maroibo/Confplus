@@ -1,8 +1,8 @@
 document
   .getElementsByTagName("button")[0]
   .addEventListener("click", async () => {
-    let emailVal = document.getElementById("email").value;
-    let passwordVal = document.getElementById("password").value;
+    let emailVal = document.querySelector("#email").value;
+    let passwordVal = document.querySelector("#password").value;
     const response = await fetch("../api/user");
     const users = await response.json();
     let results = users.reduce(
@@ -18,8 +18,8 @@ document
 
     if (Object.keys(results.target).length === 0) {
       window.alert("Email or Password are incorrect");
-      document.getElementById("email").value = "";
-      document.getElementById("password").value = "";
+      document.querySelector("#email").value = "";
+      document.querySelector("#password").value = "";
       return;
     }
     localStorage["currentUser"] = `${results.target.id}`;
@@ -30,7 +30,7 @@ document
     else
       window.location.href = "../conference-schedule/confrence-schedule.html";
   });
-let togglePassword = document.getElementById("visiblity");
+let togglePassword = document.querySelector("#visiblity");
 togglePassword.addEventListener("click", function () {
   // toggle the type attribute
   const type =
@@ -39,5 +39,5 @@ togglePassword.addEventListener("click", function () {
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
-  document.getElementById("email").focus();
+  document.querySelector("#email").focus();
 });

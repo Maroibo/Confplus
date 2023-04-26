@@ -36,7 +36,7 @@ nav ul li {
     margin-top: -30px;
     justify-content: space-between;
     width: 55px;
-    margin-left: 10px;
+    margin-right: 25px;
     transition: 100ms ease-in-out;
 }
 
@@ -57,6 +57,7 @@ nav ul li a {
     text-decoration: none;
     color: #A4A8D1;
     font-size: 11.5px;
+    margin-left: 5px;
 }
 
 /* Footer styles */
@@ -120,4 +121,98 @@ footer p {
     white-space: nowrap;
     width: 100%;
     text-align: center;
+}
+
+.user {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    max-width: 150px;
+    margin-top: -7px;
+    width: 100%;
+    /* margin-left: 24px; */
+    margin-right: -18px;
+}
+
+.user:hover {
+    cursor: pointer;
+}
+
+.user:hover img {
+    filter: invert(13%) sepia(32%) saturate(7014%) hue-rotate(264deg) brightness(104%) contrast(102%);
+}
+
+.user:hover span {
+    color: #5A1499;
+}
+
+.user img {
+    width: 17px;
+    filter: invert(79%) sepia(5%) saturate(1891%) hue-rotate(198deg) brightness(88%) contrast(84%);
+    grid-column: 1/1;
+    grid-row: 1/4;
+    margin-right: 5px;
+}
+
+.user img:last-of-type {
+    transform: translate(100px, 3px);
+    width: 11px;
+}
+
+.user span {
+    text-decoration: none;
+    color: #A4A8D1;
+    font-size: 11.5px;
+}
+
+.user span:first-of-type {
+    grid-column: 2/4;
+    grid-row: 1/2;
+    font-size: 12px;
+}
+
+.user span:last-of-type {
+    grid-column: 2/4;
+    grid-row: 2/3;
+    font-size: 9px;
+}
+
+.logout {
+    background: #FCFCFC;
+    box-shadow: 0px 0px 8px rgba(34, 34, 34, 0.1);
+    border-radius: 16px;
+    position: absolute;
+}
+
+.logout {
+    background: #FCFCFC;
+    box-shadow: 0px 0px 8px rgba(34, 34, 34, 0.1);
+    border-radius: 8px;
+    position: absolute;
+    width: 7%;
+    max-width: 175px;
+    height: 4%;
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    cursor: pointer;
+    min-width: 90px;
+}
+
+.logout span {
+    font-weight: 500;
+    font-size: 17px;
+    color: #5A1499;
+}
+
+.logout img {
+    width: 20px;
+    filter: invert(13%) sepia(93%) saturate(3275%) hue-rotate(267deg) brightness(86%) contrast(105%);
+}
+
+.logout:hover span {
+    color: #9747FF;
+}
+
+.logout:hover img {
+    filter: invert(30%) sepia(57%) saturate(1817%) hue-rotate(242deg) brightness(111%) contrast(114%)
 }

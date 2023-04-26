@@ -140,7 +140,7 @@ const userClickHandler = (event) => {
     const logout = document.createElement("span");
     logout.innerHTML = "Logout";
     const logoutImage = document.createElement("img");
-    logoutImage.src = "../recourses/icons/Vector2.svg";
+    logoutImage.src = "../recourses/icons/arrow-right-from-bracket-solid.svg";
     logoutDiv.appendChild(logoutImage);
     logoutDiv.appendChild(logout);
     logoutDiv.addEventListener("click", () => {
@@ -161,7 +161,7 @@ const userClickHandler = (event) => {
   } else {
     const userRole = document.querySelector(".user span:last-of-type");
     if (userRole.innerHTML.toLowerCase() === "reviewer") {
-      // redirect to reviewer page
+      window.location.href = "../Reviewer/reviewer.html";
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {

@@ -160,7 +160,10 @@ export async function readReview(id, idType) {
   } else if (idType === "reviewer") {
     let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
     reviews = JSON.parse(reviews);
-    let review = reviews.filter((review) => review.reviewer === id);
+    let parsedId = parseInt(id);
+    let review = reviews.filter(
+      (review) => review.reviewers.indexOf(parsedId) >= 0
+    );
     if (review.length !== 0) {
       return {
         done: true,
@@ -214,10 +217,10 @@ export async function readAllInstitutions() {
 export async function updateReview(id, review) {
   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
   reviews = JSON.parse(reviews);
-  const index = reviews.findIndex((review) => review.id === id);
+  const index = reviews.findIndex((review) => review.paper === id);
   reviews[index] = review;
   await fs.promises.writeFile(REVIEW_PATH, JSON.stringify(reviews));
-  if (id) {
+  if (index >= 0) {
     return {
       done: true,
       review: review,
