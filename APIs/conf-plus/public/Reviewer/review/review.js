@@ -1,5 +1,15 @@
 const reviewState = JSON.parse(localStorage.getItem("currentReview"));
 window.onload = async () => {
+  // Check if user is logged in or not an author
+  const userID = localStorage["currentUser"];
+  const user = await fetch(`../../api/user/${userID}`).then((res) => res.json());
+  if (userID === undefined || userID === "" || user.role !== "reviewer") {
+    window.location.href = "../../login/login.html";
+
+    // Check if the reviewer is assigned to the paper
+  } else if (! reviewState.reviewers.find(id => id === parseInt(userID))) {
+    window.location.href = "../../Reviewer/reviewer.html";
+  }
   await userDisplayer();
   if (typeof reviewState !== "undefined" && reviewState !== null) {
     await displayReview(reviewState);

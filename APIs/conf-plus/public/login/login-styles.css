@@ -55,7 +55,7 @@ body {
     font-size: 20px;
     text-align: center;
     color: #000000;
-    align-self: flex-start;
+    align-self: center;
     margin-left: 5px;
     margin-top: -30px;
     margin-bottom: 20px;
@@ -65,7 +65,7 @@ body {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 1em;
     line-height: 34px;
     text-align: center;
     height: 30px;
@@ -91,6 +91,8 @@ body {
     font-weight: 400;
     letter-spacing: 0em;
     margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 2em;
 }
 
 .login-container input:last-child {
@@ -109,7 +111,7 @@ body {
 
 .login-container .logo {
     align-self: center;
-    width: 70%;
+    /* width: 70%; */
     max-width: 150px;
     border-radius: 0px;
     margin-top: -5%;
@@ -133,7 +135,7 @@ button {
     border: 1px solid transparent;
     margin-bottom: 20px;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 1em;
     transition: 100ms ease-in-out;
 }
 

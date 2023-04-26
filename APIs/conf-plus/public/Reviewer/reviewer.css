@@ -19,7 +19,7 @@
 
 .root {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 350px));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
     grid-gap: 29px;
     align-items: center;
     padding-bottom: 100px;
@@ -40,6 +40,13 @@
     background-color: #FFFFFF;
     box-shadow: 0px 7px 15px #D3DAE2;
     border-radius: 20px;
+    transition: 0.1s;
+}
+
+.review-container:hover, .review-container:focus {
+    box-shadow: 0px 7px 15px #A4A8D1;
+    cursor: pointer;
+    transform: scale(1.01);
 }
 
 .review-container div:first-child {

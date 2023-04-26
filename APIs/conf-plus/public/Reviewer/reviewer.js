@@ -1,7 +1,13 @@
 window.onload = async () => {
+  // Check if user is logged in or not a reviewer
+  const userID = localStorage["currentUser"];
+  const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
+  if (userID === undefined || userID === "" || user.role !== "reviewer") {
+    window.location.href = "../login/login.html";
+  }
+  // Display user
   await userDisplayer();
-  const user = localStorage["currentUser"];
-  const response = await fetch(`../api/review/${user}?type=reviewer`);
+  const response = await fetch(`../api/review/${userID}?type=reviewer`);
   const reviews = await response.json();
   // remove all of the reviews if the done afftibute is set to true
   const filteredReviews = reviews.filter((e) => e.done === false);

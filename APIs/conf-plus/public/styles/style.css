@@ -1,3 +1,11 @@
+body {
+    /* this is to ensure the footer is always at the bottom of the page */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F4F4F4;
+}
+
 /* Navbar styles */
 nav {
     display: flex;
@@ -10,34 +18,36 @@ nav {
     position: relative;
     z-index: 10;
     background-color: #FFFFFF;
+    
 }
 
-nav>img {
+nav>a>img {
     width: 15%;
     max-width: 119px;
     height: fit-content;
     min-width: 110px;
-    margin-top: 5px;
+    /* margin-top: 5px; */
 }
 
 nav ul {
     list-style: none;
     display: flex;
     justify-content: space-evenly;
-    max-width: 150px;
+    /* max-width: 150px; */
     flex-wrap: nowrap;
-    margin-top: 35px;
+    /* margin-top: 35px; */
     height: fit-content;
+    /* align-items: center; */
 }
 
 nav ul li {
     display: flex;
     align-items: center;
-    margin-top: -30px;
+    /* margin-top: -30px; */
     justify-content: space-between;
     width: 55px;
-    margin-right: 25px;
-    transition: 100ms ease-in-out;
+    margin-right: 50px;
+    transition: 100ms;
 }
 
 nav ul li:hover img {
@@ -49,15 +59,16 @@ nav ul li:hover a {
 }
 
 nav ul li img {
-    width: 17px;
+    width: 30px;
     filter: invert(79%) sepia(5%) saturate(1891%) hue-rotate(198deg) brightness(88%) contrast(84%);
 }
 
 nav ul li a {
     text-decoration: none;
     color: #A4A8D1;
-    font-size: 11.5px;
+    font-size: 1em;
     margin-left: 5px;
+    font-weight: 500;
 }
 
 /* Footer styles */
@@ -66,6 +77,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: auto; /* this is to ensure the footer is always at the bottom of the page */
 }
 
 footer hr {
@@ -89,14 +101,17 @@ footer img:first-of-type {
 
 footer img:nth-of-type(2):hover {
     filter: invert(54%) sepia(47%) saturate(6288%) hue-rotate(315deg) brightness(97%) contrast(91%);
+    cursor: pointer;
 }
 
 footer img:nth-of-type(3):hover {
     filter: invert(29%) sepia(54%) saturate(2970%) hue-rotate(181deg) brightness(87%) contrast(102%);
+    cursor: pointer;
 }
 
 footer img:last-of-type:hover {
     filter: invert(30%) sepia(12%) saturate(3337%) hue-rotate(189deg) brightness(98%) contrast(86%);
+    cursor: pointer;
 }
 
 footer img:nth-of-type(2) {
@@ -125,12 +140,16 @@ footer p {
 
 .user {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    max-width: 150px;
-    margin-top: -7px;
-    width: 100%;
+    grid-template-rows: repeat(2, 1fr);
+    /* max-width: 150px; */
+    /* margin-top: -7px; */
+    /* width: 100%; */
     /* margin-left: 24px; */
-    margin-right: -18px;
+    /* margin-right: -18px; */
+    justify-content: center;
+    align-items: center;
+    /* gap: 0.5em; */
+    font-weight: 500;
 }
 
 .user:hover {
@@ -146,34 +165,38 @@ footer p {
 }
 
 .user img {
-    width: 17px;
+    width: 25px;
     filter: invert(79%) sepia(5%) saturate(1891%) hue-rotate(198deg) brightness(88%) contrast(84%);
     grid-column: 1/1;
-    grid-row: 1/4;
+    grid-row: 1/3;
     margin-right: 5px;
+
 }
 
 .user img:last-of-type {
-    transform: translate(100px, 3px);
-    width: 11px;
+    transform: translate(130px, 3px);
+    width: 20px;
+    margin-left: 10px;
 }
 
 .user span {
     text-decoration: none;
     color: #A4A8D1;
-    font-size: 11.5px;
+    font-size: 1em;
 }
 
 .user span:first-of-type {
     grid-column: 2/4;
     grid-row: 1/2;
-    font-size: 12px;
+    font-size: 1em;
+    /* outline: 1px solid blue; */
 }
 
 .user span:last-of-type {
     grid-column: 2/4;
     grid-row: 2/3;
-    font-size: 9px;
+    font-size: 0.875em;
+    /* outline :1px solid red; */
 }
 
 .logout {
@@ -216,3 +239,10 @@ footer p {
 .logout:hover img {
     filter: invert(30%) sepia(57%) saturate(1817%) hue-rotate(242deg) brightness(111%) contrast(114%)
 }
+
+/* @media screen and (max-width: 650px) {
+
+    .user img:last-of-type {
+        transform: translate(100px, 3px);
+    }
+} */
