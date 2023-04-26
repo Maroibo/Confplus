@@ -1,4 +1,3 @@
-
 window.onload = async () => {
   await userDisplayer();
 };
@@ -381,7 +380,7 @@ const userClickHandler = (event) => {
       localStorage["currentUser"] = "";
       window.location.href = "../login/login.html";
     });
-    document.querySelector(".root").appendChild(logoutDiv);
+    document.querySelector(".main-container").appendChild(logoutDiv);
   } else if (
     event.target.classList.contains("log-options") &&
     document.querySelector(".logout") !== null
