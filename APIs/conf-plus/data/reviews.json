@@ -2,11 +2,11 @@
   {
     "paper": "64tfBwIuNjGIED0CtVD28",
     "reviewers": [11, 14],
-    "done": false,
+    "done": true,
     "overall": 0,
-    "contribution": 0,
-    "strength": "",
-    "weakness": "",
+    "contribution": 4,
+    "strength": "fdsa",
+    "weakness": "fdsafadafa",
     "accepted": false
   }
 ]
