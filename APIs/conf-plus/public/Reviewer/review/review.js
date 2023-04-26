@@ -194,3 +194,10 @@ submitButton.addEventListener("click", async () => {
   reviewUpdateHandler(reviewState);
   window.location.href = "../reviewer.html";
 });
+
+// when the user clicks the download button it opens a new tab with the paper
+const downloadButton = document.querySelector("button:first-of-type");
+downloadButton.addEventListener("click", async () => {
+    const paper = await getPapers(reviewState.paper);
+    window.open(paper.document, "_blank");
+    });
