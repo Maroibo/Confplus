@@ -1,1 +1,15 @@
-[{"paper":"64tfBwIuNjGIED0CtVD28","reviewers":[11,14],"done":false,"overall":0,"contribution":0,"strength":"","weakness":"","accepted":false}]
+[
+    {"paper":"64tfBwIuNjGIED0CtVD28",
+    "reviewers":[11,14],"done":false,
+    "overall":0,
+    "contribution":0,"strength":"",
+    "weakness":"",
+    "accepted":false
+    },{"paper":"NwWUrhRm4yjY5PgRGu7oL",
+    "reviewers":[14,10],"done":false,
+    "overall":0,
+    "contribution":0,"strength":"",
+    "weakness":"",
+    "accepted":false
+}
+]

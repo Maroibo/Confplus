@@ -96,5 +96,6 @@ function conferenceToHTML(conference) {
 }
 
 function goToSchedule(conferenceID) {
-    window.location.href = "../conference-schedule/confrence-schedule.html?id=" + conferenceID;
+    localStorage["currentConference"] = `${conferenceID}`;
+    window.location.href = "../conference-schedule/confrence-schedule.html";
 }
