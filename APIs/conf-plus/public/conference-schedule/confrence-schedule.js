@@ -1,22 +1,71 @@
 window.onload = async () => {
   await userDisplayer();
   const currentConference = localStorage["currentConference"];
-  
   if (typeof currentConference !== "undefined" && currentConference !== "") {
     const response = await fetch(`../api/conference/${currentConference}`);
     const conference = await response.json();
-    let filter = `<div class="filter"><span>Filter</span><input type="date"/></div>`;
-    document.querySelector(".root").innerHTML = filter;
+    // if the page is empty show the empty page screen
+    // if (conference.sessions.length === 0) {
+    //   document.querySelector(".root").classList += " empty";
+    //   emptyPageScreen();
+    //   return;
+    // }
+    let title = `<h1>Coference Schedule</h1>`;
+    let filter = `<div class="filter"><input type="date"/></div>`;
+    document.querySelector(".root").innerHTML += title;
+    document.querySelector(".root").innerHTML += filter;
     document
       .querySelector(".filter input")
-      .addEventListener("change", filterSessions);
-    let sessions = conference.sessions;
-    addAllSessions(sessions);
+      .addEventListener("change", (e) => filterSessions(e.target.value));
+    // let sessions = conference.sessions;
+    let sessions = [
+      {
+        location: "Rome",
+        papers: [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28",
+        ],
+        day: "2023-03-19T21:00:00.000Z",
+      },
+      {
+        location: "Hanoi",
+        papers: [
+          "gVkiGaekL_GdA8FK1PxN2",
+          "gVkiGaekL_GdA8FK1PxN2",
+          "gVkiGaekL_GdA8FK1PxN2",
+        ],
+        day: "2023-04-01T14:30:00.000Z",
+      },
+      {
+        location: "Lisbon",
+        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
+        day: "2023-04-15T09:00:00.000Z",
+      },
+      {
+        location: "Lisbon",
+        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
+        day: "2023-04-15T09:00:00.000Z",
+      },
+      {
+        location: "Lisbon",
+        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
+        day: "2023-04-15T09:00:00.000Z",
+      },
+      {
+        location: "Lisbon",
+        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
+        day: "2023-04-15T09:00:00.000Z",
+      },
+    ];
+    await addAllSessions(sessions);
   } else {
     document.querySelector(".root").classList += " empty";
     emptyPageScreen();
   }
 };
+
+let currentLoaddedSessionIndex = 0;
 
 let emptyPageScreen = () => {
   let container = document.createElement("div");
@@ -30,7 +79,7 @@ let emptyPageScreen = () => {
   document.querySelector(".root").appendChild(container);
 };
 
-let createSession = (session) => {
+let createSession = async (session) => {
   let date = new Date(Date.parse(session.day));
   let dateView = date.toDateString();
   dateView = dateView.split(" ");
@@ -38,53 +87,25 @@ let createSession = (session) => {
   dateView = dateView.join(" ");
   let container = document.createElement("div");
   container.classList = "session";
-  let partitions = session.partitions.reduce((a, e) => {
-    let time = new Date(Date.parse(e.time)).getHours();
-    time += ":00";
-    a += `<div class="paper">
-  <span>${time}</span>
-  <span>&#183;   ${paperFinder(e.paper).title}</span>
-</div>`;
-    return a;
-  }, "");
-  let content = `<h2>${dateView}</h2>
-  ${partitions}
-</div>`;
+  //return an array of paper objects
+  let papers = await Promise.all(
+    session.papers.map(async (e) => await paperFinder(e))
+  );
+  let partitions = "";
+  papers.map((e) => {
+    let partition = `<div class="paper"><span>&#183;   ${e.title}<span></div>`;
+    partitions += partition;
+  });
+  let content = `<h2>${dateView}-${session.location}</h2>`;
   container.innerHTML = content;
+  container.innerHTML += partitions;
   return container;
 };
 
-let paperFinder = (paperId) => {
-  let papers = JSON.parse(localStorage["papers"]);
-  return papers.find((e) => e.id === paperId);
-};
-let filterSessions = () => {
-  reset();
-  if (document.querySelector(".filter input").value === "") {
-    let sessions = JSON.parse(localStorage["conferences"])[0].sessions;
-    addAllSessions(sessions);
-    return;
-  }
-  let selectedDate = new Date(document.querySelector(".filter input").value);
-  selectedDate.setHours(0, 0, 0, 0);
-  let sessionContainers = document.querySelectorAll(".session");
-  let counter = 0;
-  sessionContainers.forEach((container) => {
-    let dateView = container.querySelector("h2").textContent;
-    let sessionDate = new Date(Date.parse(dateView));
-    sessionDate.setHours(0, 0, 0, 0);
-    if (sessionDate.getTime() === selectedDate.getTime()) {
-      container.style.display = "block";
-      counter++;
-    } else {
-      container.style.display = "none";
-    }
-  });
-  if (counter === 0) {
-    emptyPageScreen();
-    document.querySelector(".root").style.height = "86%";
-    document.querySelector(".empty-container").style.marginTop = "-20px";
-  }
+let paperFinder = async (paperId) => {
+  const response = await fetch(`../api/paper/${paperId}`);
+  const paper = await response.json();
+  return paper;
 };
 
 let reset = () => {
@@ -92,12 +113,65 @@ let reset = () => {
   document
     .querySelectorAll(".session")
     .forEach((e) => (e.style.display = "none"));
-  document.querySelectorAll(".empty-container").forEach((e) => e.remove());
 };
-let addAllSessions = (sessions) => {
-  sessions.map((e) =>
-    document.querySelector(".root").appendChild(createSession(e))
-  );
+const filterSessions = (date) => {
+  if (date === "") {
+    document.querySelector(".root").style.height = "auto";
+    document
+      .querySelectorAll(".session")
+      .forEach((e) => (e.style.display = "block"));
+    return;
+  }
+  reset();
+  let sessions = document.querySelectorAll(".session");
+  sessions.forEach((e) => {
+    let sessionDate = e.querySelector("h2").innerHTML.split("-");
+    sessionDate = sessionDate[0];
+    if (matchesFilter(date, sessionDate)) {
+      e.style.display = "block";
+    }
+  });
+};
+const matchesFilter = (inputDate1, sessionDate1) => {
+  // change both dates to unix time and compare them
+  let sessionDate = new Date(Date.parse(sessionDate1));
+  let inputDate = new Date(Date.parse(inputDate1));
+  // reset the hours minutes and seconds to 0 in the input date
+  inputDate.setHours(0, 0, 0, 0);
+  if (sessionDate.getTime() === inputDate.getTime()) {
+    return true;
+  }
+  return false;
+};
+
+let addAllSessions = async (sessions) => {
+  let sesionCount = 0;
+  while (sesionCount <= 3) {
+    if (sessions.length <= currentLoaddedSessionIndex) break;
+    document
+      .querySelector(".root")
+      .appendChild(await createSession(sessions[currentLoaddedSessionIndex++]));
+    if (
+      matchesFilter(
+        document.querySelector(".filter input").value,
+        sessions[currentLoaddedSessionIndex - 1].day
+      )
+    ) {
+      sesionCount++;
+    }
+  }
+  if (currentLoaddedSessionIndex >= sessions.length) {
+    document.querySelector(".more-button").style.display = "none";
+  }
+};
+const displayMoreButton = () => {
+  let moreButton = document.createElement("button");
+  moreButton.innerHTML = "Load More";
+  moreButton.classList = "more-button";
+  moreButton.addEventListener("click", () => {
+    console.log("clicked");
+  });
+  return moreButton;
 };
 
 let userDisplayer = async () => {
@@ -180,8 +254,3 @@ const moveLogOut = () => {
   }
 };
 window.addEventListener("resize", moveLogOut);
-
-
-
-
-
