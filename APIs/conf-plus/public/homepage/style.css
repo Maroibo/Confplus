@@ -205,7 +205,7 @@ nav ul a:hover, nav ul a:focus {
     width: 7%;
 }
 
-.load-more-btn {
+/* .load-more-btn {
     width: 190px;
     height: 60px;
     border-radius: 1em;
@@ -220,7 +220,7 @@ nav ul a:hover, nav ul a:focus {
 .load-more-btn:hover, .load-more-btn:focus {
     background-color: rgba(var(--hover-clr), 1);
     cursor: pointer;
-}
+} */
 
 
 .main-aside {

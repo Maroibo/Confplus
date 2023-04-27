@@ -142,7 +142,6 @@ textarea {
 
 .search-div {
     border-radius: 0;
-    margin-top: 10px;
     grid-column: 2/3;
     position: relative;
 }

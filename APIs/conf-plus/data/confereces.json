@@ -5,54 +5,88 @@
     "start_date": "2023-03-09T21:00:00.000Z",
     "end_date": "2023-03-21T21:00:00.000Z",
     "id": "Ad321-123",
-    "sessions": []
+    "sessions": [
+      {
+        "location": "Rome",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-03-19T21:00:00.000Z"
+      },
+      {
+        "location": "Hanoi",
+        "papers": [
+          "gVkiGaekL_GdA8FK1PxN2",
+          "gVkiGaekL_GdA8FK1PxN2",
+          "gVkiGaekL_GdA8FK1PxN2"
+        ],
+        "day": "2023-04-01T14:30:00.000Z"
+      },
+      {
+        "location": "Lisbon",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-04-15T09:00:00.000Z"
+      },
+      {
+        "location": "Lisbon",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-04-15T09:00:00.000Z"
+      },
+      {
+        "location": "Lisbon",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-04-15T09:00:00.000Z"
+      },
+      {
+        "location": "Lisbon",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-04-15T09:00:00.000Z"
+      }
+    ]
   },
   {
-    "img": "../public/resources/Photos/Rome.jpg",
+    "img": "../public/resources/Photos/toronto.jpg",
     "title": "Title 2",
-    "start_date": "2023-03-09T21:00:00.000Z",
+    "start_date": "2023-03-12T21:00:00.000Z",
     "end_date": "2023-03-21T21:00:00.000Z",
-    "id": "bc456-654",
-    "sessions": []
-  },
-  {
-    "img": "../public/resources/Photos/Amsterdam.jpg",
-    "title": "Title 3",
-    "start_date": "2023-03-09T21:00:00.000Z",
-    "end_date": "2023-03-21T21:00:00.000Z",
-    "id": "de789-987",
-    "sessions": []
-  },
-  {
-    "img": "../public/resources/Photos/toronto.jpg",
-    "title": "Title 4",
-    "start_date": "2023-03-09T21:00:00.000Z",
-    "end_date": "2023-03-21T21:00:00.000Z",
-    "id": "xy123-321",
-    "sessions": []
-  },
-  {
-    "img": "../public/resources/Photos/Rome.jpg",
-    "title": "Title 5",
-    "start_date": "2023-03-09T21:00:00.000Z",
-    "end_date": "2023-03-21T21:00:00.000Z",
-    "id": "wx456-654",
-    "sessions": []
-  },
-  {
-    "img": "../public/resources/Photos/toronto.jpg",
-    "title": "Title 6",
-    "start_date": "2023-03-09T21:00:00.000Z",
-    "end_date": "2023-03-21T21:00:00.000Z",
-    "id": "ab789-987",
-    "sessions": []
-  },
-  {
-    "img": "../public/resources/Photos/Amsterdam.jpg",
-    "title": "Title 7",
-    "start_date": "2023-03-09T21:00:00.000Z",
-    "end_date": "2023-03-21T21:00:00.000Z",
-    "id": "hh123-321",
-    "sessions": []
+    "id": "Ad321-456",
+    "sessions": [
+      {
+        "location": "Rome",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-03-19T21:00:00.000Z"
+      },
+      {
+        "location": "Hanoi",
+        "papers": [
+          "gVkiGaekL_GdA8FK1PxN2"
+        ],
+        "day": "2023-04-01T14:30:00.000Z"
+      },
+      {
+        "location": "Lisbon",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-04-15T09:00:00.000Z"
+      }
+    ]
   }
 ]
