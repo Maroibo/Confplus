@@ -1,68 +1,40 @@
+// let sessions = conference.sessions;
+let sessions = [];
+
 window.onload = async () => {
   await userDisplayer();
-  const currentConference = localStorage["currentConference"];
-  if (typeof currentConference !== "undefined" && currentConference !== "") {
-    const response = await fetch(`../api/conference/${currentConference}`);
-    const conference = await response.json();
-    // if the page is empty show the empty page screen
-    // if (conference.sessions.length === 0) {
-    //   document.querySelector(".root").classList += " empty";
-    //   emptyPageScreen();
-    //   return;
-    // }
-    let title = `<h1>Coference Schedule</h1>`;
-    let filter = `<div class="filter"><input type="date"/></div>`;
-    document.querySelector(".root").innerHTML += title;
-    document.querySelector(".root").innerHTML += filter;
-    document
-      .querySelector(".filter input")
-      .addEventListener("change", (e) => filterSessions(e.target.value));
-    // let sessions = conference.sessions;
-    let sessions = [
-      {
-        location: "Rome",
-        papers: [
-          "64tfBwIuNjGIED0CtVD28",
-          "64tfBwIuNjGIED0CtVD28",
-          "64tfBwIuNjGIED0CtVD28",
-        ],
-        day: "2023-03-19T21:00:00.000Z",
-      },
-      {
-        location: "Hanoi",
-        papers: [
-          "gVkiGaekL_GdA8FK1PxN2",
-          "gVkiGaekL_GdA8FK1PxN2",
-          "gVkiGaekL_GdA8FK1PxN2",
-        ],
-        day: "2023-04-01T14:30:00.000Z",
-      },
-      {
-        location: "Lisbon",
-        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
-        day: "2023-04-15T09:00:00.000Z",
-      },
-      {
-        location: "Lisbon",
-        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
-        day: "2023-04-15T09:00:00.000Z",
-      },
-      {
-        location: "Lisbon",
-        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
-        day: "2023-04-15T09:00:00.000Z",
-      },
-      {
-        location: "Lisbon",
-        papers: ["64tfBwIuNjGIED0CtVD28", "64tfBwIuNjGIED0CtVD28"],
-        day: "2023-04-15T09:00:00.000Z",
-      },
-    ];
-    await addAllSessions(sessions);
-  } else {
+  let currentConference = localStorage["currentConference"];
+  let response = await fetch("../api/conference");
+  const conferences = await response.json();
+  
+  if (conferences.error) {
+    
     document.querySelector(".root").classList += " empty";
     emptyPageScreen();
+    return;
+  } else if (currentConference === "" || currentConference === undefined) {
+    localStorage["currentConference"] = conferences[0].id;
+    currentConference = localStorage["currentConference"];
   }
+  response = await fetch(`../api/conference/${currentConference}`);
+  const conference = await response.json();
+
+  sessions.push(...conference.sessions);
+
+  let title = `<h1>Conference Sessions Schedule</h1>`;
+  let conferenceTitle = `<h2 class="conference-title">Conference: ${conference.title}</h2>`;
+  let card = `<div class="card"></div>`;
+  let filter = `<div class="filter"><input type="date"/></div>`;
+  document.querySelector(".root").innerHTML += card;
+  document.querySelector(".card").innerHTML += title;
+  document.querySelector(".card").innerHTML += conferenceTitle;
+  document.querySelector(".card").innerHTML += filter;
+
+  document
+    .querySelector(".filter input")
+    .addEventListener("change", (e) => filterSessions(e.target.value));
+  
+  await addAllSessions(sessions);
 };
 
 let currentLoaddedSessionIndex = 0;
@@ -77,10 +49,12 @@ let emptyPageScreen = () => {
   container.appendChild(mainImage);
   container.appendChild(text);
   document.querySelector(".root").appendChild(container);
+  console.log("empty");
 };
 
 let createSession = async (session) => {
   let date = new Date(Date.parse(session.day));
+
   let dateView = date.toDateString();
   dateView = dateView.split(" ");
   dateView.shift();
@@ -96,7 +70,7 @@ let createSession = async (session) => {
     let partition = `<div class="paper"><span>&#183;   ${e.title}<span></div>`;
     partitions += partition;
   });
-  let content = `<h2>${dateView}-${session.location}</h2>`;
+  let content = `<h2>${dateView} - ${session.location}</h2>`;
   container.innerHTML = content;
   container.innerHTML += partitions;
   return container;
@@ -109,14 +83,17 @@ let paperFinder = async (paperId) => {
 };
 
 let reset = () => {
-  document.querySelector(".root").style.height = null;
+  // document.querySelector(".root").style.height = null;
   document
     .querySelectorAll(".session")
     .forEach((e) => (e.style.display = "none"));
 };
+
+
+
 const filterSessions = (date) => {
   if (date === "") {
-    document.querySelector(".root").style.height = "auto";
+    document.querySelector(".card").style.height = "auto";
     document
       .querySelectorAll(".session")
       .forEach((e) => (e.style.display = "block"));
@@ -127,14 +104,19 @@ const filterSessions = (date) => {
   sessions.forEach((e) => {
     let sessionDate = e.querySelector("h2").innerHTML.split("-");
     sessionDate = sessionDate[0];
+
     if (matchesFilter(date, sessionDate)) {
       e.style.display = "block";
     }
   });
 };
+
+
+
 const matchesFilter = (inputDate1, sessionDate1) => {
   // change both dates to unix time and compare them
   let sessionDate = new Date(Date.parse(sessionDate1));
+
   let inputDate = new Date(Date.parse(inputDate1));
   // reset the hours minutes and seconds to 0 in the input date
   inputDate.setHours(0, 0, 0, 0);
@@ -146,30 +128,42 @@ const matchesFilter = (inputDate1, sessionDate1) => {
 
 let addAllSessions = async (sessions) => {
   let sesionCount = 0;
-  while (sesionCount <= 3) {
-    if (sessions.length <= currentLoaddedSessionIndex) break;
+  if (document.querySelector(".more-button")) {
+    document.querySelector(".more-button").remove();
+  }
+  while (sesionCount < 3 && currentLoaddedSessionIndex < sessions.length) {
     document
-      .querySelector(".root")
+      .querySelector(".card")
       .appendChild(await createSession(sessions[currentLoaddedSessionIndex++]));
+    let date = new Date(Date.parse(sessions[currentLoaddedSessionIndex - 1].day));
+
+    let dateView = date.toDateString();
+    dateView = dateView.split(" ");
+    dateView.shift();
+    dateView = dateView.join(" ");
+    
     if (
       matchesFilter(
         document.querySelector(".filter input").value,
-        sessions[currentLoaddedSessionIndex - 1].day
-      )
+        dateView
+      ) || document.querySelector(".filter input").value === ""
     ) {
       sesionCount++;
     }
   }
-  if (currentLoaddedSessionIndex >= sessions.length) {
-    document.querySelector(".more-button").style.display = "none";
+  filterSessions(document.querySelector(".filter input").value);
+  if (currentLoaddedSessionIndex < sessions.length) {
+    document.querySelector(".card").appendChild(displayMoreButton());
   }
 };
+
+
 const displayMoreButton = () => {
   let moreButton = document.createElement("button");
   moreButton.innerHTML = "Load More";
   moreButton.classList = "more-button";
   moreButton.addEventListener("click", () => {
-    console.log("clicked");
+    addAllSessions(sessions);
   });
   return moreButton;
 };
@@ -240,7 +234,7 @@ const userClickHandler = (event) => {
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-      window.location.href = "../conference-schedule/confrence-schedule.html";
+      window.location.href = "../homepage/index.html";
     }
   }
 };
