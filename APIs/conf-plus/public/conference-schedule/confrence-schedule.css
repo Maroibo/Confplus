@@ -28,6 +28,7 @@ footer {
     align-items: center;
     flex-direction: column;
     padding-bottom: 100px;
+    padding-top: 3em;
 }
 
 .empty {
@@ -55,6 +56,11 @@ footer {
     font-weight: 500;
 }
 
+.root h1 {
+    font-weight: 700;
+    font-size: 3em;
+}
+
 .root .filter {
     align-self: center;
     margin-bottom: 30px;
@@ -62,6 +68,22 @@ footer {
     flex-direction: column;
     align-self: flex-end;
     margin-right: 10%;
+    margin-top: 50px;
+}
+
+.filter input {
+    background-color: #9747FF;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    color: white;
+    height: 28px;
+    width: 120px;
+    padding: 1px;
+
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
 }
 
 .root .filter span {
@@ -100,6 +122,8 @@ footer {
 
 .root .session .paper span {
     display: inline-block;
+    font-weight: 400;
+    font-size: 18.8497px;
 }
 
 .root .session .paper span:first-of-type {
@@ -110,6 +134,14 @@ footer {
 .root .session .paper span:last-of-type {
     width: 80%;
     text-align: start;
+}
+
+.more-button {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21.1668px;
+    line-height: 25px;
+    color: #FFFFFF;
 }
 
 @media screen and (max-width:676px) {
