@@ -1,3 +1,29 @@
+:root {
+    --primary-accent-clr: 90,20,153; /* #5A1499 these values are to be used inside an rgba()*/
+    --secondary-accent-clr-400: 164, 168, 209; /* #A4A8D1 */
+    --secondary-accent-clr-900: 104,94,120 /*#685E78*/;
+    --hover-clr: 236,76,125 /*#EC4C7D*/;
+    --linked-in-clr: rgba(0, 115, 177, 1);
+    --facebook-clr: rgba(66,103,178, 1);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
 
 body {
     /* this is to ensure the footer is always at the bottom of the page */

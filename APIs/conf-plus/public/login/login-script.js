@@ -26,7 +26,7 @@ document
     if (results.target.role === "author")
       window.location.href = "../Author/author.html";
     else if (results.target.role === "organizer")
-      window.location.href = "../conference-schedule/confrence-schedule.html";
+      window.location.href = "../homepage/index.html";
     else if (results.target.role === "reviewer")
       window.location.href = "../Reviewer/reviewer.html";
   });

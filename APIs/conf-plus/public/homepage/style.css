@@ -123,6 +123,10 @@ nav ul a:hover, nav ul a:focus {
 
 }
 
+.edit-schedule-btn {
+    display: none;
+}
+
 .section-title {
     color:rgba(var(--secondary-accent-clr-900), 1);
     font-size: 3em;

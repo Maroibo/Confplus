@@ -55,6 +55,14 @@
           "64tfBwIuNjGIED0CtVD28"
         ],
         "day": "2023-04-15T09:00:00.000Z"
+      },
+      {
+        "location": "Lisbon",
+        "papers": [
+          "64tfBwIuNjGIED0CtVD28",
+          "64tfBwIuNjGIED0CtVD28"
+        ],
+        "day": "2023-04-15T09:00:00.000Z"
       }
     ]
   },
@@ -66,6 +74,7 @@
     "id": "Ad321-456",
     "sessions": [
       {
+        "id": "s1",
         "location": "Rome",
         "papers": [
           "64tfBwIuNjGIED0CtVD28"
@@ -73,6 +82,7 @@
         "day": "2023-03-19T21:00:00.000Z"
       },
       {
+        "id": "s2",
         "location": "Hanoi",
         "papers": [
           "gVkiGaekL_GdA8FK1PxN2"
@@ -80,6 +90,7 @@
         "day": "2023-04-01T14:30:00.000Z"
       },
       {
+        "id": "s3",
         "location": "Lisbon",
         "papers": [
           "64tfBwIuNjGIED0CtVD28",

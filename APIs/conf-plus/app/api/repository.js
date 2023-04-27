@@ -7,6 +7,9 @@ const REVIEW_PATH = "data/reviews.json";
 const CONFERENCE_PATH = "data/confereces.json";
 const USER_PATH = "data/users.json";
 const INSTITUTION_PATH = "data/institutions.json";
+const DATES_PATH = "data/conference-dates.json";
+const LOCATIONS_PATH = "data/locations.json";
+
 export async function createPaper(paper) {
   const createdId = nanoid();
   if (validatePaper(paper)) {
@@ -206,6 +209,7 @@ export async function readAllConferences() {
     conferences: conferences,
   };
 }
+
 export async function readAllInstitutions() {
   let institutions = await fs.promises.readFile(INSTITUTION_PATH, "utf8");
   institutions = JSON.parse(institutions);
@@ -215,7 +219,23 @@ export async function readAllInstitutions() {
   };
 }
 
+export async function readAllDates() {
+  let dates = await fs.promises.readFile(DATES_PATH, "utf8");
+  dates = JSON.parse(dates);
+  return {
+    done: true,
+    dates: dates,
+  };
+}
 
+export async function readAllLocations() {
+  let locations = await fs.promises.readFile(LOCATIONS_PATH, "utf8");
+  locations = JSON.parse(locations);
+  return {
+    done: true,
+    locations: locations,
+  };
+}
 
 
 export async function deleteReview(id) {

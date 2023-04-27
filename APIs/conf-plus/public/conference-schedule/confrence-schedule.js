@@ -234,7 +234,7 @@ const userClickHandler = (event) => {
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-      window.location.href = "../conference-schedule/confrence-schedule.html";
+      window.location.href = "../homepage/index.html";
     }
   }
 };

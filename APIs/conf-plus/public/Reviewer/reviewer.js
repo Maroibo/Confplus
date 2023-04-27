@@ -82,7 +82,7 @@ const userClickHandler = (event) => {
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-      // redirect to organizer page
+      window.location.href = "../homepage/index.html";
     }
   }
 };

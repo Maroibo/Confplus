@@ -1,13 +1,24 @@
 const conferenceCardsContainer = document.querySelector(".conference-cards-container");
+const conferencesContainer = document.querySelector(".conferences-container");
+
 window.onload = async () => {
     await userDisplayer();
+    await getConferences();
+    const userID = localStorage["currentUser"];
+    const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
+
+    if (user.role === "organizer") {
+      const editScheduleBtn = document.querySelectorAll(".edit-schedule-btn");
+        editScheduleBtn.forEach(btn => {btn.style.display = "block"})
+    }
 };
 
-getConferences();
+
+
 
 const conferencesList = [];
 
-function showMoreConferences() {
+async function showMoreConferences() {
     conferenceCardsContainer.removeChild(conferenceCardsContainer.lastChild);
     for (let index = 0; index < conferencesList.length; index++) {
         const conference = conferencesList[index];
@@ -28,7 +39,7 @@ async function getConferences() {
     const response = await fetch("/api/conference");
     const conferences = await response.json();
     conferencesList.push(...conferences);
-    showMoreConferences();
+    await showMoreConferences();
 }
 
 function conferenceToHTML(conference) {
@@ -73,6 +84,20 @@ function conferenceToHTML(conference) {
 
     const conferenceDateContainer = document.createElement("div");
     conferenceDateContainer.classList.add("conference-date-container");
+
+    const editBtn = document.createElement("button");
+    editBtn.classList.add("edit-schedule-btn");
+    editBtn.innerText = "Edit schedule";
+
+    editBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const conferenceID = conferenceCard.dataset.conferenceID;
+        localStorage["currentConference"] = `${conferenceID}`;
+        window.location.href = "../schedule-editor/schedule-editor.html";
+    });
+
+    conferenceDetailsContainer.appendChild(editBtn);
+
 
     const calendarIcon = document.createElement("img");
     calendarIcon.src = "../recourses/icons/calendar.svg";
@@ -172,7 +197,7 @@ let userDisplayer = async () => {
       } else if (userRole.innerHTML.toLowerCase() === "author") {
         window.location.href = "../Author/author.html";
       } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-        window.location.href = "../conference-schedule/confrence-schedule.html";
+        window.location.href = "../homepage/index.html";
       }
     }
   };
