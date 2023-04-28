@@ -63,6 +63,25 @@ export async function readPaper(id) {
     paper: null,
   };
 }
+export async function updateConference(id, conference) {
+  let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
+  conferences = JSON.parse(conferences);
+  const index = conferences.findIndex((conference) => conference.id === id);
+  conferences[index] = conference;
+  await fs.promises.writeFile(CONFERENCE_PATH, JSON.stringify(conferences));
+  if (index >= 0) {
+    return {
+      done: true,
+      conference: conference,
+    };
+  } else {
+    return {
+      done: false,
+      conference: null,
+    };
+  }
+}
+
 export async function updatePaper(id, paper) {
   let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
   papers = JSON.parse(papers);
@@ -81,6 +100,7 @@ export async function updatePaper(id, paper) {
     paper: paper,
   };
 }
+
 export async function deletePaper(id) {
   let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
   papers = JSON.parse(papers);
@@ -306,24 +326,7 @@ export async function updateReview(id, review) {
   }
 }
 
-export async function updateConference(id, conference) {
-  let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
-  conferences = JSON.parse(conferences);
-  const index = conferences.findIndex((conference) => conference.id === id);
-  conferences[index] = conference;
-  await fs.promises.writeFile(CONFERENCE_PATH, JSON.stringify(conferences));
-  if (id) {
-    return {
-      done: true,
-      conference: conference,
-    };
-  } else {
-    return {
-      done: false,
-      conference: null,
-    };
-  }
-}
+
 
 export async function readAllUsers() {
   let users = await fs.promises.readFile(USER_PATH, "utf8");

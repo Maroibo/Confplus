@@ -112,7 +112,7 @@ button {
 }
 
 
-button:hover, button:focus {
+button:hover {
     background-color: #EC4C7D;
     cursor: pointer;
 }

@@ -1,0 +1,343 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto';
+}
+
+*::before {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+*::after {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 100px;
+    padding-top: 3em;
+}
+
+.empty {
+    height: 60%;
+    padding-bottom: 0px;
+}
+
+.empty-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-container img {
+    width: 40%;
+    margin-bottom: 3%;
+    max-height: 300px;
+}
+
+.empty-container p {
+    font-size: 1.25vw;
+    color: #5A1499;
+    text-align: center;
+    font-weight: 500;
+}
+
+.root h1 {
+    font-weight: 700;
+    font-size: 3em;
+}
+
+.root .filter {
+    align-self: center;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    margin-right: 10%;
+    margin-top: 50px;
+    gap: 1em;
+
+}
+
+.filter input {
+    background-color: #9747FF;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    color: white;
+    height: 28px;
+    width: 120px;
+    padding: 1px;
+
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.root .filter span {
+    margin-bottom: 5px;
+}
+
+.root .session {
+    width: 60%;
+    margin-bottom: 30px;
+}
+
+.root .session h2 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22.25px;
+    line-height: 18px;
+    text-align: center;
+    color: #5A1499;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.root .session .paper {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13.1666px;
+    text-align: center;
+    color: #A4A8D1;
+    border-bottom: 1px solid #A4A8D1;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+.root .session .paper span {
+    display: inline-block;
+    font-weight: 400;
+    font-size: 18.8497px;
+}
+
+.root .session .paper span:first-of-type {
+    width: 20%;
+    text-align: center;
+}
+
+.root .session .paper span:last-of-type {
+    width: 80%;
+    text-align: start;
+}
+
+.more-button {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21.1668px;
+    line-height: 25px;
+    color: #FFFFFF;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.edit-pop-up {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    background-color: white;
+    width: 90%;
+    max-width: 1000px;
+    height: 750px;
+    max-height: 800px;
+    padding: 20px 50px;
+    border-radius: 10px;
+    /* box-shadow: 0px 5px 20px 5px #D3DAE2; */
+}
+
+.edit-pop-up-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    text-align: center;
+}
+
+.edit-pop-up-papers-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 40%;
+    margin-top: 10px;
+    background-color: #E5ECF4;
+    border-radius: 10px;
+    overflow-y: auto;
+    justify-content: center;
+    /* scrollbar-width: thin;
+    scrollbar-color: #5A1499 #E5ECF4; */
+    gap: 1em;
+    padding: 10px;
+}
+
+.edit-pop-up-paper-label {
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+.edit-pop-up-paper-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.edit-pop-up-paper-checkbox {
+    width: 30px;
+    height: 30px;
+    
+}
+
+.edit-pop-up-paper-checkbox:hover {
+    cursor: pointer;
+}
+
+.edit-pop-up-title2-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+.edit-pop-up-session-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 30%;
+    margin-top: 10px;
+    gap: 1em;
+}
+
+.edit-pop-up-session-details-container div {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding: 10px;
+}
+
+.edit-pop-up-session-details-container label {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.edit-pop-up-session-details-container select, .edit-pop-up-session-details-container input {
+    background-color: #9747FF;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    width: 150px;
+}
+
+
+.edit-pop-up-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    height: 10%;
+    padding: 10px;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.edit-pop-up-cancel-button {
+    width: 50%;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.edit-pop-up-submit-button {
+    width: 50%;
+    height: 40px;
+    background-color: #5A1499;
+    border-radius: 10px;
+}
+
+.edit-pop-up-submit-button:hover {
+    cursor: pointer;
+    background-color: #9747FF;
+}
+
+.add-session-btn {
+    width: fit-content;
+    height: fit-content;
+    min-width: 120px;
+    padding: 5px 3px;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.edit-svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    position: absolute;
+    right: 1px;
+    filter: invert(10%) sepia(58%) saturate(7413%) hue-rotate(272deg) brightness(85%) contrast(98%);
+}
+
+.trash-svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    position: absolute;
+    right: 30px;
+    filter: invert(10%) sepia(58%) saturate(7413%) hue-rotate(272deg) brightness(85%) contrast(98%);
+}
+
+.edit-svg:hover, .trash-svg:hover {
+    filter: invert(35%) sepia(66%) saturate(5087%) hue-rotate(251deg) brightness(104%) contrast(102%);
+    cursor: pointer;
+}
+
+@media screen and (max-width:676px) {
+    .empty-container img {
+        width: 90%;
+    }
+
+    .empty-container p {
+        font-size: 2.6vw;
+    }
+
+    .root .session {
+        width: 95%;
+    }
+    .edit-pop-up-papers-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width:950px) {
+    .root .session {
+        width: 75%;
+    }
+}
