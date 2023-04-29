@@ -23,10 +23,10 @@ export async function PUT(request, { params }) {
     let { id } = params;
     const response = await repo.updateConference(id, await request.json());
     if (response.done) {
-      return NextResponse.json(response.review);
+      return NextResponse.json(response.conference);
     } else {
       return NextResponse.json({
-        error: "review not found",
+        error: "conference not found",
       });
     }
   } catch (err) {
