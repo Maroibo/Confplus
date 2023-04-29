@@ -202,6 +202,22 @@ const submitButton = document.querySelector("button:last-of-type");
 submitButton.addEventListener("click", async () => {
   reviewState.done = true;
   reviewUpdateHandler(reviewState);
+  const response = await fetch(`../../api/paper/${reviewState.paper}`);
+  const paper = await response.json();
+  if (reviewState.accepted) {
+    paper.status = true;
+  } else {
+    paper.status = false;
+  }
+  const paperResponse = await fetch(`../../api/paper/${reviewState.paper}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(paper),
+  });
+  const updatedPaper = await paperResponse.json();
+
   window.location.href = "../reviewer.html";
 });
 

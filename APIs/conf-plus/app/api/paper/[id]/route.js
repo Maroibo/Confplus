@@ -31,6 +31,23 @@ export async function POST(request, { params }) {
     console.log(err);
   }
 }
+
+export async function PUT(request, { params }) {
+  try {
+    let { id } = params;
+    const response = await repo.updatePaper(id, await request.json());
+    if (response.done) {
+      return NextResponse.json(response.paper);
+    } else {
+      return NextResponse.json({
+        error: "paper not found",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function DELETE(request, { params }) {
   try {
     let { id } = params;

@@ -1,6 +1,6 @@
 [
   {
-    "title": "Introduction to Python",
+    "title": "Introduction to Java",
     "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
     "status": true,
     "id": "qewu30218a",
@@ -11,8 +11,16 @@
         "affiliation": "University of British Columbia",
         "main": true
       },
-      { "id": 16, "affiliation": "University of Toronto", "main": false },
-      { "id": 18, "affiliation": "University of Toronto", "main": false }
+      {
+        "id": 16,
+        "affiliation": "University of Toronto",
+        "main": false
+      },
+      {
+        "id": 18,
+        "affiliation": "University of Toronto",
+        "main": false
+      }
     ]
   },
   {
@@ -22,13 +30,21 @@
     "id": "qewu30218b",
     "document": "URL-to-one-drive",
     "authors": [
-      { "id": 22, "affiliation": "University of Toronto", "main": true },
+      {
+        "id": 22,
+        "affiliation": "University of Toronto",
+        "main": true
+      },
       {
         "id": 23,
         "affiliation": "University of British Columbia",
         "main": false
       },
-      { "id": 25, "affiliation": "University of Waterloo", "main": false }
+      {
+        "id": 25,
+        "affiliation": "University of Waterloo",
+        "main": false
+      }
     ]
   },
   {
@@ -38,13 +54,21 @@
     "id": "qewu30218c",
     "document": "URL-to-one-drive",
     "authors": [
-      { "id": 31, "affiliation": "University of Toronto", "main": true },
+      {
+        "id": 31,
+        "affiliation": "University of Toronto",
+        "main": true
+      },
       {
         "id": 32,
         "affiliation": "University of British Columbia",
         "main": false
       },
-      { "id": 34, "affiliation": "McGill University", "main": false }
+      {
+        "id": 34,
+        "affiliation": "McGill University",
+        "main": false
+      }
     ]
   },
   {
@@ -59,8 +83,16 @@
         "affiliation": "University of British Columbia",
         "main": true
       },
-      { "id": 42, "affiliation": "University of Toronto", "main": false },
-      { "id": 44, "affiliation": "University of Waterloo", "main": false }
+      {
+        "id": 42,
+        "affiliation": "University of Toronto",
+        "main": false
+      },
+      {
+        "id": 44,
+        "affiliation": "University of Waterloo",
+        "main": false
+      }
     ]
   },
   {
@@ -70,13 +102,21 @@
     "id": "qwery9142",
     "document": "URL-to-one-drive",
     "authors": [
-      { "id": 10, "affiliation": "Stanford University", "main": true },
+      {
+        "id": 10,
+        "affiliation": "Stanford University",
+        "main": true
+      },
       {
         "id": 12,
         "affiliation": "Massachusetts Institute of Technology",
         "main": false
       },
-      { "id": 16, "affiliation": "Princeton University", "main": false }
+      {
+        "id": 16,
+        "affiliation": "Princeton University",
+        "main": false
+      }
     ]
   },
   {
@@ -97,7 +137,7 @@
       }
     ],
     "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=ChXIVw",
-    "status": false,
+    "status": true,
     "id": "64tfBwIuNjGIED0CtVD28"
   },
   {
@@ -144,5 +184,35 @@
     "document": "dawdwa",
     "status": false,
     "id": "gVkiGaekL_GdA8FK1PxN2"
+  },
+  {
+    "title": "Unique Paper 1",
+    "abstract": "This is a unique paper #1",
+    "authors": [
+      {
+        "email": "zoeallen@author.com",
+        "affiliation": "University of Witwatersrand",
+        "main": true,
+        "id": 20
+      }
+    ],
+    "document": "google.com",
+    "status": true,
+    "id": "XIfsM2hO-tpE8JuKnPoIJ"
+  },
+  {
+    "title": "paper to check for email",
+    "abstract": "paper to check for email abstract",
+    "authors": [
+      {
+        "email": "danielyoung@author.com",
+        "affiliation": "Harvard University",
+        "main": true,
+        "id": 19
+      }
+    ],
+    "document": "minecraft",
+    "status": false,
+    "id": "3B_o4VDLkzERN9rSjmqmd"
   }
 ]

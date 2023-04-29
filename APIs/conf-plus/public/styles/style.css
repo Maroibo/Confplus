@@ -112,7 +112,7 @@ button {
 }
 
 
-button:hover, button:focus {
+button:hover {
     background-color: #EC4C7D;
     cursor: pointer;
 }
@@ -126,7 +126,7 @@ footer {
     align-items: center;
     margin-top: auto;
     /* this is to ensure the footer is always at the bottom of the page */
-    background-color: white;
+    /* background-color: white; */
     box-shadow: 7px 2px 0px rgba(0, 0, 0, 0.05);
     padding-bottom: 1em;
 }
