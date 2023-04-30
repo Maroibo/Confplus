@@ -1,218 +1,212 @@
 [
   {
-    "title": "Introduction to Java",
-    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
-    "status": true,
-    "id": "qewu30218a",
-    "document": "URL-to-one-drive",
-    "authors": [
-      {
-        "id": 14,
-        "affiliation": "University of British Columbia",
-        "main": true
-      },
-      {
-        "id": 16,
-        "affiliation": "University of Toronto",
-        "main": false
-      },
-      {
-        "id": 18,
-        "affiliation": "University of Toronto",
-        "main": false
-      }
-    ]
-  },
-  {
-    "title": "Data Structures and Algorithms",
-    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
-    "status": true,
-    "id": "qewu30218b",
-    "document": "URL-to-one-drive",
-    "authors": [
-      {
-        "id": 22,
-        "affiliation": "University of Toronto",
-        "main": true
-      },
-      {
-        "id": 23,
-        "affiliation": "University of British Columbia",
-        "main": false
-      },
-      {
-        "id": 25,
-        "affiliation": "University of Waterloo",
-        "main": false
-      }
-    ]
-  },
-  {
-    "title": "Artificial Intelligence",
-    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
-    "status": true,
-    "id": "qewu30218c",
-    "document": "URL-to-one-drive",
-    "authors": [
-      {
-        "id": 31,
-        "affiliation": "University of Toronto",
-        "main": true
-      },
-      {
-        "id": 32,
-        "affiliation": "University of British Columbia",
-        "main": false
-      },
-      {
-        "id": 34,
-        "affiliation": "McGill University",
-        "main": false
-      }
-    ]
-  },
-  {
-    "title": "Web Development",
-    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
-    "status": true,
-    "id": "qewu30218d",
-    "document": "URL-to-one-drive",
-    "authors": [
-      {
-        "id": 41,
-        "affiliation": "University of British Columbia",
-        "main": true
-      },
-      {
-        "id": 42,
-        "affiliation": "University of Toronto",
-        "main": false
-      },
-      {
-        "id": 44,
-        "affiliation": "University of Waterloo",
-        "main": false
-      }
-    ]
-  },
-  {
-    "title": "Introduction to Data Structures",
-    "abstract": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit fugiat nemolaborum deserunt illo enim optio. Doloribus veritatis modi voluptates magni officia, magnam minus repellendus culpa corporis deleniti quas tempore.",
-    "status": true,
-    "id": "qwery9142",
-    "document": "URL-to-one-drive",
-    "authors": [
-      {
-        "id": 10,
-        "affiliation": "Stanford University",
-        "main": true
-      },
-      {
-        "id": 12,
-        "affiliation": "Massachusetts Institute of Technology",
-        "main": false
-      },
-      {
-        "id": 16,
-        "affiliation": "Princeton University",
-        "main": false
-      }
-    ]
-  },
-  {
-    "title": "Test ",
-    "abstract": "asldkfjadlkf",
-    "authors": [
-      {
-        "email": "chloeparker@author.com",
-        "affiliation": "Peking University",
-        "main": false,
-        "id": 16
-      },
-      {
-        "email": "gracegarcia@author.com",
-        "affiliation": "National University of Malaysia",
-        "main": true,
-        "id": 18
-      }
-    ],
-    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=ChXIVw",
-    "status": true,
-    "id": "64tfBwIuNjGIED0CtVD28"
-  },
-  {
-    "title": "Effects of Polution",
-    "abstract": "Pollution refers to the presence or introduction into the environment of any substance or material that has harmful or toxic effects on living organisms and the natural world. Pollution can come from various sources such as industrial activities, transportation, agriculture, and human waste.\n\nThe effects of pollution are widespread and can have significant impacts on both human health and the environment. Air pollution can lead to respiratory problems, heart disease, and cancer, while water pollution can cause gastrointestinal illnesses, skin infections, and neurological disorders. Pollution also harms wildlife, affecting their habitats and food sources, and can disrupt ecosystems and biodiversity.\n\nPollution has economic consequences, including increased healthcare costs, loss of productivity due to illness, and damage to crops and other resources. Additionally, pollution can impact tourism, trade, and other industries that rely on a healthy environment.\n\nOverall, pollution is a significant threat to the health and well-being of humans and the natural world, and effective measures must be taken to mitigate its effects and prevent further damage.",
-    "authors": [
-      {
-        "email": "ethanturner@author.com",
-        "affiliation": "Harvard University",
-        "main": true,
-        "id": 15
-      }
-    ],
-    "document": "t6t",
-    "status": false,
-    "id": "NwWUrhRm4yjY5PgRGu7oL"
-  },
-  {
-    "title": "Paper test 1",
-    "abstract": "this is a test",
-    "authors": [
-      {
-        "email": "ethanturner@author.com",
-        "affiliation": "Harvard University",
-        "main": true,
-        "id": 15
-      }
-    ],
-    "document": "https://www.google.com/",
-    "status": false,
-    "id": "dQzSe1PotfhAfeTeCpLS-"
-  },
-  {
-    "title": "dwada",
-    "abstract": "awdawd",
-    "authors": [
-      {
-        "email": "emmawalker@author.com",
-        "affiliation": "",
-        "main": true,
-        "id": 14
-      }
-    ],
-    "document": "dawdwa",
-    "status": false,
-    "id": "gVkiGaekL_GdA8FK1PxN2"
-  },
-  {
-    "title": "Unique Paper 1",
-    "abstract": "This is a unique paper #1",
+    "title": "The Effects of Exercise on Mental Health",
+    "abstract": "This paper explores the relationship between exercise and mental health, specifically focusing on how regular physical activity can improve mood, reduce symptoms of depression and anxiety, and increase overall well-being.",
     "authors": [
       {
         "email": "zoeallen@author.com",
-        "affiliation": "University of Witwatersrand",
+        "affiliation": "Harvard University",
         "main": true,
         "id": 20
+      },
+      {
+        "email": "danielyoung@author.com",
+        "affiliation": "Harvard University",
+        "main": false,
+        "id": 19
       }
     ],
-    "document": "google.com",
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
     "status": true,
-    "id": "XIfsM2hO-tpE8JuKnPoIJ"
+    "id": "yv1ngY8y6qYLKVABy4-AZ"
   },
   {
-    "title": "paper to check for email",
-    "abstract": "paper to check for email abstract",
+    "title": "The Impact of Social Media on Self-Esteem",
+    "abstract": "This paper examines the impact of social media on individuals' self-esteem. It discusses how social media can lead to negative comparisons and feelings of inadequacy, and explores strategies for reducing these negative effects.",
     "authors": [
       {
         "email": "danielyoung@author.com",
         "affiliation": "Harvard University",
         "main": true,
         "id": 19
+      },
+      {
+        "email": "zoeallen@author.com",
+        "affiliation": "",
+        "main": false,
+        "id": 20
       }
     ],
-    "document": "minecraft",
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
     "status": false,
-    "id": "3B_o4VDLkzERN9rSjmqmd"
+    "id": "GKhAX9yVHuNE0v-IQYYQS"
+  },
+  {
+    "title": "The Ethics of AI: Balancing Autonomy and Responsibility",
+    "abstract": "This paper explores the ethical considerations surrounding the development and deployment of artificial intelligence (AI) technologies. It discusses the tension between autonomy and responsibility in AI systems and examines possible approaches for balancing these competing concerns.",
+    "authors": [
+      {
+        "email": "gracegarcia@author.com",
+        "affiliation": "Stanford University",
+        "main": true,
+        "id": 18
+      },
+      {
+        "email": "williamhall@author.com",
+        "affiliation": "Stanford University",
+        "main": false,
+        "id": 17
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": false,
+    "id": "8qKo3jnhSQprkVPUbsUKN"
+  },
+  {
+    "title": "The Benefits of Mindfulness Meditation for Stress Reduction",
+    "abstract": "This paper discusses the benefits of mindfulness meditation for reducing stress and improving overall well-being. It explores the science behind mindfulness and provides practical tips for incorporating meditation into daily life.",
+    "authors": [
+      {
+        "email": "williamhall@author.com",
+        "affiliation": "Stanford University",
+        "main": true,
+        "id": 17
+      },
+      {
+        "email": "gracegarcia@author.com",
+        "affiliation": "Stanford University",
+        "main": false,
+        "id": 18
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": true,
+    "id": "kddqZ-EiwREwlWCPAjEr4"
+  },
+  {
+    "title": "The Impact of Climate Change on Biodiversity",
+    "abstract": "This paper examines the impact of climate change on global biodiversity. It discusses the ways in which rising temperatures, changing precipitation patterns, and other environmental factors are affecting species distribution and biodiversity loss.",
+    "authors": [
+      {
+        "email": "chloeparker@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": true,
+        "id": 16
+      },
+      {
+        "email": "ethanturner@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": false,
+        "id": 15
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": false,
+    "id": "PXM_Hqo1kTCebbhbzrIJR"
+  },
+  {
+    "title": "The Future of Work: Opportunities and Challenges",
+    "abstract": "This paper explores the future of work in the age of automation and digitalization. It discusses the opportunities and challenges presented by emerging technologies, and examines strategies for preparing workers for the changing nature of work.\n",
+    "authors": [
+      {
+        "email": "ethanturner@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": true,
+        "id": 15
+      },
+      {
+        "email": "chloeparker@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": false,
+        "id": 16
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": true,
+    "id": "ub_8JJlT75Zq0YEZ9Y8YG"
+  },
+  {
+    "title": "The Relationship between Parenting Styles and Child Development",
+    "abstract": "This paper examines the relationship between parenting styles and child development outcomes. It explores the different styles of parenting and their effects on children's behavior, social skills, and academic achievement.",
+    "authors": [
+      {
+        "email": "ethanturner@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": true,
+        "id": 15
+      },
+      {
+        "email": "emmawalker@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": false,
+        "id": 14
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": true,
+    "id": "Oe79gX9Po1-fOO_5owSEv"
+  },
+  {
+    "title": "The Psychology of Addiction: Understanding the Brain's Reward System",
+    "abstract": "This paper explores the science behind addiction and the brain's reward system. It discusses how drugs and other addictive substances activate the brain's pleasure centers, leading to cravings and compulsive behavior.",
+    "authors": [
+      {
+        "email": "emmawalker@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": true,
+        "id": 14
+      },
+      {
+        "email": "ethanturner@author.com",
+        "affiliation": "Massachusetts Institute of Technology",
+        "main": false,
+        "id": 15
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": true,
+    "id": "WUuCMA52ZMQL2HOpZ4NSe"
+  },
+  {
+    "title": "The Importance of Cultural Competence in Healthcare",
+    "abstract": "This paper discusses the importance of cultural competence in healthcare. It explores the ways in which cultural differences can impact patients' health outcomes, and provides strategies for healthcare providers to improve their cultural competency.",
+    "authors": [
+      {
+        "email": "zoeallen@author.com",
+        "affiliation": "Harvard University",
+        "main": true,
+        "id": 20
+      },
+      {
+        "email": "danielyoung@author.com",
+        "affiliation": "Harvard University",
+        "main": false,
+        "id": 19
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": true,
+    "id": "TY8D69VYEuiEQq_BN2uLs"
+  },
+  {
+    "title": "The Ethics of Gene Editing: Balancing Innovation and Responsibility",
+    "abstract": "This paper examines the ethical considerations surrounding gene editing technologies. It discusses the potential benefits and risks of gene editing and explores the ethical challenges of balancing innovation and responsibility in this rapidly advancing field.",
+    "authors": [
+      {
+        "email": "gracegarcia@author.com",
+        "affiliation": "Stanford University",
+        "main": true,
+        "id": 18
+      },
+      {
+        "email": "williamhall@author.com",
+        "affiliation": "Stanford University",
+        "main": false,
+        "id": 17
+      }
+    ],
+    "document": "https://1drv.ms/b/s!AsvEqtNog8iQacWwbb37HpojO9U?e=WMdEY6",
+    "status": false,
+    "id": "TJ4cnw1D_3P2o6aCss5kp"
   }
 ]

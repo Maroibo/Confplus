@@ -22,7 +22,7 @@ body {
     right: 0%;
     top: 0%;
     bottom: 0%;
-    background: url(../recourses/login-backgroud.png);
+    background: radial-gradient(#c84786, #641f98);
     display: flex;
     justify-content: center;
     align-items: center;

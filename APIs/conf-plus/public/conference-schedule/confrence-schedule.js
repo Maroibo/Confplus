@@ -60,8 +60,9 @@ window.onload = async () => {
     // ];
     await addAllSessions(sessions);
   } else {
-    document.querySelector(".root").classList += " empty";
-    emptyPageScreen();
+    // document.querySelector(".root").classList += " empty";
+    // emptyPageScreen();
+    window.location.href = "../homepage/index.html";
   }
 };
 
@@ -160,9 +161,9 @@ let addAllSessions = async (sessions) => {
       sesionCount++;
     }
   }
-  if (currentLoaddedSessionIndex >= sessions.length) {
-    document.querySelector(".more-button").style.display = "none";
-  }
+  // if (currentLoaddedSessionIndex >= sessions.length) {
+  //   document.querySelector(".more-button").style.display = "none";
+  // }
 };
 const displayMoreButton = () => {
   let moreButton = document.createElement("button");

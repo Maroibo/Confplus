@@ -15,7 +15,24 @@ window.onload = async () => {
     const card = await reviewCard(e);
     document.querySelector(".root").appendChild(card);
   });
+  if (filteredReviews.length === 0) {
+    document.querySelector(".root").classList += " empty";
+    emptyPageScreen();
+  }
 };
+
+let emptyPageScreen = () => {
+  let container = document.createElement("div");
+  let mainImage = document.createElement("img");
+  mainImage.src = "../recourses/Group 26649.svg";
+  let text = document.createElement("p");
+  text.innerHTML = "This page seems to be empty";
+  container.classList += "empty-container";
+  container.appendChild(mainImage);
+  container.appendChild(text);
+  document.querySelector(".root").appendChild(container);
+};
+
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
   if (userId === undefined || userId === "") return;

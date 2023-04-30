@@ -62,8 +62,8 @@ function conferenceToHTML(conference) {
     conferenceImgContainer.classList.add("conference-img-container");
 
     const conferenceImg = document.createElement("img");
-    conferenceImg.src = "../recourses/Photos/toronto.jpg";
-    conferenceImg.alt = "Toranto";
+    conferenceImg.src = `${conference.img}`;
+  
     conferenceImgContainer.appendChild(conferenceImg);
 
     conferenceCard.appendChild(conferenceImgContainer);
@@ -93,7 +93,7 @@ function conferenceToHTML(conference) {
         e.stopPropagation();
         const conferenceID = conferenceCard.dataset.conferenceID;
         localStorage["currentConference"] = `${conferenceID}`;
-        window.location.href = "../schedule-editor/schedule-editor.html";
+        window.location.href = "../schedule-editor-new/schedule-editor.html";
     });
 
     conferenceDetailsContainer.appendChild(editBtn);

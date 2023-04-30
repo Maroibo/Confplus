@@ -17,6 +17,9 @@
     padding: 0px;
 }
 
+body {
+    position: relative;
+}
 
 .root {
     display: flex;
@@ -55,6 +58,7 @@
 .root h1 {
     font-weight: 700;
     font-size: 3em;
+    text-align: center;
 }
 
 .root .filter {
@@ -98,7 +102,6 @@
     font-style: normal;
     font-weight: 700;
     font-size: 22.25px;
-    line-height: 18px;
     text-align: center;
     color: #5A1499;
     margin-bottom: 30px;
@@ -144,7 +147,7 @@
 
 .overlay {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -154,19 +157,17 @@
 }
 
 .edit-pop-up {
-    position: fixed;
+    position: absolute;
     display: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.5);
-
     background-color: white;
     width: 90%;
     max-width: 1000px;
-    height: 1000px;
-
+    max-height: 900px;
     padding: 20px 50px;
     border-radius: 10px;
     /* box-shadow: 0px 5px 20px 5px #D3DAE2; */
@@ -183,7 +184,7 @@
 .edit-pop-up-papers-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    height: 40%;
+    max-height: 30%;
     margin-top: 10px;
     background-color: #E5ECF4;
     border-radius: 10px;
@@ -231,7 +232,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    height: 35%;
+    max-height: 45%;
     margin-top: 10px;
     gap: 1em;
 }
@@ -244,7 +245,7 @@
 }
 
 .edit-pop-up-session-details-container label {
-    font-size: 1.5em;
+    font-size: clamp(1em, 1.5vw, 1.5em);
     font-weight: 400;
 }
 
@@ -255,14 +256,48 @@
     border-radius: 5px;
     padding: 5px;
     width: 150px;
+    font-size: 1em;
+
 }
 
+#edit-pop-up-presenter-select {
+    scrollbar-width: thin;
+    scrollbar-color: #5A1499 #E5ECF4;
+    height: auto;
+    width: auto;
+    padding: 10px;
+    width: 100%;
+}
+
+#edit-pop-up-presenter-select:disabled {
+    background-color: #5A1499;
+    scrollbar-width: thin;
+    scrollbar-color: #5A1499 #E5ECF4;
+    height: auto;
+    width: auto;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    opacity: 1;
+}
+
+#edit-pop-up-presenter-select option {
+   padding: 3px;
+}
+
+option {
+    transition: 100ms;
+}
+
+#edit-pop-up-presenter-select option:hover {
+    background: #5A1499;
+}
 
 .edit-pop-up-buttons-container {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    height: 10%;
+    max-height: 10%;
     padding: 10px;
     gap: 10px;
     align-items: flex-end;
@@ -318,7 +353,20 @@
     cursor: pointer;
 }
 
-@media screen and (max-width:676px) {
+@media screen and (max-width: 560px) {
+    .trash-svg {
+        top: 30px;
+    }
+    .edit-svg {
+        top: 30px;
+    }
+
+    .edit-pop-up {
+        padding: 10px 20px;
+    }
+}
+
+@media screen and (max-width: 700px) {
     .empty-container img {
         width: 90%;
     }
@@ -332,6 +380,17 @@
     }
     .edit-pop-up-papers-container {
         grid-template-columns: 1fr;
+    }
+
+    .edit-pop-up-paper-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media screen and (max-width:950px) {
+    .root .session {
+        width: 75%;
     }
 }
 
