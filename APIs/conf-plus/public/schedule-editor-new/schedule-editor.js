@@ -211,6 +211,7 @@ window.onload = async () => {
     editPopUpPresenterSelect.classList = "edit-pop-up-presenter-select";
     editPopUpPresenterSelect.id = 'edit-pop-up-presenter-select';
     editPopUpPresenterSelect.multiple = true;
+    editPopUpPresenterSelect.disabled = true;
     editPopUpPresenterContainer.appendChild(editPopUpPresenterSelect);
 
     // Date container
@@ -293,7 +294,7 @@ window.onload = async () => {
 
     // Submit button
     const editPopUpSubmitButton = document.createElement("button");
-    editPopUpSubmitButton.innerText = "Save";
+    editPopUpSubmitButton.innerText = "Submit";
     editPopUpSubmitButton.classList = "edit-pop-up-submit-button";
     editPopUpButtonsContainer.appendChild(editPopUpSubmitButton);
 
@@ -313,6 +314,7 @@ window.onload = async () => {
     editSvgs.forEach((svg) => {
       svg.addEventListener("click", async (e) => {
         clickedEditSvg = e.target;
+
         await handleEdit();
       });
     });
@@ -340,7 +342,9 @@ window.onload = async () => {
       await updateSession();
     });
 
-    editPopUpSubmitButton.addEventListener("click", async () => {
+    editPopUpSubmitButton.addEventListener("click", async (e) => {
+      // clickedEditSvg = e.target;
+
       await updateSession();
     });
 
@@ -384,20 +388,27 @@ function handleHide() {
 }
 
 function readInputs() {
-  let editPopUp = document.querySelector(".edit-pop-up");
-  let editPopUpOverlay = document.querySelector(".overlay");
-  let editPopUpPapersContainer = document.querySelector(
-    ".edit-pop-up-papers-container"
-  );
   let presenterSelect = document.querySelector(".edit-pop-up-presenter-select");
   let dateSelect = document.querySelector(".edit-pop-up-date-select");
   let locationSelect = document.querySelector(".edit-pop-up-location-select");
+  let editPopUpFromTimeInput = document.querySelector(".edit-pop-up-from-time-input");
+  let editPopUpToTimeInput = document.querySelector(".edit-pop-up-to-time-input");
 
   let selectedPapers = [];
   let selectedPresenter = presenterSelect.value;
   let selectedDate = dateSelect.value;
   let selectedLocation = locationSelect.value;
-
+  let selectedFromTime = editPopUpFromTimeInput.value;
+  let selectedToTime = editPopUpToTimeInput.value;
+  
+  // If from time is after to time prevent submit
+  if (selectedFromTime !== "" && selectedToTime !== "") {
+    if (selectedFromTime > selectedToTime) {
+      alert("From time must be before to time");
+      return;
+    }
+  }
+  
   // Get all selected papers
   let checkboxes = document.querySelectorAll(".edit-pop-up-paper-checkbox");
   checkboxes.forEach((checkbox) => {
@@ -406,18 +417,32 @@ function readInputs() {
     }
   });
 
+    if (! clickedEditSvg.classList.contains("save-btn")) {
+    // If no papers selected prevent submit
+    if (selectedPapers.length == 0 || selectedDate == "" || selectedLocation == "" || selectedFromTime == "" || selectedToTime == "") {
+      alert("Please fill all fields");
+      return false;
+    }
+  }
+
   let state = {
     papers: selectedPapers,
     presenter: selectedPresenter,
     date: selectedDate,
     location: selectedLocation,
+    fromTime: selectedFromTime,
+    toTime: selectedToTime,
   };
-
   return state;
 }
 
 async function handleAddSession() {
   let state = readInputs();
+  console.log(state);
+  if (state === false) {
+    // console.log(state);
+    return;
+  }
   let session = document.createElement("div");
   session.classList = "session";
   let sessionH2 = document.createElement("h2");
@@ -465,6 +490,9 @@ function handleDelete(e) {
 
 async function updateSession() {
   let state = readInputs();
+  if (state === false) {
+    return;
+  }
   let session = null;
   let sessionH2 = null;
 
@@ -513,24 +541,31 @@ async function updateSession() {
   } else if (clickedEditSvg.classList.contains("add-session-btn")) {
     await handleAddSession();
   }
-  setTimeout(submitToAPI, 100);
+
+  setTimeout(submitToAPI(state), 1000);
   handleHide();
 }
 
-async function submitToAPI() {
+async function submitToAPI(state) {
   let currentConference = localStorage.getItem("currentConference");
   let conference = await fetch(`/api/conference/${currentConference}`)
     .then((res) => res.json())
     .then((data) => data);
   
   let sessions = document.querySelectorAll(".session");
+
   let sessionsArray = [];
+
   sessions.forEach((session) => {
     let sessionObject = {
       day: session.querySelector("h2").dataset.rawdate,
       location: session.querySelector("h2").innerText.split(" - ")[1],
       papers: [],
+      presenter: state.presenter,
+      fromTime: state.fromTime,
+      toTime: state.toTime,
     };
+
     let papers = session.querySelectorAll(".paper");
     papers.forEach((paper) => {
       sessionObject.papers.push(paper.id);
@@ -549,8 +584,8 @@ async function submitToAPI() {
     },
     body: conference,
   });
-
 }
+
 
 async function getAllPapers(existingPapers) {
   let papers = await fetch(`../api/paper`);

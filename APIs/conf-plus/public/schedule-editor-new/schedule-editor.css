@@ -269,6 +269,18 @@ body {
     width: 100%;
 }
 
+#edit-pop-up-presenter-select:disabled {
+    background-color: #5A1499;
+    scrollbar-width: thin;
+    scrollbar-color: #5A1499 #E5ECF4;
+    height: auto;
+    width: auto;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    opacity: 1;
+}
+
 #edit-pop-up-presenter-select option {
    padding: 3px;
 }

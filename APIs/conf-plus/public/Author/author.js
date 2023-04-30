@@ -311,7 +311,7 @@ const paperStateModifier = async (paperState) => {
 };
 
 const makeAReview = async (paperId) => {
-  const response = await fetch("../api/user?reviewer");
+  const response = await fetch("../api/user?type=reviewer");
   const data = await response.json();
   // select two random reviewers but their id's into an array
   const reviewers = [];
