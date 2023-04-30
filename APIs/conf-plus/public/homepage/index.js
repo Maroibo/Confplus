@@ -93,7 +93,7 @@ function conferenceToHTML(conference) {
         e.stopPropagation();
         const conferenceID = conferenceCard.dataset.conferenceID;
         localStorage["currentConference"] = `${conferenceID}`;
-        window.location.href = "../schedule-editor/schedule-editor.html";
+        window.location.href = "../schedule-editor-new/schedule-editor.html";
     });
 
     conferenceDetailsContainer.appendChild(editBtn);

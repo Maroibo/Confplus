@@ -88,12 +88,13 @@ window.onload = async () => {
   if (typeof currentConference !== "undefined" && currentConference !== "") {
     const response = await fetch(`../api/conference/${currentConference}`);
     const conference = await response.json();
+    
     // if the page is empty show the empty page screen
-    if (conference.sessions.length === 0) {
-      root.classList += " empty";
-      emptyPageScreen();
-      return;
-    }
+    // if (conference.sessions.length === 0) {
+    //   root.classList += " empty";
+    //   emptyPageScreen();
+    //   return;
+    // }
 
     // title filter and add session button
     let title = `<h1>Coference Schedule</h1>`;
@@ -133,6 +134,12 @@ window.onload = async () => {
       h2.appendChild(editSvg.cloneNode(true));
       h2.appendChild(trashSvg.cloneNode(true));
     });
+
+    // Save button
+    const saveBtn = document.createElement("button");
+    saveBtn.innerText = "Save";
+    saveBtn.classList = "save-btn";
+    root.appendChild(saveBtn);
 
     // The pop up
     const editPopUp = document.createElement("div");
@@ -202,8 +209,8 @@ window.onload = async () => {
     // Presenter select
     const editPopUpPresenterSelect = document.createElement("select");
     editPopUpPresenterSelect.classList = "edit-pop-up-presenter-select";
+    editPopUpPresenterSelect.id = 'edit-pop-up-presenter-select';
     editPopUpPresenterSelect.multiple = true;
-    editPopUpPresenterSelect.disabled = true;
     editPopUpPresenterContainer.appendChild(editPopUpPresenterSelect);
 
     // Date container
@@ -286,7 +293,7 @@ window.onload = async () => {
 
     // Submit button
     const editPopUpSubmitButton = document.createElement("button");
-    editPopUpSubmitButton.innerText = "Submit";
+    editPopUpSubmitButton.innerText = "Save";
     editPopUpSubmitButton.classList = "edit-pop-up-submit-button";
     editPopUpButtonsContainer.appendChild(editPopUpSubmitButton);
 
@@ -327,15 +334,21 @@ window.onload = async () => {
       })
     });
 
-    // Submit pop up
+    // Submit / Save
+    saveBtn.addEventListener("click", async (e) => {
+      clickedEditSvg = e.target;
+      await updateSession();
+    });
+
     editPopUpSubmitButton.addEventListener("click", async () => {
       await updateSession();
     });
 
    
   } else {
-    root.classList += " empty";
-    emptyPageScreen();
+    // root.classList += " empty";
+    // emptyPageScreen();
+    window.location.href = "../homepage/index.html";
   }
 };
 
@@ -452,7 +465,6 @@ function handleDelete(e) {
 
 async function updateSession() {
   let state = readInputs();
-  console.log(state);
   let session = null;
   let sessionH2 = null;
 
@@ -498,10 +510,9 @@ async function updateSession() {
       })
     });
 
-  } else {
-    await handleAddSession()
+  } else if (clickedEditSvg.classList.contains("add-session-btn")) {
+    await handleAddSession();
   }
-
   setTimeout(submitToAPI, 100);
   handleHide();
 }
@@ -521,7 +532,6 @@ async function submitToAPI() {
       papers: [],
     };
     let papers = session.querySelectorAll(".paper");
-    console.log(papers);
     papers.forEach((paper) => {
       sessionObject.papers.push(paper.id);
     });
@@ -539,7 +549,6 @@ async function submitToAPI() {
     },
     body: conference,
   });
-
 
 }
 
@@ -676,8 +685,6 @@ async function handleEdit() {
   });
 }
 
-
-
 let currentLoaddedSessionIndex = 0;
 
 function formatDate(d) {
@@ -707,11 +714,6 @@ let emptyPageScreen = () => {
 };
 
 let createSession = async (session) => {
-  // let date = new Date(Date.parse(session.day));
-  // let dateView = date.toDateString();
-  // dateView = dateView.split(" ");
-  // dateView.shift();
-  // dateView = dateView.join(" ");
   let dateView = formatDate(session.day);
 
   let container = document.createElement("div");
@@ -743,6 +745,7 @@ let reset = () => {
     .querySelectorAll(".session")
     .forEach((e) => (e.style.display = "none"));
 };
+
 const filterSessions = (date) => {
   if (date === "") {
     root.style.height = "auto";
@@ -793,6 +796,7 @@ let addAllSessions = async (sessions) => {
   //   document.querySelector(".more-button").style.display = "none";
   // }
 };
+
 const displayMoreButton = () => {
   let moreButton = document.createElement("button");
   moreButton.innerHTML = "Load More";

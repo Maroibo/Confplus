@@ -14,6 +14,7 @@ let paperState = {
   authors: [],
   document: "",
 };
+
 const addAuthorButton = document.querySelector("#add-authors");
 addAuthorButton.addEventListener("click", async () => {
   const authorName = document.querySelector(".search-div input").value;
