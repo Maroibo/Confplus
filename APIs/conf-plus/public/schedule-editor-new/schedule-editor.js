@@ -97,7 +97,7 @@ window.onload = async () => {
     // }
 
     // title filter and add session button
-    let title = `<h1>Coference Schedule</h1>`;
+    let title = `<h1>Conference Schedule</h1>`;
     let filter = `<div class="filter"><input type="date"/></div>`;
     root.innerHTML += title;
     root.innerHTML += filter;
