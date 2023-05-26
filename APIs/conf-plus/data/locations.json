@@ -1,62 +1,182 @@
 [
-    "New York City",
-    "Paris",
-    "Tokyo",
-    "Sydney",
-    "London",
-    "Rio de Janeiro",
-    "Cape Town",
-    "Dubai",
-    "Berlin",
-    "Beijing",
-    "Los Angeles",
-    "Mexico City",
-    "Moscow",
-    "Mumbai",
-    "New Delhi",
-    "San Francisco",
-    "Seoul",
-    "Shanghai",
-    "Singapore",
-    "Toronto",
-    "Bangkok",
-    "Barcelona",
-    "Cairo",
-    "Chicago",
-    "Hong Kong",
-    "Istanbul",
-    "Jakarta",
-    "Lima",
-    "Madrid",
-    "Melbourne",
-    "Miami",
-    "Paris",
-    "Rome",
-    "São Paulo",
-    "Stockholm",
-    "Taipei",
-    "Vienna",
-    "Washington D.C.",
-    "Zurich",
-    "Amsterdam",
-    "Athens",
-    "Buenos Aires",
-    "Casablanca",
-    "Dallas",
-    "Edinburgh",
-    "Hanoi",
-    "Houston",
-    "Johannesburg",
-    "Kuala Lumpur",
-    "Lisbon",
-    "Montreal",
-    "Nairobi",
-    "Osaka",
-    "Prague",
-    "Rio de Janeiro",
-    "San Diego",
-    "Santiago",
-    "Seattle",
-    "Toronto",
-    "Vancouver"
+    {
+        "city": "New York City"
+    },
+    {
+        "city": "Paris"
+    },
+    {
+        "city": "Tokyo"
+    },
+    {
+        "city": "Sydney"
+    },
+    {
+        "city": "London"
+    },
+    {
+        "city": "Rio de Janeiro"
+    },
+    {
+        "city": "Cape Town"
+    },
+    {
+        "city": "Dubai"
+    },
+    {
+        "city": "Berlin"
+    },
+    {
+        "city": "Beijing"
+    },
+    {
+        "city": "Los Angeles"
+    },
+    {
+        "city": "Mexico City"
+    },
+    {
+        "city": "Moscow"
+    },
+    {
+        "city": "Mumbai"
+    },
+    {
+        "city": "New Delhi"
+    },
+    {
+        "city": "San Francisco"
+    },
+    {
+        "city": "Seoul"
+    },
+    {
+        "city": "Shanghai"
+    },
+    {
+        "city": "Singapore"
+    },
+    {
+        "city": "Toronto"
+    },
+    {
+        "city": "Bangkok"
+    },
+    {
+        "city": "Barcelona"
+    },
+    {
+        "city": "Cairo"
+    },
+    {
+        "city": "Chicago"
+    },
+    {
+        "city": "Hong Kong"
+    },
+    {
+        "city": "Istanbul"
+    },
+    {
+        "city": "Jakarta"
+    },
+    {
+        "city": "Lima"
+    },
+    {
+        "city": "Madrid"
+    },
+    {
+        "city": "Melbourne"
+    },
+    {
+        "city": "Miami"
+    },
+    {
+        "city": "Paris"
+    },
+    {
+        "city": "Rome"
+    },
+    {
+        "city": "São Paulo"
+    },
+    {
+        "city": "Stockholm"
+    },
+    {
+        "city": "Taipei"
+    },
+    {
+        "city": "Vienna"
+    },
+    {
+        "city": "Washington D.C."
+    },
+    {
+        "city": "Zurich"
+    },
+    {
+        "city": "Amsterdam"
+    },
+    {
+        "city": "Athens"
+    },
+    {
+        "city": "Buenos Aires"
+    },
+    {
+        "city": "Casablanca"
+    },
+    {
+        "city": "Dallas"
+    },
+    {
+        "city": "Edinburgh"
+    },
+    {
+        "city": "Hanoi"
+    },
+    {
+        "city": "Houston"
+    },
+    {
+        "city": "Johannesburg"
+    },
+    {
+        "city": "Kuala Lumpur"
+    },
+    {
+        "city": "Lisbon"
+    },
+    {
+        "city": "Montreal"
+    },
+    {
+        "city": "Nairobi"
+    },
+    {
+        "city": "Osaka"
+    },
+    {
+        "city": "Prague"
+    },
+    {
+        "city": "Rio de Janeiro"
+    },
+    {
+        "city": "San Diego"
+    },
+    {
+        "city": "Santiago"
+    },
+    {
+        "city": "Seattle"
+    },
+    {
+        "city": "Toronto"
+    },
+    {
+        "city": "Vancouver"
+    }
 ]
