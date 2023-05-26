@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Institution {
+  institution_id String   @id @default(cuid())
+  name           String   @unique
+  author         Author[]
+}
+
+model User {
+  user_id    Int         @id @default(autoincrement())
+  first_name String
+  last_name  String
+  email      String      @unique
+  password   String
+  author     Author[]
+  organizer  Organizer[]
+  reviewer   Reviewer[]
+}
+
+model Author {
+  user_id        Int            @id
+  institution_id String
+  user           User           @relation(fields: [user_id], references: [user_id])
+  affiliation    Institution    @relation(fields: [institution_id], references: [institution_id])
+  Author_Paper   Author_Paper[]
+}
+
+model Reviewer {
+  user_id Int      @id
+  user    User     @relation(fields: [user_id], references: [user_id])
+  review  Review[]
+}
+
+model Organizer {
+  user_id Int  @id
+  user    User @relation(fields: [user_id], references: [user_id])
+}
+
+model Author_Paper {
+  author_id   Int
+  paper_id    Int
+  main_author Boolean
+  author      Author  @relation(fields: [author_id], references: [user_id])
+  paper       Paper   @relation(fields: [paper_id], references: [paper_id])
+
+  @@id([author_id, paper_id])
+}
+
+model Paper {
+  paper_id     Int            @id @default(autoincrement())
+  title        String
+  abstract     String
+  document     String
+  sessions     Session[]
+  reviews      Review[]
+  Author_Paper Author_Paper[]
+}
+
+model Review {
+  overall      Int
+  contribution Int
+  strength     String
+  weakness     String
+  accepted     Boolean
+  done         Boolean
+  reviewer_id  Int
+  paper_id     Int
+  paper        Paper    @relation(fields: [paper_id], references: [paper_id])
+  reviewer     Reviewer @relation(fields: [reviewer_id], references: [user_id])
+
+  @@id([paper_id, reviewer_id])
+}
+
+model Conference {
+  conference_id Int       @id @default(autoincrement())
+  img           String
+  title         String
+  start_date    String
+  end_date      String
+  session       Session[]
+}
+
+model Location {
+  city    String    @id
+  session Session[]
+}
+
+model Session {
+  session_id    Int        @id @default(autoincrement())
+  conference_id Int
+  day           String
+  from_time     String
+  to_time       String
+  conference    Conference @relation(fields: [conference_id], references: [conference_id])
+  location      Location[]
+  paper         Paper[]
+}

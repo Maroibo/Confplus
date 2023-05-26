@@ -1,1 +1,43 @@
-[{"img":"../recourses/Photos/toronto.jpg","title":"Toronto Conference","start_date":"2023-03-09T21:00:00.000Z","end_date":"2023-03-21T21:00:00.000Z","id":"Ad321-123","sessions":[{"day":"2023-05-05T00:00:00.000Z","location":"Cairo","papers":["ub_8JJlT75Zq0YEZ9Y8YG"],"presenter":"","fromTime":"15:19","toTime":"17:20"}]},{"img":"../recourses/Photos/Rome.jpg","title":"Rome Conference","start_date":"2023-03-12T21:00:00.000Z","end_date":"2023-03-21T21:00:00.000Z","id":"Ad321-456","sessions":[]},{"img":"../recourses/Photos/Amsterdam.jpg","title":"Amsterdam Conference","start_date":"2023-03-09T21:00:00.000Z","end_date":"2023-03-21T21:00:00.000Z","id":"Ad321-123","sessions":[]},{"img":"../recourses/Photos/newyork.jpg","title":"New York Conference","start_date":"2023-03-12T21:00:00.000Z","end_date":"2023-03-21T21:00:00.000Z","id":"Ad321-456","sessions":[]}]
+[
+  {
+    "img": "../recourses/Photos/toronto.jpg",
+    "title": "Toronto Conference",
+    "start_date": "2023-03-09T21:00:00.000Z",
+    "end_date": "2023-03-21T21:00:00.000Z",
+    "id": "Ad321-123",
+    "sessions": [
+      {
+        "day": "2023-05-05T00:00:00.000Z",
+        "location": "Cairo",
+        "papers": ["ub_8JJlT75Zq0YEZ9Y8YG"],
+        "presenter": "",
+        "fromTime": "16:19",
+        "toTime": "18:22"
+      }
+    ]
+  },
+  {
+    "img": "../recourses/Photos/Rome.jpg",
+    "title": "Rome Conference",
+    "start_date": "2023-03-12T21:00:00.000Z",
+    "end_date": "2023-03-21T21:00:00.000Z",
+    "id": "Ad321-456",
+    "sessions": []
+  },
+  {
+    "img": "../recourses/Photos/Amsterdam.jpg",
+    "title": "Amsterdam Conference",
+    "start_date": "2023-03-09T21:00:00.000Z",
+    "end_date": "2023-03-21T21:00:00.000Z",
+    "id": "Ad321-123",
+    "sessions": []
+  },
+  {
+    "img": "../recourses/Photos/newyork.jpg",
+    "title": "New York Conference",
+    "start_date": "2023-03-12T21:00:00.000Z",
+    "end_date": "2023-03-21T21:00:00.000Z",
+    "id": "Ad321-456",
+    "sessions": []
+  }
+]

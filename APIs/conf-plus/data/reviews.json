@@ -1,1 +1,122 @@
-[{"paper":"yv1ngY8y6qYLKVABy4-AZ","reviewers":[3,9],"done":true,"overall":2,"contribution":5,"strength":"","weakness":"","accepted":true},{"paper":"GKhAX9yVHuNE0v-IQYYQS","reviewers":[12,13],"done":false,"overall":99,"contribution":99,"strength":"","weakness":"","accepted":false},{"paper":"8qKo3jnhSQprkVPUbsUKN","reviewers":[3,13],"done":false,"overall":99,"contribution":99,"strength":"","weakness":"","accepted":false},{"paper":"kddqZ-EiwREwlWCPAjEr4","reviewers":[11,3],"done":true,"overall":2,"contribution":5,"strength":"","weakness":"","accepted":true},{"paper":"PXM_Hqo1kTCebbhbzrIJR","reviewers":[5,13],"done":true,"overall":2,"contribution":3,"strength":"A strong research paper should have a clear and well-designed methodology that is appropriate for the research question and the data being collected.","weakness":"If the study fails to adequately control for confounding variables, it may be difficult to establish a causal relationship between the independent and dependent variables.","accepted":true},{"paper":"ub_8JJlT75Zq0YEZ9Y8YG","reviewers":[9,10],"done":true,"overall":2,"contribution":5,"strength":"","weakness":"","accepted":true},{"paper":"Oe79gX9Po1-fOO_5owSEv","reviewers":[6,9],"done":true,"overall":2,"contribution":5,"strength":"","weakness":"","accepted":true},{"paper":"WUuCMA52ZMQL2HOpZ4NSe","reviewers":[11,10],"done":true,"overall":2,"contribution":5,"strength":"","weakness":"","accepted":true},{"paper":"TY8D69VYEuiEQq_BN2uLs","reviewers":[11,4],"done":true,"overall":2,"contribution":5,"strength":"","weakness":"","accepted":true},{"paper":"TJ4cnw1D_3P2o6aCss5kp","reviewers":[7,10],"done":true,"overall":2,"contribution":3,"strength":"","weakness":"","accepted":true},{"paper":"mtVXkBCmHdEyM2UaFnNFN","reviewers":[12,3],"done":false,"overall":99,"contribution":99,"strength":"","weakness":"","accepted":false}]
+[
+  {
+    "paper": "yv1ngY8y6qYLKVABy4-AZ",
+    "reviewers": [3, 9],
+    "done": true,
+    "overall": 2,
+    "contribution": 5,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "GKhAX9yVHuNE0v-IQYYQS",
+    "reviewers": [12, 13],
+    "done": false,
+    "overall": 99,
+    "contribution": 99,
+    "strength": "",
+    "weakness": "",
+    "accepted": false
+  },
+  {
+    "paper": "8qKo3jnhSQprkVPUbsUKN",
+    "reviewers": [3, 13],
+    "done": false,
+    "overall": 99,
+    "contribution": 99,
+    "strength": "",
+    "weakness": "",
+    "accepted": false
+  },
+  {
+    "paper": "kddqZ-EiwREwlWCPAjEr4",
+    "reviewers": [11, 3],
+    "done": true,
+    "overall": 2,
+    "contribution": 5,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "PXM_Hqo1kTCebbhbzrIJR",
+    "reviewers": [5, 13],
+    "done": true,
+    "overall": 2,
+    "contribution": 3,
+    "strength": "A strong research paper should have a clear and well-designed methodology that is appropriate for the research question and the data being collected.",
+    "weakness": "If the study fails to adequately control for confounding variables, it may be difficult to establish a causal relationship between the independent and dependent variables.",
+    "accepted": true
+  },
+  {
+    "paper": "ub_8JJlT75Zq0YEZ9Y8YG",
+    "reviewers": [9, 10],
+    "done": true,
+    "overall": 2,
+    "contribution": 5,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "Oe79gX9Po1-fOO_5owSEv",
+    "reviewers": [6, 9],
+    "done": true,
+    "overall": 2,
+    "contribution": 5,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "WUuCMA52ZMQL2HOpZ4NSe",
+    "reviewers": [11, 10],
+    "done": true,
+    "overall": 2,
+    "contribution": 5,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "TY8D69VYEuiEQq_BN2uLs",
+    "reviewers": [11, 4],
+    "done": true,
+    "overall": 2,
+    "contribution": 5,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "TJ4cnw1D_3P2o6aCss5kp",
+    "reviewers": [7, 10],
+    "done": true,
+    "overall": 2,
+    "contribution": 3,
+    "strength": "",
+    "weakness": "",
+    "accepted": true
+  },
+  {
+    "paper": "D9-cgxW9Zywj2ZQwCEAl_",
+    "reviewers": [5, 11],
+    "done": false,
+    "overall": 99,
+    "contribution": 99,
+    "strength": "",
+    "weakness": "",
+    "accepted": false
+  },
+  {
+    "paper": "XMddu1alSbzcr09_WiJlS",
+    "reviewers": [7, 13],
+    "done": true,
+    "overall": 2,
+    "contribution": 3,
+    "strength": "Strength: ...",
+    "weakness": "Weakness: ...",
+    "accepted": true
+  }
+]
