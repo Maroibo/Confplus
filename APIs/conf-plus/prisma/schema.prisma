@@ -71,8 +71,8 @@ model Review {
   contribution Int
   strength     String
   weakness     String
-  accepted     Boolean
-  done         Boolean
+  accepted     String
+  done         String
   reviewer_id  Int
   paper_id     Int
   paper        Paper    @relation(fields: [paper_id], references: [paper_id])
