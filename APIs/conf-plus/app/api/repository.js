@@ -703,3 +703,57 @@ export async function readAuthors() {
     };
   }
 }
+
+export async function paperStats() {
+  // get the number of accepted papers
+  // get the number of rejected papers
+  // get the number of pending papers
+  const accepted = await prisma.paper.count({
+    where: {
+      status: "accepted",
+    },
+  });
+  const rejected = await prisma.paper.count({
+    where: {
+      status: "rejected",
+    },
+  });
+  const pending = await prisma.paper.count({
+    where: {
+      status: "pending",
+    },
+  });
+  return {
+    done: true,
+    accepted: accepted,
+    rejected: rejected,
+    pending: pending,
+  };
+}
+
+export async function avgAuthorsPerPaper() {
+  // get the average number of authors per paper
+  const avg =
+    await prisma.$queryRaw`SELECT AVG(authors) FROM (SELECT COUNT(*) AS authors FROM "PaperAuthor" GROUP BY paper) AS sub`;
+  return {
+    done: true,
+    avg: avg[0].avg,
+  };
+}
+export async function noOfConferenceSessions() {
+  // get the number of conference sessions
+  const sessions = await prisma.session.count();
+  return {
+    done: true,
+    sessions: sessions,
+  };
+}
+export async function avgPapersPerSession() {
+  // get the average number of papers per session
+  const avg =
+    await prisma.$queryRaw`SELECT AVG(papers) FROM (SELECT COUNT(*) AS papers FROM "SessionPaper" GROUP BY session) AS sub`;
+  return {
+    done: true,
+    avg: avg[0].avg,
+  };
+}
