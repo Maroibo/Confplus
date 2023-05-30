@@ -2,15 +2,11 @@ window.onload = async () => {
   // Check if user is logged in or not a reviewer
   const userID = localStorage["currentUser"];
   const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
-  if (userID === undefined || userID === "" || user.role !== "reviewer") {
-    window.location.href = "../login/login.html";
-  }
-  // Display user
+  if (user.reviewer.length === 0) window.location.href = "../login/login.html";
   await userDisplayer();
   const response = await fetch(`../api/review/${userID}?type=reviewer`);
   const reviews = await response.json();
-  // remove all of the reviews if the done afftibute is set to true
-  const filteredReviews = reviews.filter((e) => e.done === false);
+  const filteredReviews = reviews.filter((e) => e.done === "pending");
   filteredReviews.map(async (e) => {
     const card = await reviewCard(e);
     document.querySelector(".root").appendChild(card);
@@ -45,7 +41,9 @@ let userDisplayer = async () => {
   const userName = document.createElement("span");
   userName.innerHTML = `${user.last_name}, ${user.first_name}`;
   const userRole = document.createElement("span");
-  userRole.innerHTML = `${user.role}`;
+  if (user.author.length !== 0) userRole.innerHTML = "Author";
+  else if (user.reviewer.length !== 0) userRole.innerHTML = "Reviewer";
+  else if (user.organizer.length !== 0) userRole.innerHTML = "Organizer";
   const arrowDown = document.createElement("img");
   arrowDown.src = "../recourses/icons/angle-down-solid.svg";
   arrowDown.classList = "log-options";
@@ -115,7 +113,7 @@ const moveLogOut = () => {
 window.addEventListener("resize", moveLogOut);
 
 const reviewCard = async (review) => {
-  const response = await fetch(`../api/paper/${review.paper}`);
+  const response = await fetch(`../api/paper/${review.paper_id}`);
   const paper = await response.json();
   const reviewContainer = document.createElement("div");
   reviewContainer.classList = "review-container";
@@ -126,7 +124,7 @@ const reviewCard = async (review) => {
   const paperTitle = document.createElement("p");
   paperTitle.innerHTML = paper.title;
   const paperAuthor = document.createElement("p");
-  paperAuthor.innerHTML = await getAuthorNames(paper.authors);
+  paperAuthor.innerHTML = await getAuthorNames(paper.Author_Paper);
   const paperAbstract = document.createElement("p");
   paperAbstract.innerHTML = paper.abstract;
   reviewContainer.appendChild(pdfContainer);
@@ -139,10 +137,11 @@ const reviewCard = async (review) => {
   });
   return reviewContainer;
 };
-const getAuthorNames = async (authors) => {
+const getAuthorNames = async (Author_Paper) => {
+  let authors = Author_Paper.map((e) => e.author_id);
   let authorNames = [];
   for (let i = 0; i < authors.length; i++) {
-    const response = await fetch(`../api/user/${authors[i].id}`);
+    const response = await fetch(`../api/user/${authors[i]}`);
     const author = await response.json();
     authorNames.push(`${author.last_name} ${author.first_name}`);
   }

@@ -9,20 +9,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 togglePassword.addEventListener("click", function () {
   // toggle the type attribute
-  const type = password.getAttribute("type") === "password" ? "text" : "password";
+  const type =
+    password.getAttribute("type") === "password" ? "text" : "password";
   password.setAttribute("type", type);
 });
 
 loginBtn.addEventListener("click", async () => await handleLogin());
 
-email.addEventListener("keypress", function(event) {
+email.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
     loginBtn.click();
   }
 });
 
-password.addEventListener("keypress", function(event) {
+password.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
     loginBtn.click();
@@ -31,32 +32,19 @@ password.addEventListener("keypress", function(event) {
 
 async function handleLogin() {
   let emailVal = email.value;
-    let passwordVal = password.value;
-    const response = await fetch("../api/user");
-    const users = await response.json();
-    let results = users.reduce(
-      (acc, obj) => {
-        acc.found = obj.email === emailVal && obj.password == passwordVal;
-        if (obj.email === emailVal && obj.password == passwordVal)
-          acc.target = obj;
-        return acc;
-      },
-      { found: false, target: {} }
-    );
-
-
-    if (Object.keys(results.target).length === 0) {
-      window.alert("Email or Password are incorrect");
-      email.value = "";
-      password.value = "";
-      return;
-    }
-    localStorage["currentUser"] = `${results.target.id}`;
-    if (results.target.role === "author")
-      window.location.href = "../Author/author.html";
-    else if (results.target.role === "organizer")
-      window.location.href = "../homepage/index.html";
-    else if (results.target.role === "reviewer")
-      window.location.href = "../Reviewer/reviewer.html";
+  let passwordVal = password.value;
+  let response = await fetch(`/api/user/auth/${emailVal}/${passwordVal}`);
+  let results = await response.json();
+  if (!results.user) {
+    alert("Invalid email or password");
+    return;
+  }
+  results = results.user;
+  localStorage["currentUser"] = `${results.user_id}`;
+  if (results.author.length !== 0)
+    window.location.href = "../Author/author.html";
+  else if (results.organizer.length !== 0)
+    window.location.href = "../homepage/index.html";
+  else if (results.reviewer.length !== 0)
+    window.location.href = "../Reviewer/reviewer.html";
 }
-

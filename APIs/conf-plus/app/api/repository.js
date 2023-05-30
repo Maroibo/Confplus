@@ -34,6 +34,7 @@ export async function createPaper(paper) {
     const createdPaper = await prisma.paper.create({
       data: paper,
     });
+    await prisma.$disconnect();
     // handle error
     return {
       done: true,
@@ -83,9 +84,13 @@ export async function readPaper(id) {
   try {
     const paper = await prisma.paper.findUnique({
       where: {
-        id: id,
+        paper_id: parseInt(id),
+      },
+      include: {
+        Author_Paper: true,
       },
     });
+    await prisma.$disconnect();
     return {
       done: true,
       paper: paper,
@@ -118,10 +123,11 @@ export async function updateConference(id, conference) {
   try {
     const updatedConference = await prisma.conference.update({
       where: {
-        id: id,
+        conference_id: parseInt(id),
       },
       data: conference,
     });
+    await prisma.$disconnect();
     return {
       done: true,
       conference: updatedConference,
@@ -155,10 +161,11 @@ export async function updatePaper(id, paper) {
   try {
     const updatedPaper = await prisma.paper.update({
       where: {
-        id: id,
+        paper_id: parseInt(id),
       },
       data: paper,
     });
+    await prisma.$disconnect();
     return {
       done: true,
       paper: updatedPaper,
@@ -192,9 +199,10 @@ export async function deletePaper(id) {
   try {
     const deletedPaper = await prisma.paper.delete({
       where: {
-        id: id,
+        paper_id: parseInt(id),
       },
     });
+    await prisma.$disconnect();
     return {
       done: true,
       paper: deletedPaper,
@@ -227,6 +235,7 @@ export async function createReview(review) {
     const createdReview = await prisma.review.create({
       data: review,
     });
+    await prisma.$disconnect();
     return {
       done: true,
       review: createdReview,
@@ -308,11 +317,21 @@ export async function readReview(paperId, idType) {
   // }
   // rewrite this using prisma client there is not review id in the model so we search by the paper id and the reviewer id
   try {
-    const review = await prisma.review.findUnique({
-      where: {
-        paper: paperId,
-      },
-    });
+    let review;
+    if (idType === "paper") {
+      review = await prisma.review.findMany({
+        where: {
+          paper: parseInt(paperId),
+        },
+      });
+    } else if (idType === "reviewer") {
+      review = await prisma.review.findMany({
+        where: {
+          reviewer_id: parseInt(paperId),
+        },
+      });
+    }
+    await prisma.$disconnect();
     if (review) {
       return {
         done: true,
@@ -325,6 +344,7 @@ export async function readReview(paperId, idType) {
       };
     }
   } catch (error) {
+    console.log(error);
     return {
       done: false,
       review: null,
@@ -362,6 +382,7 @@ export async function readAllReviews() {
   // rewrite this using prisma client
   try {
     const reviews = await prisma.review.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       reviews: reviews,
@@ -383,6 +404,7 @@ export async function readAllConferences() {
   // rewrite this using prisma client
   try {
     const conferences = await prisma.conference.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       conferences: conferences,
@@ -405,6 +427,7 @@ export async function readAllInstitutions() {
   // rewrite this using prisma client
   try {
     const institutions = await prisma.institution.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       institutions: institutions,
@@ -436,6 +459,7 @@ export async function readAllLocations() {
   // rewrite this using prisma client
   try {
     const locations = await prisma.location.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       locations: locations,
@@ -471,9 +495,10 @@ export async function deleteReview(id) {
   try {
     const review = await prisma.review.delete({
       where: {
-        paper: id,
+        paper: parseInt(id),
       },
     });
+    await prisma.$disconnect();
     return {
       done: true,
       review: review,
@@ -501,6 +526,7 @@ export async function createConference(conference) {
     const createdConference = await prisma.conference.create({
       data: conference,
     });
+    await prisma.$disconnect();
     return {
       done: true,
       conference: createdConference,
@@ -531,9 +557,10 @@ export async function readConference(id) {
   try {
     const conference = await prisma.conference.findUnique({
       where: {
-        id: id,
+        conference_id: parseInt(id),
       },
     });
+    await prisma.$disconnect();
     return {
       done: true,
       conference: conference,
@@ -567,15 +594,17 @@ export async function updateReview(id, review) {
   try {
     const updatedReview = await prisma.review.update({
       where: {
-        paper: id,
+        paper_id: parseInt(id),
       },
       data: review,
     });
+    await prisma.$disconnect();
     return {
       done: true,
       review: updatedReview,
     };
   } catch (error) {
+    console.log(error);
     return {
       done: false,
       review: null,
@@ -593,6 +622,7 @@ export async function readAllUsers() {
   // rewrite this using prisma client
   try {
     const users = await prisma.user.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       users: users,
@@ -623,9 +653,43 @@ export async function readUser(id) {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: id,
+        user_id: parseInt(id),
+      },
+      include: {
+        author: true,
+        reviewer: true,
+        organizer: true,
       },
     });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      user: user,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      user: null,
+    };
+  }
+}
+export async function readUserByEmailPassword(email, password) {
+  // write it in prisma
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email,
+        password: password,
+      },
+      // return the list of authors and reviewers and organizers
+      include: {
+        author: true,
+        reviewer: true,
+        organizer: true,
+      },
+    });
+    await prisma.$disconnect();
     return {
       done: true,
       user: user,
@@ -648,6 +712,7 @@ export async function readOrganizers() {
   // rewrite this using prisma client there is an entity called organizer
   try {
     const organizers = await prisma.organizer.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       users: organizers,
@@ -670,6 +735,7 @@ export async function readReviewers() {
   // rewrite this using prisma client there is an entity called reviewer
   try {
     const reviewers = await prisma.reviewer.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       users: reviewers,
@@ -692,6 +758,7 @@ export async function readAuthors() {
   // rewrite this using prisma client there is an entity called author
   try {
     const authors = await prisma.author.findMany();
+    await prisma.$disconnect();
     return {
       done: true,
       users: authors,
@@ -723,6 +790,7 @@ export async function paperStats() {
       status: "pending",
     },
   });
+  await prisma.$disconnect();
   return {
     done: true,
     accepted: accepted,
@@ -735,6 +803,7 @@ export async function avgAuthorsPerPaper() {
   // get the average number of authors per paper
   const avg =
     await prisma.$queryRaw`SELECT AVG(authors) FROM (SELECT COUNT(*) AS authors FROM "PaperAuthor" GROUP BY paper) AS sub`;
+  await prisma.$disconnect();
   return {
     done: true,
     avg: avg[0].avg,
@@ -743,6 +812,7 @@ export async function avgAuthorsPerPaper() {
 export async function noOfConferenceSessions() {
   // get the number of conference sessions
   const sessions = await prisma.session.count();
+  await prisma.$disconnect();
   return {
     done: true,
     sessions: sessions,
@@ -752,6 +822,7 @@ export async function avgPapersPerSession() {
   // get the average number of papers per session
   const avg =
     await prisma.$queryRaw`SELECT AVG(papers) FROM (SELECT COUNT(*) AS papers FROM "SessionPaper" GROUP BY session) AS sub`;
+  await prisma.$disconnect();
   return {
     done: true,
     avg: avg[0].avg,

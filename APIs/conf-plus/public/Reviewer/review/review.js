@@ -2,12 +2,11 @@ const reviewState = JSON.parse(localStorage.getItem("currentReview"));
 window.onload = async () => {
   // Check if user is logged in or not an author
   const userID = localStorage["currentUser"];
-  const user = await fetch(`../../api/user/${userID}`).then((res) => res.json());
-  if (userID === undefined || userID === "" || user.role !== "reviewer") {
-    window.location.href = "../../login/login.html";
-
-    // Check if the reviewer is assigned to the paper
-  } else if (! reviewState.reviewers.find(id => id === parseInt(userID))) {
+  const user = await fetch(`../../api/user/${userID}`).then((res) =>
+    res.json()
+  );
+  if (user.reviewer.length === 0) window.location.href = "../login/login.html";
+  else if (reviewState.reviewer_id !== parseInt(userID)) {
     window.location.href = "../../Reviewer/reviewer.html";
   }
   await userDisplayer();
@@ -28,7 +27,9 @@ let userDisplayer = async () => {
   const userName = document.createElement("span");
   userName.innerHTML = `${user.last_name}, ${user.first_name}`;
   const userRole = document.createElement("span");
-  userRole.innerHTML = `${user.role}`;
+  if (user.author.length !== 0) userRole.innerHTML = "Author";
+  else if (user.reviewer.length !== 0) userRole.innerHTML = "Reviewer";
+  else if (user.organizer.length !== 0) userRole.innerHTML = "Organizer";
   const arrowDown = document.createElement("img");
   arrowDown.src = "../../recourses/icons/angle-down-solid.svg";
   arrowDown.classList = "log-options";
@@ -98,8 +99,8 @@ const moveLogOut = () => {
 };
 window.addEventListener("resize", moveLogOut);
 const displayReview = async (review) => {
-  const paper = await getPapers(review.paper);
-  const authorNames = await getAuthorNames(paper.authors);
+  const paper = await getPapers(review.paper_id);
+  const authorNames = await getAuthorNames(paper.Author_Paper);
   const titleDiv = document.querySelector(".paper-head p:first-of-type");
   titleDiv.innerHTML = paper.title;
   const authorDiv = document.querySelector(".paper-head p:last-of-type");
@@ -131,10 +132,11 @@ const getPapers = async (id) => {
   const paper = await response.json();
   return paper;
 };
-const getAuthorNames = async (authors) => {
+const getAuthorNames = async (Author_Paper) => {
+  let authors = Author_Paper.map((e) => e.author_id);
   let authorNames = [];
   for (let i = 0; i < authors.length; i++) {
-    const response = await fetch(`../../api/user/${authors[i].id}`);
+    const response = await fetch(`../../api/user/${authors[i]}`);
     const author = await response.json();
     authorNames.push(`${author.last_name} ${author.first_name}`);
   }
@@ -168,15 +170,15 @@ for (let i = 0; i < overallMeter.length; i++) {
     overallMeter[i].classList.add("active");
     reviewState.overall = parseInt(overallMeter[i].innerHTML);
     if (reviewState.overall >= 2) {
-      reviewState.accepted = true;
+      reviewState.accepted = "yes";
     } else {
-      reviewState.accepted = false;
+      reviewState.accepted = "no";
     }
     reviewUpdateHandler(reviewState);
   });
 }
 const reviewUpdateHandler = async (review) => {
-  const response = await fetch(`../../api/review/${review.paper}`, {
+  const response = await fetch(`../../api/review/${review.paper_id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -224,6 +226,6 @@ submitButton.addEventListener("click", async () => {
 // when the user clicks the download button it opens a new tab with the paper
 const downloadButton = document.querySelector("button:first-of-type");
 downloadButton.addEventListener("click", async () => {
-    const paper = await getPapers(reviewState.paper);
-    window.open(paper.document, "_blank");
-    });
+  const paper = await getPapers(reviewState.paper);
+  window.open(paper.document, "_blank");
+});
