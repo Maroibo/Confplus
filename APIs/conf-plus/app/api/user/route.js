@@ -3,7 +3,18 @@ import * as repo from "../repository.js";
 export async function GET(request) {
   try {
     const type = new URL(request.url).searchParams.get("type")?.toLowerCase();
-    if (!type || type === "") {
+    const name = new URL(request.url).searchParams.get("name");
+
+    if (name) {
+      const response = await repo.readUserByName(name);
+      if (response.done) {
+        return NextResponse.json(response.user);
+      } else {
+        return NextResponse.json({
+          error: "user not found",
+        });
+      }
+    } else if (!type || type === "") {
       const response = await repo.readAllUsers();
       return NextResponse.json(response.users);
     } else {
