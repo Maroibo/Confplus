@@ -47,13 +47,12 @@ model Organizer {
 }
 
 model Author_Paper {
+  relation_id Int     @id @default(autoincrement())
   author_id   Int
   paper_id    Int
   main_author Boolean
   author      Author  @relation(fields: [author_id], references: [user_id])
   paper       Paper   @relation(fields: [paper_id], references: [paper_id])
-
-  @@id([author_id, paper_id])
 }
 
 model Paper {

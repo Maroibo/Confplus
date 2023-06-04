@@ -26,160 +26,182 @@ async function main() {
     let institutions = await fs.promises.readFile(institutionsPath);
     institutions = JSON.parse(institutions);
 
+    // Delete all data from the database
+    try {
+      // Do not change the order of the following statements
+      await prisma.review.deleteMany({});
+      await prisma.reviewer.deleteMany({});
+      await prisma.Author_Paper.deleteMany({});
+      await prisma.paper.deleteMany({});
+      await prisma.session.deleteMany({});
+      await prisma.conference.deleteMany({});
+      await prisma.author.deleteMany({});
+      await prisma.organizer.deleteMany({});
+      await prisma.user.deleteMany({});
+      await prisma.location.deleteMany({});
+      await prisma.institution.deleteMany({});
+    } catch (error) {
+      console.log(error);
+    }
+    
     // createMany is not supported for SQLite. Use create instead
-    // for (const institution of institutions) {
+    for (const institution of institutions) {
 
-    //     await prisma.institution.upsert({
-    //         where: { name : institution.name },
-    //         update: {},
-    //         create: {
-    //             "name": institution.name,
-    //         }
-    //     });
-    // }
+        await prisma.institution.upsert({
+            where: { name : institution.name },
+            update: {},
+            create: {
+                "name": institution.name,
+            }
+        });
+    }
 
-    // for (const location of locations) await prisma.location.upsert({
-    //     where: { city: location.city },
-    //     update: {},
-    //     create: {
-    //         "city": location.city,
-    //     }
-    // })
+    for (const location of locations) await prisma.location.upsert({
+        where: { city: location.city },
+        update: {},
+        create: {
+            "city": location.city,
+        }
+    })
 
     // create the user and the author, reviewer, or organizer
-    // for (const user of users) {
-    //     const newUser = await prisma.user.upsert({
-    //         where: { email: user.email },
-    //         update: {},
-    //         create: {
-    //                 "first_name": user.first_name,
-    //                 "last_name": user.last_name,
-    //                 "email": user.email,
-    //                 "password": user.password
-    //             }
-    //     });
+    for (const user of users) {
+        const newUser = await prisma.user.upsert({
+            where: { email: user.email },
+            update: {},
+            create: {
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email": user.email,
+                    "password": user.password
+                }
+        });
 
-    //     // There are three types of users: author, reviewer, and organizer
-    //     // The user type is determined by the role field
+        // There are three types of users: author, reviewer, and organizer
+        // The user type is determined by the role field
+        const {institution_id} = (await prisma.institution.findFirst({select: {institution_id:true}}));
 
-    //     if (user.role === "author")
-    //         await prisma.author.upsert({
-    //             where: { user_id: newUser.user_id },
-    //             update: {},
-    //             create: {
-    //                 "user_id": newUser.user_id,
-    //                 "institution_id": "cli50iyso0000unxc2l5nm0i0"
-    //             }
-    //         });
+        if (user.role === "author")
+            await prisma.author.upsert({
+                where: { user_id: newUser.user_id },
+                update: {},
+                create: {
+                    "user_id": newUser.user_id,
+                    "institution_id": institution_id,
+                }
+            });
 
-    //     if (user.role === "reviewer")
-    //         await prisma.reviewer.upsert({
-    //             where: { user_id: newUser.user_id },
-    //             update: {},
-    //             create: {
-    //                 "user_id": newUser.user_id,
-    //             }
-    //         });
+        if (user.role === "reviewer")
+            await prisma.reviewer.upsert({
+                where: { user_id: newUser.user_id },
+                update: {},
+                create: {
+                    "user_id": newUser.user_id,
+                }
+            });
 
-    //     if (user.role === "organizer")
-    //         await prisma.organizer.upsert({
-    //             where: { user_id: newUser.user_id },
-    //             update: {},
-    //             create: {
-    //                 "user_id": newUser.user_id
-    //             }
-    //         });
-    // }
+        if (user.role === "organizer")
+            await prisma.organizer.upsert({
+                where: { user_id: newUser.user_id },
+                update: {},
+                create: {
+                    "user_id": newUser.user_id
+                }
+            });
+    }
 
     // Conferences
-    // for (const conference of conferences) {
-    //     const newConf = await prisma.conference.create({
-    //         data: {
-    //             img: conference.img,
-    //             title: conference.title,
-    //             start_date: conference.start_date,
-    //             end_date: conference.end_date,
-    //         }
-    //     });
+    for (const conference of conferences) {
+        const newConf = await prisma.conference.create({
+            data: {
+                img: conference.img,
+                title: conference.title,
+                start_date: conference.start_date,
+                end_date: conference.end_date,
+            }
+        });
 
-    //     for (const session of conference.sessions)
-    //         await prisma.session.create({
-    //             data: {
-    //                 "conference_id": newConf.conference_id,
-    //                 "day": session.day,
-    //                 "from_time": session.fromTime,
-    //                 "to_time": session.toTime,
-    //             }
-    //         });
-    // }
+        for (const session of conference.sessions)
+            await prisma.session.create({
+                data: {
+                    "conference_id": newConf.conference_id,
+                    "day": session.day,
+                    "from_time": session.fromTime,
+                    "to_time": session.toTime,
+                }
+            });
+    }
 
     // //Papers
-    // let authorId = 48;
-    // for (const paper of papers) {
-    //     const newPaper = await prisma.paper.create({
-    //         data: {
-    //             "title": paper.title,
-    //             "abstract": paper.abstract,
-    //             "document": paper.document,
-    //         }
-    //     })
+    let {user_id: authorId} = await prisma.author.findFirst({select: {user_id: true}});
+    let {user_id: lastAuthorId} = await prisma.author.findFirst({select: {user_id: true}, orderBy: {user_id: "desc"}});
+    for (const paper of papers) {
+        const newPaper = await prisma.paper.create({
+            data: {
+                "title": paper.title,
+                "abstract": paper.abstract,
+                "document": paper.document,
+            }
+        })
 
-    //     // Author_Paper
-    //     for (const author of paper.authors) {
+        // Author_Paper
+        for (const author of paper.authors) {
 
-    //         await prisma.Author_Paper.create({
-    //             data: {
-    //                 "author_id": authorId,
-    //                 "paper_id": newPaper.paper_id,
-    //                 "main_author": author.main ? true : false
-    //             }
-    //         })
-    //         if (authorId >= 54)
-    //             authorId = 48;
-    //         else
-    //             authorId = authorId + 1;
-    //     }
-    // }
+            await prisma.Author_Paper.create({
+                data: {
+                    "author_id": authorId,
+                    "paper_id": newPaper.paper_id,
+                    "main_author": author.main ? true : false
+                }
+            })
+            if (authorId >= lastAuthorId){
+              authorId = (await prisma.author.findFirst({select: {user_id: true}})).user_id;
+            } else
+                authorId = authorId + 1;
+        }
+    }
 
     // Reviews
-    // await prisma.paper.findMany({
-    //     select: {
-    //         paper_id: true,
-    //     }
-    // }).then(async (papers) => {
-    //     for (const paper of papers) {
-    //         let value1, value2;
-    //         do {
-    //             value1 = random(37, 47);
-    //             value2 = random(37, 47);
-    //         } while (value1 === value2);
+    await prisma.paper.findMany({
+        select: {
+            paper_id: true,
+        }
+    }).then(async (papers) => {
+        for (const paper of papers) {
+            let value1, value2;
+            let {user_id:reviewerId} = await prisma.reviewer.findFirst({select: {user_id: true}});
+            let {user_id:lastReviewerId} = await prisma.reviewer.findFirst({select: {user_id: true}, orderBy: {user_id: "desc"}});
+            do {
+                value1 = random(reviewerId, lastReviewerId);
+                value2 = random(reviewerId, lastReviewerId);
+            } while (value1 === value2);
 
-    //         await prisma.review.create({
-    //             data: {
-    //                 "paper_id": paper.paper_id,
-    //                 "reviewer_id": value1,
-    //                 "overall": 0,
-    //                 "contribution": 0,
-    //                 "strength": "",
-    //                 "weakness": "",
-    //                 "accepted": "",
-    //                 "done": ""
-    //             }
-    //         })
-    //         await prisma.review.create({
-    //             data: {
-    //                 "paper_id": paper.paper_id,
-    //                 "reviewer_id": value2,
-    //                 "overall": 0,
-    //                 "contribution": 0,
-    //                 "strength": "",
-    //                 "weakness": "",
-    //                 "accepted": "",
-    //                 "done": "pending"
-    //             }
-    //         })
-    //     }
-    // })
+            await prisma.review.create({
+                data: {
+                    "paper_id": paper.paper_id,
+                    "reviewer_id": value1,
+                    "overall": 0,
+                    "contribution": 0,
+                    "strength": "",
+                    "weakness": "",
+                    "accepted": "",
+                    "done": ""
+                }
+            })
+            await prisma.review.create({
+                data: {
+                    "paper_id": paper.paper_id,
+                    "reviewer_id": value2,
+                    "overall": 0,
+                    "contribution": 0,
+                    "strength": "",
+                    "weakness": "",
+                    "accepted": "",
+                    "done": "pending"
+                }
+            })
+        }
+    })
   } catch (error) {
     console.log(error);
     return { error: error.message };
