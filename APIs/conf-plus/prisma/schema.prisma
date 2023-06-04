@@ -66,6 +66,7 @@ model Paper {
 }
 
 model Review {
+  review_id    Int     @id @default(autoincrement())
   overall      Int
   contribution Int
   strength     String
@@ -76,8 +77,6 @@ model Review {
   paper_id     Int
   paper        Paper    @relation(fields: [paper_id], references: [paper_id])
   reviewer     Reviewer @relation(fields: [reviewer_id], references: [user_id])
-
-  @@id([paper_id, reviewer_id])
 }
 
 model Conference {

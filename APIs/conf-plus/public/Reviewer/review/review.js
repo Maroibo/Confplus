@@ -169,16 +169,18 @@ for (let i = 0; i < overallMeter.length; i++) {
     // add the active class to the span that was clicked
     overallMeter[i].classList.add("active");
     reviewState.overall = parseInt(overallMeter[i].innerHTML);
-    if (reviewState.overall >= 2) {
-      reviewState.accepted = "yes";
-    } else {
-      reviewState.accepted = "no";
-    }
+    
+    // if (reviewState.overall >= 2) {
+    //   reviewState.accepted = "yes";
+    // } else {
+    //   reviewState.accepted = "no";
+    // }
+
     reviewUpdateHandler(reviewState);
   });
 }
 const reviewUpdateHandler = async (review) => {
-  const response = await fetch(`../../api/review/${review.paper_id}`, {
+  const response = await fetch(`../../api/review/${review.review_id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -202,23 +204,56 @@ weaknessTextArea.addEventListener("change", (event) => {
 // when the submit button is clicked the done attribute of the review is set to true and the user is redirected to the reviewer page
 const submitButton = document.querySelector("button:last-of-type");
 submitButton.addEventListener("click", async () => {
-  reviewState.done = true;
+  reviewState.done = "done";
   reviewUpdateHandler(reviewState);
-  const response = await fetch(`../../api/paper/${reviewState.paper}`);
-  const paper = await response.json();
-  if (reviewState.accepted) {
-    paper.status = true;
-  } else {
-    paper.status = false;
+  // Get all the reviews for the paper
+  const response = await fetch(`../../api/review/${reviewState.paper_id}?type=paper`);
+  const reviews = await response.json();
+
+  // If both reviews are done
+  if (reviews.length == 2) {
+    const reviewOverall1 = parseInt(reviews[0].overall);
+    const reviewOverall2 = parseInt(reviews[1].overall);
+    // If overall sum is >= 2
+    if (reviewOverall1 + reviewOverall2 >= 2) {
+      reviews[0].accepted = "yes";
+      reviews[1].accepted = "yes";
+    } else {
+      reviews[0].accepted = "no";
+      reviews[1].accepted = "no";
+    }
+    // Update the reviews
+    const response1 = await fetch(`../../api/review/${reviews[0].review_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reviews[0]),
+    });
+    const response2 = await fetch(`../../api/review/${reviews[1].review_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reviews[1]),
+    });
   }
-  const paperResponse = await fetch(`../../api/paper/${reviewState.paper}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(paper),
-  });
-  const updatedPaper = await paperResponse.json();
+
+  // const response = await fetch(`../../api/paper/${reviewState.paper}`);
+  // const paper = await response.json();
+  // if (reviewState.accepted == "yes") {
+  //   paper.status = true;
+  // } else {
+  //   paper.status = false;
+  // }
+  // const paperResponse = await fetch(`../../api/paper/${reviewState.paper}`, {
+  //   method: "PUT",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(paper),
+  // });
+  // const updatedPaper = await paperResponse.json();
 
   window.location.href = "../reviewer.html";
 });

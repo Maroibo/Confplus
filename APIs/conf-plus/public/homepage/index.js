@@ -6,15 +6,11 @@ window.onload = async () => {
     await getConferences();
     const userID = localStorage["currentUser"];
     const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
-
     if (user.role === "organizer") {
       const editScheduleBtn = document.querySelectorAll(".edit-schedule-btn");
-        editScheduleBtn.forEach(btn => {btn.style.display = "block"})
+      editScheduleBtn.forEach(btn => {btn.style.display = "block"})
     }
 };
-
-
-
 
 const conferencesList = [];
 
@@ -141,8 +137,15 @@ let userDisplayer = async () => {
     userImage.src = "../recourses/icons/user-solid.svg";
     const userName = document.createElement("span");
     userName.innerHTML = `${user.last_name}, ${user.first_name}`;
+
     const userRole = document.createElement("span");
-    userRole.innerHTML = `${user.role}`;
+    if (user.author.length > 0)
+      userRole.innerHTML = `Author`;
+    else if (user.reviewer.length > 0)
+      userRole.innerHTML = `Reviewer`;
+    else if (user.organizer.length > 0)
+      userRole.innerHTML = `Organizer`;
+
     const arrowDown = document.createElement("img");
     arrowDown.src = "../recourses/icons/angle-down-solid.svg";
     arrowDown.classList = "log-options";

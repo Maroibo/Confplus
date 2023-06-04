@@ -321,13 +321,16 @@ export async function readReview(paperId, idType) {
     if (idType === "paper") {
       review = await prisma.review.findMany({
         where: {
-          paper: parseInt(paperId),
+          paper_id: parseInt(paperId),
+          done: "done"
         },
       });
     } else if (idType === "reviewer") {
+
       review = await prisma.review.findMany({
         where: {
           reviewer_id: parseInt(paperId),
+          done: "pending"
         },
       });
     }
@@ -594,7 +597,7 @@ export async function updateReview(id, review) {
   try {
     const updatedReview = await prisma.review.update({
       where: {
-        paper_id: parseInt(id),
+        review_id: parseInt(id),
       },
       data: review,
     });

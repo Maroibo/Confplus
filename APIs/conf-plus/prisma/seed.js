@@ -43,7 +43,7 @@ async function main() {
     } catch (error) {
       console.log(error);
     }
-    
+
     // createMany is not supported for SQLite. Use create instead
     for (const institution of institutions) {
 
@@ -184,8 +184,8 @@ async function main() {
                     "contribution": 0,
                     "strength": "",
                     "weakness": "",
-                    "accepted": "",
-                    "done": ""
+                    "accepted": "pending",
+                    "done": "pending"
                 }
             })
             await prisma.review.create({
@@ -196,7 +196,7 @@ async function main() {
                     "contribution": 0,
                     "strength": "",
                     "weakness": "",
-                    "accepted": "",
+                    "accepted": "pending",
                     "done": "pending"
                 }
             })
