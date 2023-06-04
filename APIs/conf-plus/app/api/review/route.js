@@ -16,10 +16,10 @@ export async function GET(request) {
 }
 export async function POST(request) {
   try {
-    const review = await request.json();
-    const response = await repo.createReview(review);
+    const {paper_id} = await request.json();
+    const response = await repo.createReviews(paper_id);
     if (response.done) {
-      return NextResponse.json(response.review);
+      return NextResponse.json(response.reviews);
     } else {
       return NextResponse.json({
         error: "your review is not valid",

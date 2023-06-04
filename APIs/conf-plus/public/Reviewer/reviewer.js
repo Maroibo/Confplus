@@ -5,8 +5,9 @@ window.onload = async () => {
   if (user.reviewer.length === 0) window.location.href = "../login/login.html";
   await userDisplayer();
   const response = await fetch(`../api/review/${userID}?type=reviewer`);
-  const reviews = await response.json();
-  const filteredReviews = reviews.filter((e) => e.done === "pending");
+  const filteredReviews = await response.json();
+  // Should get the filterd reviews from the repo using prisma
+  // const filteredReviews = reviews.filter((e) => e.done === "pending");
   filteredReviews.map(async (e) => {
     const card = await reviewCard(e);
     document.querySelector(".root").appendChild(card);

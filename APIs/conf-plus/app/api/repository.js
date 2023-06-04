@@ -47,6 +47,26 @@ export async function createPaper(paper) {
     };
   }
 }
+
+export async function createAuthorPaper(authorPaper) {
+  try {
+    const createdAuthorPaper = await prisma.author_Paper.create({
+      data: authorPaper,
+    });
+    await prisma.$disconnect();
+    // handle error
+    return {
+      done: true,
+      authorPaper: createdAuthorPaper,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      paper: null,
+    };
+  }
+}
+
 function validatePaper(paper) {
   const paperModel = ["title", "abstract", "document", "status", "authors"];
   const paperKeys = Object.keys(paper);
@@ -214,7 +234,7 @@ export async function deletePaper(id) {
     };
   }
 }
-export async function createReview(review) {
+export async function createReviews(paper_id) {
   // if (validateReview(review)) {
   //   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
   //   reviews = JSON.parse(reviews);
@@ -232,13 +252,45 @@ export async function createReview(review) {
   // }
   // rewrite this using prisma client
   try {
-    const createdReview = await prisma.review.create({
-      data: review,
+    const allReviewers = await prisma.reviewer.findMany();
+    // select 2 distinct random reviewers
+    const randomReviewers = [];
+    while (randomReviewers.length < 2) {
+      const randomReviewer =
+        allReviewers[Math.floor(Math.random() * allReviewers.length)];
+      if (!randomReviewers.includes(randomReviewer)) {
+        randomReviewers.push(randomReviewer);
+      }
+    }
+    
+    const review1 = await prisma.review.create({
+      data: {
+        paper_id: paper_id,
+        reviewer_id: randomReviewers[0].user_id,
+        done: "pending",
+        overall: 0,
+        contribution: 0,
+        strength: "",
+        weakness: "",
+        accepted: "pending",
+      },
+    });
+    const review2 = await prisma.review.create({
+      data: {
+        paper_id: paper_id,
+        reviewer_id: randomReviewers[1].user_id,
+        done: "pending",
+        overall: 0,
+        contribution: 0,
+        strength: "",
+        weakness: "",
+        accepted: "pending",
+      },
     });
     await prisma.$disconnect();
     return {
       done: true,
-      review: createdReview,
+      reviews: [review1, review2],
     };
   } catch (error) {
     return {
@@ -321,13 +373,16 @@ export async function readReview(paperId, idType) {
     if (idType === "paper") {
       review = await prisma.review.findMany({
         where: {
-          paper: parseInt(paperId),
+          paper_id: parseInt(paperId),
+          done: "done"
         },
       });
     } else if (idType === "reviewer") {
+
       review = await prisma.review.findMany({
         where: {
           reviewer_id: parseInt(paperId),
+          done: "pending"
         },
       });
     }
@@ -594,7 +649,7 @@ export async function updateReview(id, review) {
   try {
     const updatedReview = await prisma.review.update({
       where: {
-        paper_id: parseInt(id),
+        review_id: parseInt(id),
       },
       data: review,
     });
@@ -634,6 +689,32 @@ export async function readAllUsers() {
     };
   }
 }
+export async function readUserByName(name) {
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+          first_name: name
+      },
+      include: {
+        author: true,
+        reviewer: true,
+        organizer: true,
+      }
+    });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      user: user,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      user: null,
+    };
+  }
+}
+
 export async function readUser(id) {
   // let users = await fs.promises.readFile(USER_PATH, "utf8");
   // users = JSON.parse(users);
@@ -667,7 +748,6 @@ export async function readUser(id) {
       user: user,
     };
   } catch (error) {
-    console.log(error);
     return {
       done: false,
       user: null,
