@@ -11,6 +11,26 @@ const INSTITUTION_PATH = "data/institutions.json";
 const DATES_PATH = "data/conference-dates.json";
 const LOCATIONS_PATH = "data/locations.json";
 
+export async function deleteSession(sessionId) {
+  try {
+    const deletedSession = await prisma.session.delete({
+      where: { session_id: sessionId },
+    });
+    await prisma.$disconnect();
+    // handle error
+    return {
+      done: true,
+      session: deletedSession,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      session: null,
+    };
+  }
+}
+
 export async function createPaper(paper) {
   // const createdId = nanoid();
   // if (validatePaper(paper)) {
@@ -462,11 +482,11 @@ export async function readAllConferences() {
         session: {
           include: {
             presentation: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
-    
+
     await prisma.$disconnect();
     return {
       done: true,

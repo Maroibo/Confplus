@@ -327,10 +327,7 @@ window.onload = async () => {
   // Delete session
   const deleteSvgs = document.querySelectorAll(".trash-svg");
   deleteSvgs.forEach(svg => {
-    svg.addEventListener("click", e => {
-      const clickedDeleteSvg = e.target;
-      root.removeChild(clickedDeleteSvg.parentNode.parentNode);
-    })
+    svg.addEventListener("click", async (e) => await handleDelete(e))
   });
 
   // Submit / Save
@@ -345,6 +342,23 @@ window.onload = async () => {
     await updateSession();
   });
 };
+
+async function handleDelete(e) {
+  const clickedDeleteSvg = e.target;
+  const sessionId = clickedDeleteSvg.parentNode.parentNode.id;
+  const conference = JSON.parse(localStorage.getItem("currentConference"));
+  await fetch(`/api/conference/${conference.conference_id}/${sessionId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+  root.removeChild(clickedDeleteSvg.parentNode.parentNode);
+  const response = await fetch(`/api/conference/${conference.conference_id}`);
+  const newConference = await response.json();
+  localStorage.setItem("currentConference", JSON.stringify(newConference));
+  window.location.reload();
+}
 
 
 function handleHide() {
@@ -472,10 +486,6 @@ async function handleAddSession() {
   handleHide();
 }
 
-function handleDelete(e) {
-  const clickedDeleteSvg = e.target;
-  root.removeChild(clickedDeleteSvg.parentNode.parentNode);
-}
 
 async function updateSession() {
   let state = readInputs();
@@ -742,6 +752,7 @@ let createSession = async (session) => {
 
   let container = document.createElement("div");
   container.classList = "session";
+  container.id = session.session_id;
   //return an array of paper objects
   let presentations = session.presentation;
   let papers = await Promise.all(
@@ -790,6 +801,7 @@ const filterSessions = (date) => {
     }
   });
 };
+
 const matchesFilter = (inputDate1, sessionDate1) => {
   // change both dates to unix time and compare them
   let sessionDate = new Date(Date.parse(sessionDate1));
