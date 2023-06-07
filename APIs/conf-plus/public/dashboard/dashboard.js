@@ -1,5 +1,4 @@
 window.onload = async () => {
-  // Check if user is logged in or not an author
   const userID = localStorage["currentUser"];
   const user1 = await fetch(`../api/user/${userID}`).then((res) => res.json());
   if (user1.organizer.length === 0)
@@ -96,9 +95,12 @@ let userDisplayer = async () => {
   const userName = document.createElement("span");
   userName.innerHTML = `${user.last_name}, ${user.first_name}`;
   const userRole = document.createElement("span");
-  if (user.author.length !== 0) userRole.innerHTML = "Author";
-  else if (user.reviewer.length !== 0) userRole.innerHTML = "Reviewer";
-  else if (user.organizer.length !== 0) userRole.innerHTML = "Organizer";
+  if (user.author.length > 0)
+      userRole.innerHTML = `Author`;
+    else if (user.reviewer.length > 0)
+      userRole.innerHTML = `Reviewer`;
+    else if (user.organizer.length > 0)
+      userRole.innerHTML = `Organizer`;
   const arrowDown = document.createElement("img");
   arrowDown.src = "../recourses/icons/angle-down-solid.svg";
   arrowDown.classList = "log-options";
@@ -114,7 +116,6 @@ let userDisplayer = async () => {
   nav.insertBefore(userDiv, loginOption);
   loginOption.remove();
 };
-
 const userClickHandler = (event) => {
   if (
     event.target.classList.contains("log-options") &&
@@ -153,7 +154,7 @@ const userClickHandler = (event) => {
     } else if (userRole.innerHTML.toLowerCase() === "author") {
       window.location.href = "../Author/author.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-      window.location.href = "../homepage/index.html";
+      window.location.href = "../conference-schedule/confrence-schedule.html";
     }
   }
 };

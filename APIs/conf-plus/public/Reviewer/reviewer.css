@@ -87,7 +87,7 @@
     color: #000000;
     opacity: 0.5;
     overflow-wrap: break-word;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 20px 0px 20px;
     margin-top: 0px;
 }
 
@@ -98,9 +98,9 @@
     font-size: 14px;
     color: #3B3F5C;
     opacity: 0.8;
-    margin-top: 5px;
+    margin-top: 15px;
     overflow-wrap: break-word;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 20px 0px 20px;
 }
 
 .tag {
@@ -114,8 +114,8 @@
     margin-left: auto;
     margin-bottom: auto;
     border-radius: 4px;
-    margin-right: 27px;
-    margin-bottom: 15px;
+    margin-right: 25px;
+    margin-bottom: 20px;
     padding: 1px 3px;
     margin-top: -25px;
 }

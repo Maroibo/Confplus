@@ -17,6 +17,10 @@
     padding: 0px;
 }
 
+nav ul li:first-child {
+    margin-right: 80px;
+}
+
 .root {
     display: flex;
     flex-direction: column;

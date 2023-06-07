@@ -10,6 +10,11 @@ window.onload = async () => {
       const editScheduleBtn = document.querySelectorAll(".edit-schedule-btn");
       editScheduleBtn.forEach(btn => {btn.style.display = "block"})
     }
+    if (user.organizer.length > 0) {
+      const dashboard = document.querySelector("#dashboard");
+      dashboard.style.display = 'flex';
+      dashboard
+    }
 };
 
 const conferencesList = [];
