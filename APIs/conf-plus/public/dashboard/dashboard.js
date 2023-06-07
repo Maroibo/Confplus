@@ -16,6 +16,10 @@ window.onload = async () => {
   const avgPapers = await response3.json();
   const response4 = await fetch("../api/stats/noConfSessions");
   const noConfSessions = await response4.json();
+  const response5 = await fetch("../api/stats/avgPaperSession");
+  const avgPaperSession = await response5.json();
+  const avgPaperSessionDiv = document.querySelector("#avg-paper-session");
+  avgPaperSessionDiv.innerHTML = `${avgPaperSession.averageAuthorsPerPaper}`;
   const avgPapersDiv = document.querySelector("#avg-papers");
   avgPapersDiv.innerHTML = `${avgPapers.averageAuthorsPerPaper}`;
   const noConfSessionsDiv = document.querySelector("#no-conf-sessions");

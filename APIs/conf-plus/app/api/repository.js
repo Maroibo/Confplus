@@ -462,11 +462,11 @@ export async function readAllConferences() {
         session: {
           include: {
             presentation: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
-    
+
     await prisma.$disconnect();
     return {
       done: true,
@@ -749,6 +749,7 @@ export async function readUser(id) {
         organizer: true,
       },
     });
+    console.log(id);
     await prisma.$disconnect();
     return {
       done: true,
@@ -934,7 +935,33 @@ export async function noOfConferenceSessions() {
   };
 }
 export async function avgPapersPerSession() {
-  // get the average number of papers per session
+  // model Presentation {
+  //   presentation_id Int     @id @default(autoincrement())
+  //   paper Paper @relation(fields: [paper_id], references: [paper_id])
+  //   paper_id Int @unique
+  //   session_id Int
+  //   session Session @relation(fields: [session_id], references: [session_id])
+  // }
+  // get the number of presentations per session
+  const presentationsPerSession = await prisma.presentation.groupBy({
+    by: ["session_id"],
+    _count: {
+      presentation_id: true,
+    },
+  });
+  // get the number of sessions
+  const sessions = await prisma.session.count();
+  let sum = 0;
+  presentationsPerSession.forEach((session) => {
+    sum += session._count.presentation_id;
+  });
+  // round to 2 decimal places
+  const avgerage = Math.round((sum / sessions) * 100) / 100;
+  await prisma.$disconnect();
+  return {
+    done: true,
+    avg: `${avgerage}`,
+  };
 }
 
 export async function noOfUsers() {
