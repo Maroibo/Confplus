@@ -11,6 +11,65 @@ const INSTITUTION_PATH = "data/institutions.json";
 const DATES_PATH = "data/conference-dates.json";
 const LOCATIONS_PATH = "data/locations.json";
 
+export async function readAllAcceptedPapers() {
+  try {
+    let papers = await prisma.review.findMany({
+      where: {
+        accepted: "yes",
+      },
+      select: {
+        paper_id: true,
+      },
+    });
+    papers = papers.map((paper) => paper.paper_id);
+    // Remove duplicates
+    papers = [...new Set(papers)];
+    let newPapers = await prisma.paper.findMany({
+      where: {
+        paper_id: {
+          in: papers,
+        },
+      }
+    });
+    let presenters = await prisma.author_Paper.findMany({
+      where: {
+        AND: [{
+        paper_id: {
+          in: papers
+        }
+        },
+        {main_author: true}
+      ]},
+      select: {
+        author: true,
+      },
+    });
+    
+    let papers_presenters = [];
+    for (let i = 0; i < papers.length; i++) {
+      const paper = newPapers[i];
+      const presenter = presenters[i];
+      papers_presenters.push({
+        paper,
+        ...presenter,
+      });
+    }
+    
+
+    await prisma.$disconnect();
+    // handle error
+    return {
+      done: true,
+      papers_presenters: papers_presenters,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      papers_presenters: null,
+    };
+  }
+}
 export async function deleteSession(sessionId) {
   try {
     const deletedSession = await prisma.session.delete({
@@ -486,7 +545,7 @@ export async function readAllConferences() {
         },
       },
     });
-
+    
     await prisma.$disconnect();
     return {
       done: true,

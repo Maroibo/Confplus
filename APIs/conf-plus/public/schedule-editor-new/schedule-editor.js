@@ -162,19 +162,6 @@ window.onload = async () => {
   editPopUpPapersContainer.classList = "edit-pop-up-papers-container";
   editPopUp.appendChild(editPopUpPapersContainer);
 
-  // Test
-
-  // let counter = 0;
-  // while (counter < 11) {
-  //   let checkbox = document.createElement("input");
-  //   checkbox.type = "checkbox";
-  //   checkbox.name = "paper";
-  //   checkbox.value = "paper";
-  //   checkbox.classList = "edit-pop-up-paper-checkbox";
-  //   editPopUpPapersContainer.appendChild(checkbox);
-  //   counter++;
-  // }
-
   // Session details h2
   const editPopUpTitle2 = document.createElement("h2");
   editPopUpTitle2.innerHTML = "Session Details";
@@ -302,17 +289,14 @@ window.onload = async () => {
 
     // Add session
     addSessionBtn.addEventListener("click", async (e) => {
-    clickedEditSvg = e.target;
-    await handleEdit();
+    await handleEdit(e);
   });
 
   // Open pop up
   const editSvgs = document.querySelectorAll(".edit-svg");
   editSvgs.forEach((svg) => {
     svg.addEventListener("click", async (e) => {
-      clickedEditSvg = e.target;
-
-      await handleEdit();
+      await handleEdit(e);
     });
   });
 
@@ -608,7 +592,14 @@ async function getAllPapers(existingPapers) {
   return papers;
 }
 
-async function handleEdit() {
+async function handleEdit(e) {
+  const clickedEditSvg = e.target;
+  const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  const allUsedPaperIDs = allSessions.map(session => session.presentation.map(presentation => presentation.paper_id)).flat();
+  const { papers_presenters } = await fetch("/api/paper/accepted").then(res => res.json())
+  const allDates = await fetch("/api/date").then(res => res.json());
+  const allLocations = await fetch("/api/location").then(res => res.json()).then(data => data.map(location => location.city));
+
   let editPopUp = document.querySelector(".edit-pop-up");
   let editPopUpOverlay = document.querySelector(".overlay");
   let editPopUpPapersContainer = document.querySelector(
@@ -618,31 +609,22 @@ async function handleEdit() {
   let dateSelect = document.querySelector(".edit-pop-up-date-select");
   let locationSelect = document.querySelector(".edit-pop-up-location-select");
 
+    // Show the overlay and the pop up
   editPopUp.style.display = "block";
   editPopUpOverlay.style.display = "block";
   
-  let existingPapers = [];
-  if (clickedEditSvg.classList.contains("edit-svg")) {
-    // Get all exising papers in the session
-    let session = clickedEditSvg.parentElement.parentElement;
-    existingPapers.push(...session.querySelectorAll(".paper"));
-    existingPapers = Array.from(existingPapers).map(paper => paper.id);
-  }
-
-  let papers = await getAllPapers(existingPapers);
-
-  papers.forEach(async (paper) => {
+  papers_presenters.forEach(async (paper_presenter) => {
     // Filling the pop up with papers
     let container = document.createElement("div");
     container.classList = "edit-pop-up-paper-container";
 
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.value = paper.id;
+    checkbox.value = paper_presenter.paper.paper_id;
     checkbox.classList = "edit-pop-up-paper-checkbox";
 
     let label = document.createElement("label");
-    label.innerText = paper.title;
+    label.innerText = paper_presenter.paper.title;
     label.classList = "edit-pop-up-paper-label";
 
     container.appendChild(checkbox);
@@ -650,15 +632,11 @@ async function handleEdit() {
     editPopUpPapersContainer.appendChild(container);
 
     // Filling the presenter select
-    let mainAuthor = paper.authors.filter((author) => author.main === true)[0];
     let option = document.createElement("option");
 
     // Fetch mainAuthor name
-    let response = await fetch(`../api/user/${mainAuthor.id}`);
-    let data = await response.json();
-    option.value = data.id;
-    option.dataset.paperId = paper.id;
-    option.innerText = data.first_name + " " + data.last_name;
+    option.value = paper_presenter.author.user_id;
+    option.innerText = paper_presenter.author.user_id;
     presenterSelect.appendChild(option);
 
     // After filling the pop up with papers, we need to check the ones that are already in the session

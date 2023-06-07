@@ -203,6 +203,143 @@ async function main() {
             })
         }
     })
+    await prisma.session.create({
+        data: {
+            "conference_id": 1,
+            "day": "2023-05-06T00:00:00.000Z",
+            "from_time": "16:19",
+            "to_time": "18:22",
+            "location_city": "London",
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 1
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 2
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 3
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 4
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 5
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 6
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 7
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.review.update({
+        where: {
+            review_id: 8
+        },
+        data: {
+            "overall": 2,
+            "contribution": 2,
+            "strength": "Good",
+            "weakness": "Bad",
+            "accepted": "yes",
+            "done": "done"
+        }
+    })
+    await prisma.presentation.create({
+        data: {
+            "paper_id": 1,
+            "session_id": 1,
+        }
+    })
+    await prisma.presentation.create({
+        data: {
+            "paper_id": 2,
+            "session_id": 1,
+        }
+    })
+    await prisma.presentation.create({
+        data: {
+            "paper_id": 3,
+            "session_id": 2,
+        }
+    })
+    await prisma.presentation.create({
+        data: {
+            "paper_id": 4,
+            "session_id": 2,
+        }
+    })
   } catch (error) {
     console.log(error);
     return { error: error.message };
