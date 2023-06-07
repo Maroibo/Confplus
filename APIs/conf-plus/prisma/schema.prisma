@@ -30,20 +30,20 @@ model User {
 model Author {
   user_id        Int            @id
   institution_id String
-  user           User           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user           User           @relation(fields: [user_id], references: [user_id])
   affiliation    Institution    @relation(fields: [institution_id], references: [institution_id])
   Author_Paper   Author_Paper[]
 }
 
 model Reviewer {
   user_id Int      @id
-  user    User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user    User     @relation(fields: [user_id], references: [user_id])
   review  Review[]
 }
 
 model Organizer {
   user_id Int  @id
-  user    User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user    User @relation(fields: [user_id], references: [user_id])
 }
 
 model Author_Paper {
@@ -52,7 +52,7 @@ model Author_Paper {
   paper_id    Int
   main_author Boolean
   author      Author  @relation(fields: [author_id], references: [user_id])
-  paper       Paper   @relation(fields: [paper_id], references: [paper_id], onDelete: Cascade)
+  paper       Paper   @relation(fields: [paper_id], references: [paper_id])
 }
 
 model Paper {
@@ -70,7 +70,7 @@ model Presentation {
   paper Paper @relation(fields: [paper_id], references: [paper_id])
   paper_id Int @unique
   session_id Int
-  session Session @relation(fields: [session_id], references: [session_id], onDelete: Cascade)
+  session Session @relation(fields: [session_id], references: [session_id])
 }
 
 model Review {
@@ -101,13 +101,17 @@ model Location {
   session Session[]
 }
 
+model Date {
+  day String @unique
+}
+
 model Session {
   session_id    Int        @id @default(autoincrement())
   conference_id Int
   day           String
   from_time     String
   to_time       String  
-  conference    Conference @relation(fields: [conference_id], references: [conference_id], onDelete: Cascade)
+  conference    Conference @relation(fields: [conference_id], references: [conference_id])
   location      Location  @relation(fields: [location_city], references: [city])
   location_city String
   presentation         Presentation[]

@@ -1,3 +1,5 @@
+let currentSessionId = -1;
+
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
   if (userId === undefined || userId === "") return;
@@ -195,7 +197,6 @@ window.onload = async () => {
   editPopUpPresenterSelect.classList = "edit-pop-up-presenter-select";
   editPopUpPresenterSelect.id = 'edit-pop-up-presenter-select';
   editPopUpPresenterSelect.multiple = true;
-  editPopUpPresenterSelect.disabled = true;
   editPopUpPresenterContainer.appendChild(editPopUpPresenterSelect);
 
   // Date container
@@ -296,7 +297,8 @@ window.onload = async () => {
   const editSvgs = document.querySelectorAll(".edit-svg");
   editSvgs.forEach((svg) => {
     svg.addEventListener("click", async (e) => {
-      await handleEdit(e);
+      const sessionId = e.target.parentNode.parentNode.id;
+      await handleEdit(sessionId);
     });
   });
 
@@ -320,9 +322,7 @@ window.onload = async () => {
     await updateSession();
   });
 
-  editPopUpSubmitButton.addEventListener("click", async (e) => {
-    // clickedEditSvg = e.target;
-
+  editPopUpSubmitButton.addEventListener("click", async () => {
     await updateSession();
   });
 };
@@ -375,59 +375,64 @@ function handleHide() {
   }
 }
 
-function readInputs() {
+function readInputs(e) {
+  const sessionId = currentSessionId;
   let presenterSelect = document.querySelector(".edit-pop-up-presenter-select");
   let dateSelect = document.querySelector(".edit-pop-up-date-select");
   let locationSelect = document.querySelector(".edit-pop-up-location-select");
   let editPopUpFromTimeInput = document.querySelector(".edit-pop-up-from-time-input");
   let editPopUpToTimeInput = document.querySelector(".edit-pop-up-to-time-input");
+  let checkBoxes = document.querySelectorAll(".edit-pop-up-paper-checkbox");
 
-  let selectedPapers = [];
+  let selectedPaperIDs = [];
+  checkBoxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      selectedPaperIDs.push(checkbox.value);
+    }
+  });
+
   let selectedPresenter = presenterSelect.value;
   let selectedDate = dateSelect.value;
   let selectedLocation = locationSelect.value;
   let selectedFromTime = editPopUpFromTimeInput.value;
   let selectedToTime = editPopUpToTimeInput.value;
-  
+  let conferenceId = JSON.parse(localStorage.getItem("currentConference")).conference_id;
   // If from time is after to time prevent submit
   if (selectedFromTime !== "" && selectedToTime !== "") {
     if (selectedFromTime > selectedToTime) {
       alert("From time must be before to time");
-      return;
-    }
-  }
-  
-  // Get all selected papers
-  let checkboxes = document.querySelectorAll(".edit-pop-up-paper-checkbox");
-  checkboxes.forEach((checkbox) => {
-    if (checkbox.checked) {
-      selectedPapers.push(checkbox.value);
-    }
-  });
-
-    if (! clickedEditSvg.classList.contains("save-btn")) {
-    // If no papers selected prevent submit
-    if (selectedPapers.length == 0 || selectedDate == "" || selectedLocation == "" || selectedFromTime == "" || selectedToTime == "") {
-      alert("Please fill all fields");
       return false;
     }
   }
 
-  let state = {
-    papers: selectedPapers,
-    presenter: selectedPresenter,
-    date: selectedDate,
-    location: selectedLocation,
-    fromTime: selectedFromTime,
-    toTime: selectedToTime,
+  // If no papers selected prevent submit
+  if (selectedPaperIDs.length == 0 || selectedDate == "" || selectedLocation == "" || selectedFromTime == "" || selectedToTime == "") {
+    alert("Please fill all fields");
+    return false;
+  }
+
+  let sessionState = {
+    session_id: parseInt(sessionId),
+    conference_id: parseInt(conferenceId),
+    day: selectedDate,
+    from_time: selectedFromTime,
+    to_time: selectedToTime,
+    location_city: selectedLocation,
   };
-  return state;
+
+  let presentationsState = [];
+  selectedPaperIDs.forEach((paperId) => {
+    presentationsState.push({
+      paper_id: parseInt(paperId),
+      session_id: parseInt(sessionId),
+    });
+  });
+  return {sessionState, presentationsState};
 }
 
 async function handleAddSession() {
   let state = readInputs();
   if (state === false) {
-    // console.log(state);
     return;
   }
   let session = document.createElement("div");
@@ -472,61 +477,104 @@ async function handleAddSession() {
 
 
 async function updateSession() {
-  let state = readInputs();
-  if (state === false) {
+  let {sessionState, presentationsState} = readInputs();
+  if (sessionState === false || presentationsState === false) {
+    handleHide();
     return;
   }
-  let session = null;
-  let sessionH2 = null;
 
-  if (clickedEditSvg.classList.contains("edit-svg")) {
-    session = clickedEditSvg.parentElement.parentElement;
-    sessionH2 = session.querySelector("h2");
-    while (session.querySelector(".paper")) {
-      session.removeChild(session.querySelector(".paper"));
-    }
-    sessionH2.dataset.rawdate = state.date;
-    sessionH2.innerHTML =
-      formatDate(state.date) +
-      " - " +
-      state.location +
-      '<img src="../recourses/icons/pen-to-square-solid.svg" class="edit-svg">' +
-      '<img src="../recourses/icons/trash-solid.svg" class="trash-svg" >';
+  // Send to Database
+  // Update session
+  await fetch(`/api/conference/${sessionState.conference_id}/${sessionState.session_id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sessionState),
+  });
 
-    state.papers.forEach(async (paper) => {
-      let paperElement = document.createElement("div");
-      paperElement.classList = "paper";
-      paperElement.id = paper;
-      let paperTitle = await fetch(`/api/paper/${paper}`)
-        .then((res) => res.json())
-        .then((data) => data.title);
-      let span = document.createElement("span");
-      span.innerHTML = "&#183;   " + paperTitle;
-      paperElement.appendChild(span);
-      session.appendChild(paperElement);
-    });
+  // Delete all of its presentations then add the new ones
+  await fetch(`/api/presentation/${sessionState.session_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
 
-    // Adding the event listeners to the new edit and trash svgs
-    let editSvg = session.querySelector(".edit-svg");
-    editSvg.addEventListener("click", async (e) => {
-      clickedEditSvg = e.target;
-      await handleEdit();
-    });
+  // Add new presentations
+  await fetch(`/api/presentation/${sessionState.session_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(presentationsState),
+  });
 
-    const deleteSvgs = document.querySelectorAll(".trash-svg");
-    deleteSvgs.forEach(svg => {
-      svg.addEventListener("click", e => {
-        const clickedDeleteSvg = e.target;
-        root.removeChild(clickedDeleteSvg.parentElement.parentElement);
-      })
-    });
+  const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
+  localStorage.setItem("currentConference", JSON.stringify(updatedConference));
 
-  } else if (clickedEditSvg.classList.contains("add-session-btn")) {
-    await handleAddSession();
-  }
+  // Update the session in the DOM
+  // Delete all sessions
+  // while (root.querySelector(".session")) {
+  //   root.removeChild(root.querySelector(".session"));
+  // }
 
-  setTimeout(submitToAPI(state), 1000);
-  handleHide();
+  // // Add all sessions
+  // let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  // addAllSessions(sessions);
+  // handleHide();
+  window.location.reload();
+  // let session = null;
+  // let sessionH2 = null;
+
+  // if (clickedEditSvg.classList.contains("edit-svg")) {
+  //   session = clickedEditSvg.parentElement.parentElement;
+  //   sessionH2 = session.querySelector("h2");
+  //   while (session.querySelector(".paper")) {
+  //     session.removeChild(session.querySelector(".paper"));
+  //   }
+  //   sessionH2.dataset.rawdate = state.date;
+  //   sessionH2.innerHTML =
+  //     formatDate(state.date) +
+  //     " - " +
+  //     state.location +
+  //     '<img src="../recourses/icons/pen-to-square-solid.svg" class="edit-svg">' +
+  //     '<img src="../recourses/icons/trash-solid.svg" class="trash-svg" >';
+
+  //   state.papers.forEach(async (paper) => {
+  //     let paperElement = document.createElement("div");
+  //     paperElement.classList = "paper";
+  //     paperElement.id = paper;
+  //     let paperTitle = await fetch(`/api/paper/${paper}`)
+  //       .then((res) => res.json())
+  //       .then((data) => data.title);
+  //     let span = document.createElement("span");
+  //     span.innerHTML = "&#183;   " + paperTitle;
+  //     paperElement.appendChild(span);
+  //     session.appendChild(paperElement);
+  //   });
+
+  //   // Adding the event listeners to the new edit and trash svgs
+  //   let editSvg = session.querySelector(".edit-svg");
+  //   editSvg.addEventListener("click", async (e) => {
+  //     clickedEditSvg = e.target;
+  //     await handleEdit();
+  //   });
+
+  //   const deleteSvgs = document.querySelectorAll(".trash-svg");
+  //   deleteSvgs.forEach(svg => {
+  //     svg.addEventListener("click", e => {
+  //       const clickedDeleteSvg = e.target;
+  //       root.removeChild(clickedDeleteSvg.parentElement.parentElement);
+  //     })
+  //   });
+
+  // } else if (clickedEditSvg.classList.contains("add-session-btn")) {
+  //   await handleAddSession();
+  // }
+
+  // setTimeout(submitToAPI(state), 1000);
+  // handleHide();
 }
 
 async function submitToAPI(state) {
@@ -592,109 +640,109 @@ async function getAllPapers(existingPapers) {
   return papers;
 }
 
-async function handleEdit(e) {
-  const clickedEditSvg = e.target;
+async function handleEdit(sessionId) {
+  currentSessionId = sessionId
   const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
-  const allUsedPaperIDs = allSessions.map(session => session.presentation.map(presentation => presentation.paper_id)).flat();
+
+  const thisSession = allSessions.find(session => session.session_id === parseInt(sessionId));
+  const thisSessionPapers = thisSession.presentation.map(presentation => presentation.paper_id);
+
+  let allUsedPaperIDs = allSessions.map(session => session.presentation.map(presentation => presentation.paper_id)).flat();
+
+  allUsedPaperIDs = allUsedPaperIDs.filter(paper => ! thisSessionPapers.includes(paper) );
+
   const { papers_presenters } = await fetch("/api/paper/accepted").then(res => res.json())
   const allDates = await fetch("/api/date").then(res => res.json());
   const allLocations = await fetch("/api/location").then(res => res.json()).then(data => data.map(location => location.city));
 
   let editPopUp = document.querySelector(".edit-pop-up");
   let editPopUpOverlay = document.querySelector(".overlay");
-  let editPopUpPapersContainer = document.querySelector(
-    ".edit-pop-up-papers-container"
-  );
+  let editPopUpPapersContainer = document.querySelector(".edit-pop-up-papers-container");
   let presenterSelect = document.querySelector(".edit-pop-up-presenter-select");
   let dateSelect = document.querySelector(".edit-pop-up-date-select");
   let locationSelect = document.querySelector(".edit-pop-up-location-select");
+  let fromTimeInput = document.querySelector(".edit-pop-up-from-time-input");
+  let toTimeInput = document.querySelector(".edit-pop-up-to-time-input");
 
     // Show the overlay and the pop up
   editPopUp.style.display = "block";
   editPopUpOverlay.style.display = "block";
   
-  papers_presenters.forEach(async (paper_presenter) => {
-    // Filling the pop up with papers
-    let container = document.createElement("div");
-    container.classList = "edit-pop-up-paper-container";
-
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = paper_presenter.paper.paper_id;
-    checkbox.classList = "edit-pop-up-paper-checkbox";
-
-    let label = document.createElement("label");
-    label.innerText = paper_presenter.paper.title;
-    label.classList = "edit-pop-up-paper-label";
-
-    container.appendChild(checkbox);
-    container.appendChild(label);
-    editPopUpPapersContainer.appendChild(container);
-
-    // Filling the presenter select
-    let option = document.createElement("option");
-
-    // Fetch mainAuthor name
-    option.value = paper_presenter.author.user_id;
-    option.innerText = paper_presenter.author.user_id;
-    presenterSelect.appendChild(option);
-
-    // After filling the pop up with papers, we need to check the ones that are already in the session
-    // First check that we are editing a session and not adding a new one
-    if (clickedEditSvg.classList.contains("edit-svg")) {
-      let session = clickedEditSvg.parentElement.parentElement;
-      let sessionPapers = session.querySelectorAll(".paper");
-      sessionPapers.forEach((sessionPaper) => {
-        if (sessionPaper.id === paper.id) {
-          checkbox.checked = true;
-          // Select the presenters associated with the checked papers
-          presenterSelect.querySelectorAll("option").forEach((option) => {
-            if (option.dataset.paperId === paper.id) {
-              option.selected = true;
-            }
-          });
-        }
-      });
-    }
-  });
-
   // Filling the date select
-  let dates = await fetch(`../api/date`);
-  dates = await dates.json();
-  dates.forEach((date) => {
+  allDates.forEach((date) => {
     let option = document.createElement("option");
-    option.value = date;
-    option.innerText = formatDate(date);
+    option.value = date.day;
+    
+    option.innerText = formatDate(date.day);
     dateSelect.appendChild(option);
   });
 
-  // select the date that is already in the h2
-  let session = clickedEditSvg.parentElement.parentElement;
-  let sessionH2 = session.querySelector("h2");
-  let sessionDate = sessionH2.innerText.split(" - ")[0];
-  dateSelect.querySelectorAll("option").forEach((option) => {
-    if (formatDate(option.value) === sessionDate) {
-      option.selected = true;
-    }
-  });
-
   // Filling the location select
-  let locations = await fetch(`../api/location`);
-  locations = await locations.json();
-  locations.forEach((location) => {
+  allLocations.forEach((location) => {
     let option = document.createElement("option");
     option.value = location;
     option.innerText = location;
     locationSelect.appendChild(option);
   });
 
-  // select the location that is already in the h2
-  let sessionLocation = sessionH2.innerText.split(" - ")[1];
-  locationSelect.querySelectorAll("option").forEach((option) => {
-    if (option.value === sessionLocation) {
-      option.selected = true;
-    }
+  papers_presenters.forEach(async (paper_presenter) => {
+    // Check if the paper is already in other sessions
+    if (!allUsedPaperIDs.includes(paper_presenter.paper.paper_id)) {
+      // Papers container
+      let container = document.createElement("div");
+      container.classList = "edit-pop-up-paper-container";
+
+      // Checkbox and label
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = paper_presenter.paper.paper_id;
+      checkbox.classList = "edit-pop-up-paper-checkbox";
+      let label = document.createElement("label");
+      label.innerText = paper_presenter.paper.title;
+      label.classList = "edit-pop-up-paper-label";
+      container.appendChild(checkbox);
+      container.appendChild(label);
+
+      // Append Papers container
+      editPopUpPapersContainer.appendChild(container);
+
+      // Filling the presenter select
+      let option = document.createElement("option");
+      option.value = paper_presenter.author.user_id;
+      const user = await fetch(`/api/user/${paper_presenter.author.user_id}`).then(res => res.json())
+      const fullName = `${user.first_name} ${user.last_name}`;
+      option.innerText = fullName;
+      presenterSelect.appendChild(option);
+
+      // If paper in this session check it
+      if (thisSessionPapers.includes(paper_presenter.paper.paper_id)) {
+        checkbox.checked = true;
+      }
+
+      }
+
+      
   });
+
+  const session = allSessions.find(session => session.session_id === parseInt(sessionId));
+  const sessionDay = session.day;
+  const sessionLocation = session.location_city;
+  const sessionFromTime = session.from_time;
+  const sessionToTime = session.to_time;
+
+  dateSelect.querySelectorAll("option").forEach((option) => {
+    if (option.value === sessionDay) 
+      option.selected = true;
+  });
+
+  locationSelect.querySelectorAll("option").forEach((option) => {
+    if (option.value === sessionLocation)
+      option.selected = true;
+  });
+
+  fromTimeInput.value = sessionFromTime;
+  toTimeInput.value = sessionToTime;
+
 }
 
 let currentLoaddedSessionIndex = 0;
@@ -793,24 +841,17 @@ const matchesFilter = (inputDate1, sessionDate1) => {
 };
 
 let addAllSessions = async (sessions) => {
+  // sessions.forEach(async (session) => {
+  //   document.querySelector(".root").appendChild(await createSession(session));
+  // });
   let sesionCount = 0;
   while (sesionCount <= 3) {
     if (sessions.length <= currentLoaddedSessionIndex) break;
-    document
-      .querySelector(".root")
-      .appendChild(await createSession(sessions[currentLoaddedSessionIndex++]));
-    if (
-      matchesFilter(
-        document.querySelector(".filter input").value,
-        sessions[currentLoaddedSessionIndex - 1].day
-      )
-    ) {
+    document.querySelector(".root").appendChild(await createSession(sessions[currentLoaddedSessionIndex++]));
+    if (matchesFilter(document.querySelector(".filter input").value,sessions[currentLoaddedSessionIndex - 1].day)) {
       sesionCount++;
     }
   }
-  // if (currentLoaddedSessionIndex >= sessions.length) {
-  //   document.querySelector(".more-button").style.display = "none";
-  // }
 };
 
 const displayMoreButton = () => {

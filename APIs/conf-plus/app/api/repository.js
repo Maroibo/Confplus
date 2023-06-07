@@ -583,12 +583,91 @@ export async function readAllInstitutions() {
 }
 
 export async function readAllDates() {
-  let dates = await fs.promises.readFile(DATES_PATH, "utf8");
-  dates = JSON.parse(dates);
-  return {
-    done: true,
-    dates: dates,
-  };
+  try {
+    const dates = await prisma.date.findMany();
+    await prisma.$disconnect();
+    return {
+      done: true,
+      dates: dates,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      dates: null,
+    };
+  }
+}
+
+export async function deletePresentations(sessionId) {
+  try {
+    const deletedPresentations = await prisma.presentation.deleteMany({
+      where: {
+        session_id: sessionId,
+      },
+    });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      presentations: deletedPresentations,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      presentations: null,
+    };
+  }
+}
+export async function createPresentations(presentationsState) {
+
+  try {
+    let newPresentations = [];
+    presentationsState.forEach(async (p) => {
+  
+      const newPresentation = await prisma.presentation.create({
+        data: {
+          session_id: p.session_id,
+          paper_id: p.paper_id,
+        },
+      });
+      newPresentations.push(newPresentation);
+    });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      presentations: newPresentations,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      presentations: null,
+    };
+  }
+}
+
+export async function updateSession(sessionId, sessionState) {
+  try {
+    const updatedSession = await prisma.session.update({
+      where: {
+        session_id: parseInt(sessionId),
+      },
+      data: {
+        day: sessionState.day,
+        from_time: sessionState.from_time,
+        to_time: sessionState.to_time,
+        location_city: sessionState.location_city,
+      }
+    });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      session: updatedSession,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      session: null,
+    };
+  }
 }
 
 export async function readAllLocations() {
@@ -700,6 +779,13 @@ export async function readConference(id) {
     const conference = await prisma.conference.findUnique({
       where: {
         conference_id: parseInt(id),
+      },
+      include: {
+        session: {
+          include: {
+            presentation: true,
+          },
+        },
       },
     });
     await prisma.$disconnect();

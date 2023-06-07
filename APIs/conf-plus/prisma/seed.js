@@ -9,6 +9,7 @@ const reviewsPath = path.join(process.cwd(), "data/reviews.json");
 const usersPath = path.join(process.cwd(), "data/users.json");
 const locationsPath = path.join(process.cwd(), "data/locations.json");
 const institutionsPath = path.join(process.cwd(), "data/institutions.json");
+const datesPath = path.join(process.cwd(), "data/conference-dates.json");
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 async function main() {
@@ -25,6 +26,8 @@ async function main() {
     locations = JSON.parse(locations);
     let institutions = await fs.promises.readFile(institutionsPath);
     institutions = JSON.parse(institutions);
+    let dates = await fs.promises.readFile(datesPath);
+    dates = JSON.parse(dates);
 
     // Delete all data from the database
     try {
@@ -40,11 +43,19 @@ async function main() {
       await prisma.user.deleteMany({});
       await prisma.location.deleteMany({});
       await prisma.institution.deleteMany({});
+      await prisma.date.deleteMany({});
+
     } catch (error) {
       console.log(error);
     }
 
     // createMany is not supported for SQLite. Use create instead
+    for (const date of dates) await prisma.date.create({
+        data: {
+            day: date.day
+        }
+    });
+
     for (const institution of institutions) {
 
         await prisma.institution.upsert({
