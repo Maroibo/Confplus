@@ -128,6 +128,7 @@ async function main() {
                     "day": session.day,
                     "from_time": session.fromTime,
                     "to_time": session.toTime,
+                    "location_city": session.location,
                 }
             });
     }

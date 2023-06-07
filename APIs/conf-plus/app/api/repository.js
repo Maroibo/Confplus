@@ -457,7 +457,16 @@ export async function readAllConferences() {
   // };
   // rewrite this using prisma client
   try {
-    const conferences = await prisma.conference.findMany();
+    const conferences = await prisma.conference.findMany({
+      include: {
+        session: {
+          include: {
+            presentation: true,
+          }
+        }
+      }
+    });
+    
     await prisma.$disconnect();
     return {
       done: true,

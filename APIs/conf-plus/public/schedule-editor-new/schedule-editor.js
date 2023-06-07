@@ -10,7 +10,12 @@ let userDisplayer = async () => {
   const userName = document.createElement("span");
   userName.innerHTML = `${user.last_name}, ${user.first_name}`;
   const userRole = document.createElement("span");
-  userRole.innerHTML = `${user.role}`;
+  if (user.author.length > 0)
+      userRole.innerHTML = `Author`;
+    else if (user.reviewer.length > 0)
+      userRole.innerHTML = `Reviewer`;
+    else if (user.organizer.length > 0)
+      userRole.innerHTML = `Organizer`;
   const arrowDown = document.createElement("img");
   arrowDown.src = "../recourses/icons/angle-down-solid.svg";
   arrowDown.classList = "log-options";
@@ -84,276 +89,261 @@ let clickedEditSvg = null;
 
 window.onload = async () => {
   await userDisplayer();
-  const currentConference = localStorage["currentConference"];
-  if (typeof currentConference !== "undefined" && currentConference !== "") {
-    const response = await fetch(`../api/conference/${currentConference}`);
-    const conference = await response.json();
-    
-    // if the page is empty show the empty page screen
-    // if (conference.sessions.length === 0) {
-    //   root.classList += " empty";
-    //   emptyPageScreen();
-    //   return;
-    // }
+  const currentConference = JSON.parse(localStorage.getItem("currentConference"));
+  if (typeof currentConference === undefined || currentConference === "") 
+    window.location.href = "../homepage/index.html";
+  
+  // title filter and add session button
+  let title = `<h1>Conference Schedule</h1>`;
+  let filter = `<div class="filter"><input type="date"/></div>`;
+  root.innerHTML += title;
+  root.innerHTML += filter;
+  document
+    .querySelector(".filter input")
+    .addEventListener("change", (e) => filterSessions(e.target.value));
 
-    // title filter and add session button
-    let title = `<h1>Conference Schedule</h1>`;
-    let filter = `<div class="filter"><input type="date"/></div>`;
-    root.innerHTML += title;
-    root.innerHTML += filter;
-    document
-      .querySelector(".filter input")
-      .addEventListener("change", (e) => filterSessions(e.target.value));
+  const addSessionBtn = document.createElement("button");
+  addSessionBtn.innerHTML = "+ Add Session";
+  addSessionBtn.classList = "add-session-btn";
 
-    const addSessionBtn = document.createElement("button");
-    addSessionBtn.innerHTML = "+ Add Session";
-    addSessionBtn.classList = "add-session-btn";
+  document
+    .querySelector(".filter")
+    .insertBefore(
+      addSessionBtn,
+      document.querySelector(".filter").firstChild
+    );
 
-    document
-      .querySelector(".filter")
-      .insertBefore(
-        addSessionBtn,
-        document.querySelector(".filter").firstChild
-      );
+  // Creating the sessions
+  let sessions = currentConference.session;
+  await addAllSessions(sessions);
+  
+  // trash and edit
+  const editSvg = document.createElement("img");
+  editSvg.src = "../recourses/icons/pen-to-square-solid.svg";
+  editSvg.classList = "edit-svg";
 
-    // Creating the sessions
-    let sessions = conference.sessions;
-    await addAllSessions(sessions);
+  const trashSvg = document.createElement("img");
+  trashSvg.src = "../recourses/icons/trash-solid.svg";
+  trashSvg.classList = "trash-svg";
 
-    // trash and edit
-    const editSvg = document.createElement("img");
-    editSvg.src = "../recourses/icons/pen-to-square-solid.svg";
-    editSvg.classList = "edit-svg";
+  const h2s = document.querySelectorAll(".session h2");
+  h2s.forEach((h2) => {
+    h2.appendChild(editSvg.cloneNode(true));
+    h2.appendChild(trashSvg.cloneNode(true));
+  });
 
-    const trashSvg = document.createElement("img");
-    trashSvg.src = "../recourses/icons/trash-solid.svg";
-    trashSvg.classList = "trash-svg";
+  // Save button
+  const saveBtn = document.createElement("button");
+  saveBtn.innerText = "Save";
+  saveBtn.classList = "save-btn";
+  root.appendChild(saveBtn);
 
-    const h2s = document.querySelectorAll(".session h2");
-    h2s.forEach((h2) => {
-      h2.appendChild(editSvg.cloneNode(true));
-      h2.appendChild(trashSvg.cloneNode(true));
-    });
+  // The pop up
+  const editPopUp = document.createElement("div");
+  editPopUp.classList = "edit-pop-up";
 
-    // Save button
-    const saveBtn = document.createElement("button");
-    saveBtn.innerText = "Save";
-    saveBtn.classList = "save-btn";
-    root.appendChild(saveBtn);
+  // The overlay
+  const editPopUpOverlay = document.createElement("div");
+  editPopUpOverlay.classList = "overlay";
 
-    // The pop up
-    const editPopUp = document.createElement("div");
-    editPopUp.classList = "edit-pop-up";
+  // Accepted Papers h2
+  const editPopUpTitle = document.createElement("h2");
+  editPopUpTitle.innerHTML = "Accepted Papers";
+  editPopUpTitle.classList = "edit-pop-up-title";
 
-    // The overlay
-    const editPopUpOverlay = document.createElement("div");
-    editPopUpOverlay.classList = "overlay";
+  // Accepted Papers h2 container
+  const editPopUpTitleContainer = document.createElement("div");
+  editPopUpTitleContainer.classList = "edit-pop-up-title-container";
+  editPopUpTitleContainer.appendChild(editPopUpTitle);
+  editPopUp.appendChild(editPopUpTitleContainer);
 
-    // Accepted Papers h2
-    const editPopUpTitle = document.createElement("h2");
-    editPopUpTitle.innerHTML = "Accepted Papers";
-    editPopUpTitle.classList = "edit-pop-up-title";
+  // Accepted Papers container
+  const editPopUpPapersContainer = document.createElement("div");
+  editPopUpPapersContainer.classList = "edit-pop-up-papers-container";
+  editPopUp.appendChild(editPopUpPapersContainer);
 
-    // Accepted Papers h2 container
-    const editPopUpTitleContainer = document.createElement("div");
-    editPopUpTitleContainer.classList = "edit-pop-up-title-container";
-    editPopUpTitleContainer.appendChild(editPopUpTitle);
-    editPopUp.appendChild(editPopUpTitleContainer);
+  // Test
 
-    // Accepted Papers container
-    const editPopUpPapersContainer = document.createElement("div");
-    editPopUpPapersContainer.classList = "edit-pop-up-papers-container";
-    editPopUp.appendChild(editPopUpPapersContainer);
+  // let counter = 0;
+  // while (counter < 11) {
+  //   let checkbox = document.createElement("input");
+  //   checkbox.type = "checkbox";
+  //   checkbox.name = "paper";
+  //   checkbox.value = "paper";
+  //   checkbox.classList = "edit-pop-up-paper-checkbox";
+  //   editPopUpPapersContainer.appendChild(checkbox);
+  //   counter++;
+  // }
 
-    // Test
+  // Session details h2
+  const editPopUpTitle2 = document.createElement("h2");
+  editPopUpTitle2.innerHTML = "Session Details";
+  editPopUpTitle2.classList = "edit-pop-up-title2";
 
-    // let counter = 0;
-    // while (counter < 11) {
-    //   let checkbox = document.createElement("input");
-    //   checkbox.type = "checkbox";
-    //   checkbox.name = "paper";
-    //   checkbox.value = "paper";
-    //   checkbox.classList = "edit-pop-up-paper-checkbox";
-    //   editPopUpPapersContainer.appendChild(checkbox);
-    //   counter++;
-    // }
+  // Session details h2 container
+  const editPopUpTitle2Container = document.createElement("div");
+  editPopUpTitle2Container.classList = "edit-pop-up-title2-container";
+  editPopUpTitle2Container.appendChild(editPopUpTitle2);
+  editPopUp.appendChild(editPopUpTitle2Container);
 
-    // Session details h2
-    const editPopUpTitle2 = document.createElement("h2");
-    editPopUpTitle2.innerHTML = "Session Details";
-    editPopUpTitle2.classList = "edit-pop-up-title2";
+  // Session details container
+  const editPopUpSessionDetailsContainer = document.createElement("div");
+  editPopUpSessionDetailsContainer.classList =
+    "edit-pop-up-session-details-container";
+  editPopUp.appendChild(editPopUpSessionDetailsContainer);
 
-    // Session details h2 container
-    const editPopUpTitle2Container = document.createElement("div");
-    editPopUpTitle2Container.classList = "edit-pop-up-title2-container";
-    editPopUpTitle2Container.appendChild(editPopUpTitle2);
-    editPopUp.appendChild(editPopUpTitle2Container);
+  // Presenter container
+  const editPopUpPresenterContainer = document.createElement("div");
+  editPopUpPresenterContainer.classList = "edit-pop-up-presenter-container";
+  editPopUpSessionDetailsContainer.appendChild(editPopUpPresenterContainer);
 
-    // Session details container
-    const editPopUpSessionDetailsContainer = document.createElement("div");
-    editPopUpSessionDetailsContainer.classList =
-      "edit-pop-up-session-details-container";
-    editPopUp.appendChild(editPopUpSessionDetailsContainer);
+  // Presenter label
+  const editPopUpPresenterLabel = document.createElement("label");
+  editPopUpPresenterLabel.innerText = "Select Presenter:";
+  editPopUpPresenterLabel.classList = "edit-pop-up-presenter-label";
+  editPopUpPresenterContainer.appendChild(editPopUpPresenterLabel);
 
-    // Presenter container
-    const editPopUpPresenterContainer = document.createElement("div");
-    editPopUpPresenterContainer.classList = "edit-pop-up-presenter-container";
-    editPopUpSessionDetailsContainer.appendChild(editPopUpPresenterContainer);
+  // Presenter select
+  const editPopUpPresenterSelect = document.createElement("select");
+  editPopUpPresenterSelect.classList = "edit-pop-up-presenter-select";
+  editPopUpPresenterSelect.id = 'edit-pop-up-presenter-select';
+  editPopUpPresenterSelect.multiple = true;
+  editPopUpPresenterSelect.disabled = true;
+  editPopUpPresenterContainer.appendChild(editPopUpPresenterSelect);
 
-    // Presenter label
-    const editPopUpPresenterLabel = document.createElement("label");
-    editPopUpPresenterLabel.innerText = "Select Presenter:";
-    editPopUpPresenterLabel.classList = "edit-pop-up-presenter-label";
-    editPopUpPresenterContainer.appendChild(editPopUpPresenterLabel);
+  // Date container
+  const editPopUpDateContainer = document.createElement("div");
+  editPopUpDateContainer.classList = "edit-pop-up-date-container";
+  editPopUpSessionDetailsContainer.appendChild(editPopUpDateContainer);
 
-    // Presenter select
-    const editPopUpPresenterSelect = document.createElement("select");
-    editPopUpPresenterSelect.classList = "edit-pop-up-presenter-select";
-    editPopUpPresenterSelect.id = 'edit-pop-up-presenter-select';
-    editPopUpPresenterSelect.multiple = true;
-    editPopUpPresenterSelect.disabled = true;
-    editPopUpPresenterContainer.appendChild(editPopUpPresenterSelect);
+  // Date label
+  const editPopUpDateLabel = document.createElement("label");
+  editPopUpDateLabel.innerText = "Select Date:";
+  editPopUpDateLabel.classList = "edit-pop-up-date-label";
+  editPopUpDateContainer.appendChild(editPopUpDateLabel);
 
-    // Date container
-    const editPopUpDateContainer = document.createElement("div");
-    editPopUpDateContainer.classList = "edit-pop-up-date-container";
-    editPopUpSessionDetailsContainer.appendChild(editPopUpDateContainer);
+  // Date select
+  const editPopUpDateInput = document.createElement("select");
+  editPopUpDateInput.classList = "edit-pop-up-date-select";
+  editPopUpDateContainer.appendChild(editPopUpDateInput);
 
-    // Date label
-    const editPopUpDateLabel = document.createElement("label");
-    editPopUpDateLabel.innerText = "Select Date:";
-    editPopUpDateLabel.classList = "edit-pop-up-date-label";
-    editPopUpDateContainer.appendChild(editPopUpDateLabel);
+  editPopUpSessionDetailsContainer.appendChild(editPopUpDateContainer);
 
-    // Date select
-    const editPopUpDateInput = document.createElement("select");
-    editPopUpDateInput.classList = "edit-pop-up-date-select";
-    editPopUpDateContainer.appendChild(editPopUpDateInput);
+  // Time container
+  const editPopUpTimeContainer = document.createElement("div");
+  editPopUpTimeContainer.classList = "edit-pop-up-time-container";
+  editPopUpSessionDetailsContainer.appendChild(editPopUpTimeContainer);
 
-    editPopUpSessionDetailsContainer.appendChild(editPopUpDateContainer);
+  // From Time label
+  const editPopUpFromTimeLabel = document.createElement("label");
+  editPopUpFromTimeLabel.innerText = "Select From Time:";
+  editPopUpFromTimeLabel.classList = "edit-pop-up-from-time-label";
+  editPopUpTimeContainer.appendChild(editPopUpFromTimeLabel);
 
-    // Time container
-    const editPopUpTimeContainer = document.createElement("div");
-    editPopUpTimeContainer.classList = "edit-pop-up-time-container";
-    editPopUpSessionDetailsContainer.appendChild(editPopUpTimeContainer);
+  // From Time input
+  const editPopUpFromTimeInput = document.createElement("input");
+  editPopUpFromTimeInput.classList = "edit-pop-up-from-time-input";
+  editPopUpFromTimeInput.type = "time";
+  editPopUpTimeContainer.appendChild(editPopUpFromTimeInput);
 
-    // From Time label
-    const editPopUpFromTimeLabel = document.createElement("label");
-    editPopUpFromTimeLabel.innerText = "Select From Time:";
-    editPopUpFromTimeLabel.classList = "edit-pop-up-from-time-label";
-    editPopUpTimeContainer.appendChild(editPopUpFromTimeLabel);
+  // To Time label
+  const editPopUpToTimeLabel = document.createElement("label");
+  editPopUpToTimeLabel.innerText = "Select To Time:";
+  editPopUpToTimeLabel.classList = "edit-pop-up-to-time-label";
+  editPopUpTimeContainer.appendChild(editPopUpToTimeLabel);
 
-    // From Time input
-    const editPopUpFromTimeInput = document.createElement("input");
-    editPopUpFromTimeInput.classList = "edit-pop-up-from-time-input";
-    editPopUpFromTimeInput.type = "time";
-    editPopUpTimeContainer.appendChild(editPopUpFromTimeInput);
+  // To Time input
+  const editPopUpToTimeInput = document.createElement("input");
+  editPopUpToTimeInput.classList = "edit-pop-up-to-time-input";
+  editPopUpToTimeInput.type = "time";
+  editPopUpTimeContainer.appendChild(editPopUpToTimeInput);
 
-    // To Time label
-    const editPopUpToTimeLabel = document.createElement("label");
-    editPopUpToTimeLabel.innerText = "Select To Time:";
-    editPopUpToTimeLabel.classList = "edit-pop-up-to-time-label";
-    editPopUpTimeContainer.appendChild(editPopUpToTimeLabel);
+  editPopUpSessionDetailsContainer.appendChild(editPopUpTimeContainer);
 
-    // To Time input
-    const editPopUpToTimeInput = document.createElement("input");
-    editPopUpToTimeInput.classList = "edit-pop-up-to-time-input";
-    editPopUpToTimeInput.type = "time";
-    editPopUpTimeContainer.appendChild(editPopUpToTimeInput);
+  // Location container
+  const editPopUpLocationContainer = document.createElement("div");
+  editPopUpLocationContainer.classList = "edit-pop-up-location-container";
+  editPopUpSessionDetailsContainer.appendChild(editPopUpLocationContainer);
 
-    editPopUpSessionDetailsContainer.appendChild(editPopUpTimeContainer);
+  // Location label
+  const editPopUpLocationLabel = document.createElement("label");
+  editPopUpLocationLabel.innerText = "Select Location:";
+  editPopUpLocationLabel.classList = "edit-pop-up-location-label";
+  editPopUpLocationContainer.appendChild(editPopUpLocationLabel);
 
-    // Location container
-    const editPopUpLocationContainer = document.createElement("div");
-    editPopUpLocationContainer.classList = "edit-pop-up-location-container";
-    editPopUpSessionDetailsContainer.appendChild(editPopUpLocationContainer);
+  // Location select
+  const editPopUpLocationSelect = document.createElement("select");
+  editPopUpLocationSelect.classList = "edit-pop-up-location-select";
+  editPopUpLocationContainer.appendChild(editPopUpLocationSelect);
 
-    // Location label
-    const editPopUpLocationLabel = document.createElement("label");
-    editPopUpLocationLabel.innerText = "Select Location:";
-    editPopUpLocationLabel.classList = "edit-pop-up-location-label";
-    editPopUpLocationContainer.appendChild(editPopUpLocationLabel);
+  editPopUpSessionDetailsContainer.appendChild(editPopUpLocationContainer);
 
-    // Location select
-    const editPopUpLocationSelect = document.createElement("select");
-    editPopUpLocationSelect.classList = "edit-pop-up-location-select";
-    editPopUpLocationContainer.appendChild(editPopUpLocationSelect);
+  // Buttons container
+  const editPopUpButtonsContainer = document.createElement("div");
+  editPopUpButtonsContainer.classList = "edit-pop-up-buttons-container";
+  editPopUp.appendChild(editPopUpButtonsContainer);
 
-    editPopUpSessionDetailsContainer.appendChild(editPopUpLocationContainer);
+  // Cancel button
+  const editPopUpCancelButton = document.createElement("button");
+  editPopUpCancelButton.innerText = "Cancel";
+  editPopUpCancelButton.classList = "edit-pop-up-cancel-button";
+  editPopUpButtonsContainer.appendChild(editPopUpCancelButton);
 
-    // Buttons container
-    const editPopUpButtonsContainer = document.createElement("div");
-    editPopUpButtonsContainer.classList = "edit-pop-up-buttons-container";
-    editPopUp.appendChild(editPopUpButtonsContainer);
+  // Submit button
+  const editPopUpSubmitButton = document.createElement("button");
+  editPopUpSubmitButton.innerText = "Submit";
+  editPopUpSubmitButton.classList = "edit-pop-up-submit-button";
+  editPopUpButtonsContainer.appendChild(editPopUpSubmitButton);
 
-    // Cancel button
-    const editPopUpCancelButton = document.createElement("button");
-    editPopUpCancelButton.innerText = "Cancel";
-    editPopUpCancelButton.classList = "edit-pop-up-cancel-button";
-    editPopUpButtonsContainer.appendChild(editPopUpCancelButton);
+  root.appendChild(editPopUpOverlay);
+  root.appendChild(editPopUp);
 
-    // Submit button
-    const editPopUpSubmitButton = document.createElement("button");
-    editPopUpSubmitButton.innerText = "Submit";
-    editPopUpSubmitButton.classList = "edit-pop-up-submit-button";
-    editPopUpButtonsContainer.appendChild(editPopUpSubmitButton);
+  // Event listeners
 
-    root.appendChild(editPopUpOverlay);
-    root.appendChild(editPopUp);
+    // Add session
+    addSessionBtn.addEventListener("click", async (e) => {
+    clickedEditSvg = e.target;
+    await handleEdit();
+  });
 
-    // Event listeners
-
-     // Add session
-     addSessionBtn.addEventListener("click", async (e) => {
+  // Open pop up
+  const editSvgs = document.querySelectorAll(".edit-svg");
+  editSvgs.forEach((svg) => {
+    svg.addEventListener("click", async (e) => {
       clickedEditSvg = e.target;
+
       await handleEdit();
     });
+  });
 
-    // Open pop up
-    const editSvgs = document.querySelectorAll(".edit-svg");
-    editSvgs.forEach((svg) => {
-      svg.addEventListener("click", async (e) => {
-        clickedEditSvg = e.target;
+  // Close pop up
+  editPopUpOverlay.addEventListener("click", handleHide);
+  editPopUp.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+  
+  editPopUpCancelButton.addEventListener("click", handleHide);
 
-        await handleEdit();
-      });
-    });
+  // Delete session
+  const deleteSvgs = document.querySelectorAll(".trash-svg");
+  deleteSvgs.forEach(svg => {
+    svg.addEventListener("click", e => {
+      const clickedDeleteSvg = e.target;
+      root.removeChild(clickedDeleteSvg.parentNode.parentNode);
+    })
+  });
 
-    // Close pop up
-    editPopUpOverlay.addEventListener("click", handleHide);
-    editPopUp.addEventListener("click", (e) => {
-      e.stopPropagation();
-    });
-    
-    editPopUpCancelButton.addEventListener("click", handleHide);
+  // Submit / Save
+  saveBtn.addEventListener("click", async (e) => {
+    clickedEditSvg = e.target;
+    await updateSession();
+  });
 
-    // Delete session
-    const deleteSvgs = document.querySelectorAll(".trash-svg");
-    deleteSvgs.forEach(svg => {
-      svg.addEventListener("click", e => {
-        const clickedDeleteSvg = e.target;
-        root.removeChild(clickedDeleteSvg.parentNode.parentNode);
-      })
-    });
+  editPopUpSubmitButton.addEventListener("click", async (e) => {
+    // clickedEditSvg = e.target;
 
-    // Submit / Save
-    saveBtn.addEventListener("click", async (e) => {
-      clickedEditSvg = e.target;
-      await updateSession();
-    });
-
-    editPopUpSubmitButton.addEventListener("click", async (e) => {
-      // clickedEditSvg = e.target;
-
-      await updateSession();
-    });
-
-   
-  } else {
-    // root.classList += " empty";
-    // emptyPageScreen();
-    window.location.href = "../homepage/index.html";
-  }
+    await updateSession();
+  });
 };
 
 
@@ -438,7 +428,6 @@ function readInputs() {
 
 async function handleAddSession() {
   let state = readInputs();
-  console.log(state);
   if (state === false) {
     // console.log(state);
     return;
@@ -754,17 +743,19 @@ let createSession = async (session) => {
   let container = document.createElement("div");
   container.classList = "session";
   //return an array of paper objects
+  let presentations = session.presentation;
   let papers = await Promise.all(
-    session.papers.map(async (e) => await paperFinder(e))
+    presentations.map((presentation) => paperFinder(presentation.paper_id))
   );
-  let partitions = "";
-  papers.map((e) => {
-    let partition = `<div class="paper" id="${e.id}"><span>&#183;   ${e.title}</span></div>`;
-    partitions += partition;
+
+  let presentationDivs = "";
+  papers.map((paper) => {
+    let presentationDiv = `<div class="paper" id="${paper.paper_id}"><span>&#183;   ${paper.title}</span></div>`;
+    presentationDivs += presentationDiv;
   });
-  let content = `<h2 data-rawdate="${session.day}">${dateView} - ${session.location}</h2>`;
+  let content = `<h2 data-rawdate="${session.day}">${dateView} - ${session.location_city}</h2>`;
   container.innerHTML = content;
-  container.innerHTML += partitions;
+  container.innerHTML += presentationDivs;
   return container;
 };
 
