@@ -9,6 +9,7 @@
 }
 
 select {
+    font-weight: 500;
     background-color: #9747FF;
     border-radius: 5px;
     border: 1px solid transparent;
@@ -16,7 +17,7 @@ select {
     height: 28px;
     width: 120px;
     margin-right: -9%;
-    padding: 1px;
+    padding: 5px;
 }
 
 .root h1 {

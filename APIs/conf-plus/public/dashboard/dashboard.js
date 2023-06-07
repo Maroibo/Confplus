@@ -152,7 +152,7 @@ const userClickHandler = (event) => {
     if (userRole.innerHTML.toLowerCase() === "reviewer") {
       window.location.href = "../Reviewer/reviewer.html";
     } else if (userRole.innerHTML.toLowerCase() === "author") {
-      window.location.href = "../Author/author.html";
+      window.location.href = "../Author/author-home/author-home.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
       window.location.href = "../conference-schedule/confrence-schedule.html";
     }

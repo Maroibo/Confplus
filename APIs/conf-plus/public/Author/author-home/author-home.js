@@ -18,7 +18,7 @@ window.onload = async () => {
   addPaperButton.addEventListener("click", () => {
     window.location.href = "../author.html";
   });
-  addPaperButton.innerHTML = "Add Paper";
+  addPaperButton.innerHTML = "+ Add Paper";
   let select = document.createElement("select");
   select.classList = "select";
   let option1 = document.createElement("option");
