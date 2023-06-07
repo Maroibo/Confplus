@@ -381,7 +381,6 @@ export async function readReview(paperId, idType) {
       review = await prisma.review.findMany({
         where: {
           reviewer_id: parseInt(paperId),
-          done: "pending",
         },
       });
     }
