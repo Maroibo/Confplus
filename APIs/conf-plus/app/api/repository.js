@@ -122,6 +122,32 @@ export async function readPaper(id) {
     };
   }
 }
+
+export async function readPaperByAuthor(authorId) {
+  const papers = await prisma.paper.findMany({
+    // include the accpeted attribute from the review table
+    where: {
+      Author_Paper: {
+        some: {
+          author_id: parseInt(authorId),
+        },
+      },
+    },
+    include: {
+      Author_Paper: true,
+      reviews: {
+        select: {
+          accepted: true,
+        },
+      },
+    },
+  });
+  await prisma.$disconnect();
+  return {
+    done: true,
+    papers: papers,
+  };
+}
 export async function updateConference(id, conference) {
   // let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
   // conferences = JSON.parse(conferences);
