@@ -169,7 +169,7 @@ for (let i = 0; i < overallMeter.length; i++) {
     // add the active class to the span that was clicked
     overallMeter[i].classList.add("active");
     reviewState.overall = parseInt(overallMeter[i].innerHTML);
-    
+
     // if (reviewState.overall >= 2) {
     //   reviewState.accepted = "yes";
     // } else {
@@ -207,7 +207,9 @@ submitButton.addEventListener("click", async () => {
   reviewState.done = "done";
   reviewUpdateHandler(reviewState);
   // Get all the reviews for the paper
-  const response = await fetch(`../../api/review/${reviewState.paper_id}?type=paper`);
+  const response = await fetch(
+    `../../api/review/${reviewState.paper_id}?type=paper`
+  );
   const reviews = await response.json();
 
   // If both reviews are done
