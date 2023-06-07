@@ -262,7 +262,7 @@ export async function createReviews(paper_id) {
         randomReviewers.push(randomReviewer);
       }
     }
-    
+
     const review1 = await prisma.review.create({
       data: {
         paper_id: paper_id,
@@ -374,15 +374,14 @@ export async function readReview(paperId, idType) {
       review = await prisma.review.findMany({
         where: {
           paper_id: parseInt(paperId),
-          done: "done"
+          done: "done",
         },
       });
     } else if (idType === "reviewer") {
-
       review = await prisma.review.findMany({
         where: {
           reviewer_id: parseInt(paperId),
-          done: "pending"
+          done: "pending",
         },
       });
     }
@@ -458,7 +457,16 @@ export async function readAllConferences() {
   // };
   // rewrite this using prisma client
   try {
-    const conferences = await prisma.conference.findMany();
+    const conferences = await prisma.conference.findMany({
+      include: {
+        session: {
+          include: {
+            presentation: true,
+          }
+        }
+      }
+    });
+    
     await prisma.$disconnect();
     return {
       done: true,
@@ -690,17 +698,16 @@ export async function readAllUsers() {
   }
 }
 export async function readUserByName(name) {
-
   try {
     const user = await prisma.user.findFirst({
       where: {
-          first_name: name
+        first_name: name,
       },
       include: {
         author: true,
         reviewer: true,
         organizer: true,
-      }
+      },
     });
     await prisma.$disconnect();
     return {
@@ -852,42 +859,70 @@ export async function readAuthors() {
 }
 
 export async function paperStats() {
-  // get the number of accepted papers
-  // get the number of rejected papers
-  // get the number of pending papers
-  const accepted = await prisma.paper.count({
-    where: {
-      status: "accepted",
-    },
-  });
-  const rejected = await prisma.paper.count({
-    where: {
-      status: "rejected",
-    },
-  });
-  const pending = await prisma.paper.count({
-    where: {
-      status: "pending",
-    },
-  });
-  await prisma.$disconnect();
-  return {
-    done: true,
-    accepted: accepted,
-    rejected: rejected,
-    pending: pending,
-  };
+  try {
+    let accepted = await prisma.review.count({
+      where: {
+        accepted: "yes",
+      },
+    });
+    accepted = accepted / 2;
+    let rejected = await prisma.review.count({
+      where: {
+        accepted: "no",
+      },
+    });
+    rejected = rejected / 2;
+    let pending = await prisma.review.count({
+      where: {
+        accepted: "pending",
+      },
+    });
+    pending = pending / 2;
+    await prisma.$disconnect();
+    return {
+      done: true,
+      accepted: accepted,
+      rejected: rejected,
+      pending: pending,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      accepted: null,
+      rejected: null,
+      pending: null,
+    };
+  }
 }
 
 export async function avgAuthorsPerPaper() {
-  // get the average number of authors per paper
-  const avg =
-    await prisma.$queryRaw`SELECT AVG(authors) FROM (SELECT COUNT(*) AS authors FROM "PaperAuthor" GROUP BY paper) AS sub`;
-  await prisma.$disconnect();
-  return {
-    done: true,
-    avg: avg[0].avg,
-  };
+  try {
+    const authorsPerPaper = await prisma.author_Paper.groupBy({
+      by: ["paper_id"],
+      _count: {
+        author_id: true,
+      },
+    });
+    const papers = await prisma.paper.count();
+    let sum = 0;
+    authorsPerPaper.forEach((paper) => {
+      sum += paper._count.author_id;
+    });
+    // round to 2 decimal places
+    const avgerage = Math.round((sum / papers) * 100) / 100;
+    await prisma.$disconnect();
+    return {
+      done: true,
+      avg: `${avgerage}`,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      avg: null,
+    };
+  }
 }
 export async function noOfConferenceSessions() {
   // get the number of conference sessions
@@ -900,11 +935,17 @@ export async function noOfConferenceSessions() {
 }
 export async function avgPapersPerSession() {
   // get the average number of papers per session
-  const avg =
-    await prisma.$queryRaw`SELECT AVG(papers) FROM (SELECT COUNT(*) AS papers FROM "SessionPaper" GROUP BY session) AS sub`;
+}
+
+export async function noOfUsers() {
+  const authors = await prisma.author.count();
+  const reviewers = await prisma.reviewer.count();
+  const organizers = await prisma.organizer.count();
   await prisma.$disconnect();
   return {
     done: true,
-    avg: avg[0].avg,
+    authors: authors,
+    reviewers: reviewers,
+    organizers: organizers,
   };
 }
