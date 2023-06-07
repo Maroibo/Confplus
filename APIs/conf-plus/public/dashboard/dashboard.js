@@ -1,67 +1,84 @@
 window.onload = async () => {
   // Check if user is logged in or not an author
   const userID = localStorage["currentUser"];
-  const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
-  if (userID === undefined || userID === "" || user.role !== "organizer") {
+  const user1 = await fetch(`../api/user/${userID}`).then((res) => res.json());
+  if (user1.organizer.length === 0)
     window.location.href = "../login/login.html";
-  }
-  // Display user
   await userDisplayer();
-};
+  const user = document.querySelector("#user-doughnut");
+  const paper = document.querySelector("#paper-bar");
+  // fetch the papres states by callying the api
+  const response = await fetch("../api/stats/papersStates");
+  const papersStates = await response.json();
+  const response2 = await fetch("../api/stats/usersStates");
+  const usersStates = await response2.json();
+  const response3 = await fetch("../api/stats/avgPapers");
+  const avgPapers = await response3.json();
+  const response4 = await fetch("../api/stats/noConfSessions");
+  const noConfSessions = await response4.json();
+  const avgPapersDiv = document.querySelector("#avg-papers");
+  avgPapersDiv.innerHTML = `${avgPapers.averageAuthorsPerPaper}`;
+  const noConfSessionsDiv = document.querySelector("#no-conf-sessions");
+  noConfSessionsDiv.innerHTML = `${noConfSessions.noOfConferenceSessions}`;
+  new Chart(user, {
+    type: "doughnut",
+    data: {
+      labels: ["Author", "Reviewer", "Organizer"],
+      datasets: [
+        {
+          label: "# of Users",
+          data: [
+            usersStates.authors,
+            usersStates.reviewers,
+            usersStates.organizers,
+          ],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 15,
+          borderWidth: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+    },
+  });
 
-const user = document.querySelector("#user-doughnut");
-const paper = document.querySelector("#paper-bar");
-
-new Chart(user, {
-  type: "doughnut",
-  data: {
-    labels: ["Author", "Reviewer", "Organizer"],
-    datasets: [
-      {
-        label: "# of Users",
-        data: [17, 14, 7],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverOffset: 15,
-        borderWidth: 4,
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-  },
-});
-
-new Chart(paper, {
-  type: "bar",
-  data: {
-    labels: ["Accepted", "Rejected", "Pending"],
-    datasets: [
-      {
-        label: "# of Papers",
-        data: [17, 14, 7],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        barThickness: 100,
-        borderWidth: 2,
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
+  new Chart(paper, {
+    type: "bar",
+    data: {
+      labels: ["Accepted", "Rejected", "Pending"],
+      datasets: [
+        {
+          label: "# of Papers",
+          data: [
+            papersStates.accepted,
+            papersStates.rejected,
+            papersStates.pending,
+          ],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          barThickness: 100,
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
       },
     },
-  },
-});
+  });
+};
 
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
@@ -75,7 +92,9 @@ let userDisplayer = async () => {
   const userName = document.createElement("span");
   userName.innerHTML = `${user.last_name}, ${user.first_name}`;
   const userRole = document.createElement("span");
-  userRole.innerHTML = `${user.role}`;
+  if (user.author.length !== 0) userRole.innerHTML = "Author";
+  else if (user.reviewer.length !== 0) userRole.innerHTML = "Reviewer";
+  else if (user.organizer.length !== 0) userRole.innerHTML = "Organizer";
   const arrowDown = document.createElement("img");
   arrowDown.src = "../recourses/icons/angle-down-solid.svg";
   arrowDown.classList = "log-options";
