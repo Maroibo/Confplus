@@ -135,7 +135,7 @@ const userClickHandler = (event) => {
       localStorage["currentUser"] = "";
       window.location.href = "../login/login.html";
     });
-    document.querySelector(".main-container").appendChild(logoutDiv);
+    document.querySelector(".root").appendChild(logoutDiv);
   } else if (
     event.target.classList.contains("log-options") &&
     document.querySelector(".logout") !== null
