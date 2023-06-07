@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto';
+}
+
+*::before {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+*::after {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+.root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5%;
+}
+
+.charts {
+    position: relative;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 30px;
+}
+
+.charts .chart-box {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    box-shadow: 0px 2px 5px #D3DAE2;
+    border-radius: 20px;
+}
+
+#user-chart {
+    width: 400px;
+    height: 400px;
+}
+
+#paper-chart {
+    padding: 10px;
+}
+
+.chart-box h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.cards {
+    position: relative;
+    /* width: 100%; */
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+}
+
+.cards .card {
+    width: 430px;
+    position: relative;
+    background-color: white;
+    box-shadow: 0px 2px 5px #D3DAE2;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cards .card .card-info {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+
+.cards .card .numbers {
+    position: relative;
+    font-weight: 600;
+    font-size: 50px;
+    color: #5A1499;
+    padding-left: 20px;
+}
+
+.cards .card .cardName {
+    width: 290px;
+    position: relative;
+    font-weight: 500;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+@media screen and (max-width :1000px) {
+    .charts {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (max-width :700px) {
+    .charts {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
