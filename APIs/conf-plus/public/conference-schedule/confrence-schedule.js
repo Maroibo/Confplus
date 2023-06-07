@@ -161,10 +161,9 @@ let addAllSessions = async (sessions) => {
       sesionCount++;
     }
   }
-  // if (currentLoaddedSessionIndex >= sessions.length) {
-  //   document.querySelector(".more-button").style.display = "none";
-  // }
+
 };
+
 const displayMoreButton = () => {
   let moreButton = document.createElement("button");
   moreButton.innerHTML = "Load More";

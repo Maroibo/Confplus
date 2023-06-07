@@ -60,9 +60,17 @@ model Paper {
   title        String
   abstract     String
   document     String
-  sessions     Session[]
+  presentation Presentation?
   reviews      Review[]
   Author_Paper Author_Paper[]
+}
+
+model Presentation {
+  presentation_id Int     @id @default(autoincrement())
+  paper Paper @relation(fields: [paper_id], references: [paper_id])
+  paper_id Int @unique
+  session_id Int
+  session Session @relation(fields: [session_id], references: [session_id])
 }
 
 model Review {
@@ -98,8 +106,9 @@ model Session {
   conference_id Int
   day           String
   from_time     String
-  to_time       String
+  to_time       String  
   conference    Conference @relation(fields: [conference_id], references: [conference_id])
-  location      Location[]
-  paper         Paper[]
+  location      Location  @relation(fields: [location_city], references: [city])
+  location_city String
+  presentation         Presentation[]
 }

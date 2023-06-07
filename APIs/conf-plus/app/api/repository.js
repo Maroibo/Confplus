@@ -262,7 +262,7 @@ export async function createReviews(paper_id) {
         randomReviewers.push(randomReviewer);
       }
     }
-    
+
     const review1 = await prisma.review.create({
       data: {
         paper_id: paper_id,
@@ -374,15 +374,14 @@ export async function readReview(paperId, idType) {
       review = await prisma.review.findMany({
         where: {
           paper_id: parseInt(paperId),
-          done: "done"
+          done: "done",
         },
       });
     } else if (idType === "reviewer") {
-
       review = await prisma.review.findMany({
         where: {
           reviewer_id: parseInt(paperId),
-          done: "pending"
+          done: "pending",
         },
       });
     }
@@ -458,7 +457,16 @@ export async function readAllConferences() {
   // };
   // rewrite this using prisma client
   try {
-    const conferences = await prisma.conference.findMany();
+    const conferences = await prisma.conference.findMany({
+      include: {
+        session: {
+          include: {
+            presentation: true,
+          }
+        }
+      }
+    });
+    
     await prisma.$disconnect();
     return {
       done: true,
@@ -690,17 +698,16 @@ export async function readAllUsers() {
   }
 }
 export async function readUserByName(name) {
-
   try {
     const user = await prisma.user.findFirst({
       where: {
-          first_name: name
+        first_name: name,
       },
       include: {
         author: true,
         reviewer: true,
         organizer: true,
-      }
+      },
     });
     await prisma.$disconnect();
     return {

@@ -6,7 +6,7 @@ window.onload = async () => {
     await getConferences();
     const userID = localStorage["currentUser"];
     const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
-    if (user.role === "organizer") {
+    if (user.organizer.length > 0) {
       const editScheduleBtn = document.querySelectorAll(".edit-schedule-btn");
       editScheduleBtn.forEach(btn => {btn.style.display = "block"})
     }
@@ -87,13 +87,11 @@ function conferenceToHTML(conference) {
 
     editBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const conferenceID = conferenceCard.dataset.conferenceID;
-        localStorage["currentConference"] = `${conferenceID}`;
+        localStorage["currentConference"] = JSON.stringify(conference);
         window.location.href = "../schedule-editor-new/schedule-editor.html";
     });
 
     conferenceDetailsContainer.appendChild(editBtn);
-
 
     const calendarIcon = document.createElement("img");
     calendarIcon.src = "../recourses/icons/calendar.svg";
@@ -128,7 +126,7 @@ function goToSchedule(conferenceID) {
 
 let userDisplayer = async () => {
     const userId = localStorage["currentUser"];
-    if (userId === undefined || userId === "") return;
+    if (userId === undefined || userId === "" || userId === null) return;
     const response = await fetch(`../api/user/${userId}`);
     const user = await response.json();
     const userDiv = document.createElement("div");
