@@ -95,14 +95,36 @@ window.onload = async () => {
   
   // title filter and add session button
   let title = `<h1>Conference Schedule</h1>`;
-  let filter = `<div class="filter"><input type="date"/></div>`;
+  let filtersDiv = `<div class="filters">
+  <div class="filter"><input type="date"/></div>
+  <div class="filter"><select placeholder="Location"/></div>
+  </div>`
+
   root.innerHTML += title;
-  root.innerHTML += filter;
+  root.innerHTML += filtersDiv;
+
+  let locationFilter = document.querySelector(".filters select");
+  const allOption = document.createElement("option");
+  allOption.value = "All";
+  allOption.innerHTML = "All";
+  locationFilter.appendChild(allOption);
+  let locations = await fetch(`../api/location`).then((res) => res.json());
+  locations = locations.map(location => location.city)
+  locations.forEach((location) => {
+    const option = document.createElement("option");
+    option.value = location;
+    option.innerHTML = location;
+    locationFilter.appendChild(option);
+  });
+  document
+  .querySelector(".filter select")
+  .addEventListener("change", (e) => filterSessionsByLocation(e.target.value));
+
   document
     .querySelector(".filter input")
     .addEventListener("change", (e) => filterSessions(e.target.value));
 
-
+  
   // Creating the sessions
   let sessions = currentConference.session;
   if (sessions.length === 0) {
@@ -216,6 +238,26 @@ const filterSessions = (date) => {
     }
   });
 };
+
+const filterSessionsByLocation = (location) => {
+  if (location === "All") {
+    root.style.height = "auto";
+    document
+      .querySelectorAll(".session")
+      .forEach((e) => (e.style.display = "block"));
+    return;
+  } else {
+    reset();
+    let sessions = document.querySelectorAll(".session");
+    sessions.forEach((e) => {
+      let sessionLocation = e.querySelector("h2").innerHTML.split("-");
+      sessionLocation = sessionLocation[1].trim();
+      if (sessionLocation === location) {
+        e.style.display = "block";
+      }
+    });
+  }
+}
 
 const matchesFilter = (inputDate1, sessionDate1) => {
   // change both dates to unix time and compare them

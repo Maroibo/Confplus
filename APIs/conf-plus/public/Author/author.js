@@ -24,16 +24,6 @@ addAuthorButton.addEventListener("click", async () => {
   const response = await fetch(`../api/user?name=${authorName}`);
   const author = await response.json(); 
 
-  // const author = data.find(
-  //   (author) =>
-  //     author.first_name.toLowerCase() === authorName.toLowerCase() ||
-  //     author.last_name.toLowerCase() === authorName.toLowerCase() ||
-  //     author.first_name.toLowerCase() + " " + author.last_name.toLowerCase() ===
-  //       authorName.toLowerCase() ||
-  //     author.last_name.toLowerCase() + " " + author.first_name.toLowerCase() ===
-  //       authorName.toLowerCase()
-  // );
-
   if (author && author.author.length > 0) {
     if (uniqueAuthors(authorName)) {
       author.main = false;
@@ -154,8 +144,9 @@ const authorInfo = async (authorName) => {
     option.innerHTML = institution.name;
     authorAffiliationSelect.appendChild(option);
   });
+  
   authorAffiliationSelect.value = author.institution_id;
-
+  
   const nameLabel = document.createElement("label");
   nameLabel.innerHTML = "Name";
   const emailLabel = document.createElement("label");

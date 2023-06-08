@@ -97,25 +97,61 @@ window.onload = async () => {
     window.location.href = "../homepage/index.html";
   
   // title filter and add session button
+  // let title = `<h1>Conference Schedule</h1>`;
+  // let filter = `<div class="filter"><input type="date"/></div>`;
+  // root.innerHTML += title;
+  // root.innerHTML += filter;
+  // document
+  //   .querySelector(".filter input")
+  //   .addEventListener("change", (e) => filterSessions(e.target.value));
+
+
+
   let title = `<h1>Conference Schedule</h1>`;
-  let filter = `<div class="filter"><input type="date"/></div>`;
-  root.innerHTML += title;
-  root.innerHTML += filter;
-  document
-    .querySelector(".filter input")
-    .addEventListener("change", (e) => filterSessions(e.target.value));
+  let filtersDiv = `<div class="filters">
+  <div class="filter"><input type="date"/></div>
+  <div class="filter"><select placeholder="Location"/></div>
+  </div>`
 
   const addSessionBtn = document.createElement("button");
   addSessionBtn.innerHTML = "+ Add Session";
   addSessionBtn.classList = "add-session-btn";
 
-  document
-    .querySelector(".filter")
-    .insertBefore(
-      addSessionBtn,
-      document.querySelector(".filter").firstChild
-    );
 
+  root.innerHTML += title;
+  root.appendChild(addSessionBtn);
+  
+ 
+  root.innerHTML += filtersDiv;
+
+
+  document.querySelector(".add-session-btn").addEventListener("click", async (e) => {
+    type = "add";
+    await handleAddSession();
+  });
+
+  let locationFilter = document.querySelector(".filters select");
+  const allOption = document.createElement("option");
+  allOption.value = "All";
+  allOption.innerHTML = "All";
+  locationFilter.appendChild(allOption);
+  let locations = await fetch(`../api/location`).then((res) => res.json());
+  locations = locations.map(location => location.city)
+  locations.forEach((location) => {
+    const option = document.createElement("option");
+    option.value = location;
+    option.innerHTML = location;
+    locationFilter.appendChild(option);
+  });
+
+  document
+  .querySelector(".filter select")
+  .addEventListener("change", (e) => filterSessionsByLocation(e.target.value));
+
+  document
+  .querySelector(".filter input")
+  .addEventListener("change", (e) => filterSessions(e.target.value));
+  
   // Creating the sessions
   let sessions = currentConference.session;
   await addAllSessions(sessions);
@@ -284,10 +320,10 @@ window.onload = async () => {
   // Event listeners
 
     // Add session
-    addSessionBtn.addEventListener("click", async (e) => {
-      type = "add";
-      await handleAddSession();
-  });
+  //   addSessionBtn.addEventListener("click", async (e) => {
+  //     type = "add";
+  //     await handleAddSession();
+  // });
 
   // Open pop up
   const editSvgs = document.querySelectorAll(".edit-svg");
@@ -802,7 +838,25 @@ let reset = () => {
     .querySelectorAll(".session")
     .forEach((e) => (e.style.display = "none"));
 };
-
+const filterSessionsByLocation = (location) => {
+  if (location === "All") {
+    root.style.height = "auto";
+    document
+      .querySelectorAll(".session")
+      .forEach((e) => (e.style.display = "block"));
+    return;
+  } else {
+    reset();
+    let sessions = document.querySelectorAll(".session");
+    sessions.forEach((e) => {
+      let sessionLocation = e.querySelector("h2").innerHTML.split("-");
+      sessionLocation = sessionLocation[1].trim().split("<")[0];
+      if (sessionLocation === location) {
+        e.style.display = "block";
+      }
+    });
+  }
+}
 const filterSessions = (date) => {
   if (date === "") {
     root.style.height = "auto";

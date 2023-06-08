@@ -518,7 +518,13 @@ export async function readAllPapers() {
   // };
   // rewrite this using prisma client
   try {
-    const papers = await prisma.paper.findMany();
+    const papers = await prisma.paper.findMany(
+      {
+        include: {
+          presentation: true,
+        }
+      }
+    );
     return {
       done: true,
       papers: papers,

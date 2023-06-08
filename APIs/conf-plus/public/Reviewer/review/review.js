@@ -263,6 +263,6 @@ submitButton.addEventListener("click", async () => {
 // when the user clicks the download button it opens a new tab with the paper
 const downloadButton = document.querySelector("button:first-of-type");
 downloadButton.addEventListener("click", async () => {
-  const paper = await getPapers(reviewState.paper);
+  const paper = await getPapers(reviewState.paper_id);
   window.open(paper.document, "_blank");
 });

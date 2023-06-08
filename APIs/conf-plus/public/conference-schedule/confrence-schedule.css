@@ -33,7 +33,7 @@
     font-size: 3em;
 }
 
-.root .filter {
+.root .filters {
     align-self: center;
     margin-bottom: 30px;
     display: flex;
@@ -43,7 +43,7 @@
     margin-top: 50px;
 }
 
-.filter input {
+.filter input, .filter select {
     background-color: #9747FF;
     border-radius: 5px;
     border: 1px solid transparent;
@@ -51,7 +51,7 @@
     height: 28px;
     width: 120px;
     padding: 1px;
-
+    margin: 5px;
 }
 
 ::-webkit-calendar-picker-indicator {
