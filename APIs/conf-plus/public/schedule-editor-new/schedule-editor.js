@@ -515,14 +515,15 @@ async function updateSession() {
 
   // Update the session in the DOM
   // Delete all sessions
-  // while (root.querySelector(".session")) {
-  //   root.removeChild(root.querySelector(".session"));
-  // }
+  while (root.querySelector(".session")) {
+    root.removeChild(root.querySelector(".session"));
+  }
 
-  // // Add all sessions
-  // let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
-  // addAllSessions(sessions);
-  // handleHide();
+  // Add all sessions
+  let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  addAllSessions(sessions);
+  handleHide();
+  
   window.location.reload();
   // let session = null;
   // let sessionH2 = null;
