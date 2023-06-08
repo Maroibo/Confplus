@@ -123,7 +123,7 @@ const authorInfo = async (authorName) => {
   removePopupIcon.src = "../recourses/icons/xmark-solid.svg";
   removePopupIcon.classList.add("remove-popup");
   const authorNameInput = document.createElement("input");
-  authorNameInput.value = author.name;
+  authorNameInput.value = author.last_name + ", " + author.first_name;
   const authorEmailInput = document.createElement("input");
   authorEmailInput.value = author.email;
   authorNameInput.disabled = true;
