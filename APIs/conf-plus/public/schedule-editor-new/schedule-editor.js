@@ -1,4 +1,5 @@
 let currentSessionId = -1;
+let type = "";
 
 let userDisplayer = async () => {
   const userId = localStorage["currentUser"];
@@ -290,7 +291,8 @@ window.onload = async () => {
 
     // Add session
     addSessionBtn.addEventListener("click", async (e) => {
-    await handleEdit(e);
+      type = "add";
+      await handleAddSession();
   });
 
   // Open pop up
@@ -298,6 +300,7 @@ window.onload = async () => {
   editSvgs.forEach((svg) => {
     svg.addEventListener("click", async (e) => {
       const sessionId = e.target.parentNode.parentNode.id;
+      type = "edit";
       await handleEdit(sessionId);
     });
   });
@@ -322,8 +325,14 @@ window.onload = async () => {
     await updateSession();
   });
 
-  editPopUpSubmitButton.addEventListener("click", async () => {
-    await updateSession();
+  editPopUpSubmitButton.addEventListener("click", async (e) => {
+    if(type === "edit"){
+      console.log("edit");
+      await updateSession();
+    } else{
+      console.log("add");
+      await addNewSession();
+    }
   });
 };
 
@@ -430,222 +439,13 @@ function readInputs(e) {
   return {sessionState, presentationsState};
 }
 
-async function handleAddSession() {
-  let state = readInputs();
-  if (state === false) {
-    return;
-  }
-  let session = document.createElement("div");
-  session.classList = "session";
-  let sessionH2 = document.createElement("h2");
-  sessionH2.dataset.rawdate = state.date;
-  sessionH2.innerHTML =
-    formatDate(state.date) +
-    " - " +
-    state.location +
-    '<img src="../recourses/icons/pen-to-square-solid.svg" class="edit-svg">' +
-    '<img src="../recourses/icons/trash-solid.svg" class="trash-svg" >';
-
-  session.appendChild(sessionH2);
-
-  state.papers.forEach(async (paper) => {
-    let paperElement = document.createElement("div");
-    paperElement.classList = "paper";
-    paperElement.id = paper;
-    let paperTitle = await fetch(`/api/paper/${paper}`)
-      .then((res) => res.json())
-      .then((data) => data.title);
-    let span = document.createElement("span");
-    span.innerHTML = "&#183;   " + paperTitle;
-    paperElement.appendChild(span);
-    session.appendChild(paperElement);
-  });
-
-  // Adding the event listeners to the new edit and trash svgs
-  let editSvg = session.querySelector(".edit-svg");
-  editSvg.addEventListener("click", async (e) => {
-    clickedEditSvg = e.target;
-    await handleEdit();
-  });
-
-  let deleteSvg = session.querySelector(".trash-svg");
-  deleteSvg.addEventListener("click", e => {handleDelete(e)});
-
-  root.insertBefore(session, root.children[2]);
-  handleHide();
-}
-
-
-async function updateSession() {
-  let {sessionState, presentationsState} = readInputs();
-  if (sessionState === false || presentationsState === false) {
-    handleHide();
-    return;
-  }
-
-  // Send to Database
-  // Update session
-  await fetch(`/api/conference/${sessionState.conference_id}/${sessionState.session_id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(sessionState),
-  });
-
-  // Delete all of its presentations then add the new ones
-  await fetch(`/api/presentation/${sessionState.session_id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-
-  // Add new presentations
-  await fetch(`/api/presentation/${sessionState.session_id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(presentationsState),
-  });
-
-  const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
-  localStorage.setItem("currentConference", JSON.stringify(updatedConference));
-
-  // Update the session in the DOM
-  // Delete all sessions
-  while (root.querySelector(".session")) {
-    root.removeChild(root.querySelector(".session"));
-  }
-
-  // Add all sessions
-  let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
-  addAllSessions(sessions);
-  handleHide();
-  
-  window.location.reload();
-  // let session = null;
-  // let sessionH2 = null;
-
-  // if (clickedEditSvg.classList.contains("edit-svg")) {
-  //   session = clickedEditSvg.parentElement.parentElement;
-  //   sessionH2 = session.querySelector("h2");
-  //   while (session.querySelector(".paper")) {
-  //     session.removeChild(session.querySelector(".paper"));
-  //   }
-  //   sessionH2.dataset.rawdate = state.date;
-  //   sessionH2.innerHTML =
-  //     formatDate(state.date) +
-  //     " - " +
-  //     state.location +
-  //     '<img src="../recourses/icons/pen-to-square-solid.svg" class="edit-svg">' +
-  //     '<img src="../recourses/icons/trash-solid.svg" class="trash-svg" >';
-
-  //   state.papers.forEach(async (paper) => {
-  //     let paperElement = document.createElement("div");
-  //     paperElement.classList = "paper";
-  //     paperElement.id = paper;
-  //     let paperTitle = await fetch(`/api/paper/${paper}`)
-  //       .then((res) => res.json())
-  //       .then((data) => data.title);
-  //     let span = document.createElement("span");
-  //     span.innerHTML = "&#183;   " + paperTitle;
-  //     paperElement.appendChild(span);
-  //     session.appendChild(paperElement);
-  //   });
-
-  //   // Adding the event listeners to the new edit and trash svgs
-  //   let editSvg = session.querySelector(".edit-svg");
-  //   editSvg.addEventListener("click", async (e) => {
-  //     clickedEditSvg = e.target;
-  //     await handleEdit();
-  //   });
-
-  //   const deleteSvgs = document.querySelectorAll(".trash-svg");
-  //   deleteSvgs.forEach(svg => {
-  //     svg.addEventListener("click", e => {
-  //       const clickedDeleteSvg = e.target;
-  //       root.removeChild(clickedDeleteSvg.parentElement.parentElement);
-  //     })
-  //   });
-
-  // } else if (clickedEditSvg.classList.contains("add-session-btn")) {
-  //   await handleAddSession();
-  // }
-
-  // setTimeout(submitToAPI(state), 1000);
-  // handleHide();
-}
-
-async function submitToAPI(state) {
-  let currentConference = localStorage.getItem("currentConference");
-  let conference = await fetch(`/api/conference/${currentConference}`)
-    .then((res) => res.json())
-    .then((data) => data);
-  
-  let sessions = document.querySelectorAll(".session");
-
-  let sessionsArray = [];
-
-  sessions.forEach((session) => {
-    let sessionObject = {
-      day: session.querySelector("h2").dataset.rawdate,
-      location: session.querySelector("h2").innerText.split(" - ")[1],
-      papers: [],
-      presenter: state.presenter,
-      fromTime: state.fromTime,
-      toTime: state.toTime,
-    };
-
-    let papers = session.querySelectorAll(".paper");
-    papers.forEach((paper) => {
-      sessionObject.papers.push(paper.id);
-    });
-
-    sessionsArray.push(sessionObject);
-  });
-
-  conference.sessions = sessionsArray;
-  conference = JSON.stringify(conference);
-
-  await fetch(`/api/conference/${currentConference}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: conference,
-  });
-}
-
-
-async function getAllPapers(existingPapers) {
-  let papers = await fetch(`../api/paper`);
-  papers = await papers.json();
-  papers = papers.filter((e) => e.status === true);
-
-  let conferences = await fetch(`../api/conference`);
-  conferences = await conferences.json();
-  let sessions = conferences.map((e) => e.sessions).flat();
-  // If the paper is already in a session, remove it from the papers array
-  // get all the papers in the sessions then loop to remove them
-  let papersInSessions = sessions.map((e) => e.papers).flat();
-  // if the paper is in existingPapers, dont remove it from the papers array, and dont add it if its in the papersInSessions
- 
-  papersInSessions = papersInSessions.filter((e) => ! existingPapers.includes(e));
-  
-  papersInSessions.map((e) => {
-    papers = papers.filter((paper) => paper.id !== e);
-  });
-
-  return papers;
-}
-
 async function handleEdit(sessionId) {
   currentSessionId = sessionId
+  console.log(currentSessionId);
   const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
 
-  const thisSession = allSessions.find(session => session.session_id === parseInt(sessionId));
+  const thisSession = allSessions.find(session => session.session_id === parseInt(currentSessionId));
+
   const thisSessionPapers = thisSession.presentation.map(presentation => presentation.paper_id);
 
   let allUsedPaperIDs = allSessions.map(session => session.presentation.map(presentation => presentation.paper_id)).flat();
@@ -745,6 +545,253 @@ async function handleEdit(sessionId) {
   toTimeInput.value = sessionToTime;
 
 }
+
+
+
+
+async function handleAddSession() {
+  const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  let allUsedPaperIDs = allSessions.map(session => session.presentation.map(presentation => presentation.paper_id)).flat();
+
+  const { papers_presenters } = await fetch("/api/paper/accepted").then(res => res.json())
+  const allDates = await fetch("/api/date").then(res => res.json());
+  const allLocations = await fetch("/api/location").then(res => res.json()).then(data => data.map(location => location.city));
+
+  let editPopUp = document.querySelector(".edit-pop-up");
+  let editPopUpOverlay = document.querySelector(".overlay");
+  let editPopUpPapersContainer = document.querySelector(".edit-pop-up-papers-container");
+  let presenterSelect = document.querySelector(".edit-pop-up-presenter-select");
+  let dateSelect = document.querySelector(".edit-pop-up-date-select");
+  let locationSelect = document.querySelector(".edit-pop-up-location-select");
+  let fromTimeInput = document.querySelector(".edit-pop-up-from-time-input");
+  let toTimeInput = document.querySelector(".edit-pop-up-to-time-input");
+
+    // Show the overlay and the pop up
+  editPopUp.style.display = "block";
+  editPopUpOverlay.style.display = "block";
+  
+  // Filling the date select
+  allDates.forEach((date) => {
+    let option = document.createElement("option");
+    option.value = date.day;
+    
+    option.innerText = formatDate(date.day);
+    dateSelect.appendChild(option);
+  });
+
+  // Filling the location select
+  allLocations.forEach((location) => {
+    let option = document.createElement("option");
+    option.value = location;
+    option.innerText = location;
+    locationSelect.appendChild(option);
+  });
+
+  papers_presenters.forEach(async (paper_presenter) => {
+    // Check if the paper is already in other sessions
+    if (!allUsedPaperIDs.includes(paper_presenter.paper.paper_id)) {
+      // Papers container
+      let container = document.createElement("div");
+      container.classList = "edit-pop-up-paper-container";
+
+      // Checkbox and label
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = paper_presenter.paper.paper_id;
+      checkbox.classList = "edit-pop-up-paper-checkbox";
+      let label = document.createElement("label");
+      label.innerText = paper_presenter.paper.title;
+      label.classList = "edit-pop-up-paper-label";
+      container.appendChild(checkbox);
+      container.appendChild(label);
+
+      // Append Papers container
+      editPopUpPapersContainer.appendChild(container);
+
+      // Filling the presenter select
+      let option = document.createElement("option");
+      option.value = paper_presenter.author.user_id;
+      const user = await fetch(`/api/user/${paper_presenter.author.user_id}`).then(res => res.json())
+      const fullName = `${user.first_name} ${user.last_name}`;
+      option.innerText = fullName;
+      presenterSelect.appendChild(option);
+      }
+  });
+}
+
+async function addNewSession() {
+  let {sessionState, presentationsState} = readInputs();
+  if (sessionState === false || presentationsState === false) {
+    handleHide();
+    return;
+  }
+
+  // Send to Database
+  await submitToAPInewSession(sessionState, presentationsState);
+  
+  // Update the session in the DOM
+  updateDOM();
+  
+  handleHide();
+  window.location.reload();
+}
+
+async function submitToAPInewSession(sessionState, presentationsState) {
+  const newSession = await fetch(`/api/conference/${sessionState.conference_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sessionState),
+  }).then((res) => res.json());
+
+  presentationsState = presentationsState.map(presentation => {return {
+    "paper_id": presentation.paper_id,
+    "session_id": newSession.session_id,
+   }
+  });
+
+  // Add new presentations
+  await fetch(`/api/presentation/${newSession.session_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(presentationsState),
+  });
+
+  const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
+  localStorage.setItem("currentConference", JSON.stringify(updatedConference));
+}
+
+
+
+function updateDOM() {
+  // Delete all sessions
+  while (root.querySelector(".session")) {
+    root.removeChild(root.querySelector(".session"));
+  }
+
+  // Add all sessions
+  let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  addAllSessions(sessions);
+}
+
+async function submitToAPI(sessionState, presentationsState) {
+  await fetch(`/api/conference/${sessionState.conference_id}/${sessionState.session_id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sessionState),
+  });
+
+  // Delete all of its presentations then add the new ones
+  await fetch(`/api/presentation/${sessionState.session_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  // Add new presentations
+  await fetch(`/api/presentation/${sessionState.session_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(presentationsState),
+  });
+
+  const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
+  localStorage.setItem("currentConference", JSON.stringify(updatedConference));
+}
+
+
+
+
+async function updateSession() {
+  let {sessionState, presentationsState} = readInputs();
+  if (sessionState === false || presentationsState === false) {
+    handleHide();
+    return;
+  }
+
+  // Send to Database
+  await submitToAPI(sessionState, presentationsState);
+  
+  // Update the session in the DOM
+  updateDOM();
+  
+  handleHide();
+  window.location.reload();
+}
+
+// function updateDOM() {
+//   // Delete all sessions
+//   while (root.querySelector(".session")) {
+//     root.removeChild(root.querySelector(".session"));
+//   }
+
+//   // Add all sessions
+//   let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
+//   addAllSessions(sessions);
+// }
+
+// async function submitToAPI(sessionState, presentationsState) {
+//   await fetch(`/api/conference/${sessionState.conference_id}/${sessionState.session_id}`, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(sessionState),
+//   });
+
+//   // Delete all of its presentations then add the new ones
+//   await fetch(`/api/presentation/${sessionState.session_id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+
+//   // Add new presentations
+//   await fetch(`/api/presentation/${sessionState.session_id}`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(presentationsState),
+//   });
+
+//   const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
+//   localStorage.setItem("currentConference", JSON.stringify(updatedConference));
+// }
+
+
+async function getAllPapers(existingPapers) {
+  let papers = await fetch(`../api/paper`);
+  papers = await papers.json();
+  papers = papers.filter((e) => e.status === true);
+
+  let conferences = await fetch(`../api/conference`);
+  conferences = await conferences.json();
+  let sessions = conferences.map((e) => e.sessions).flat();
+  // If the paper is already in a session, remove it from the papers array
+  // get all the papers in the sessions then loop to remove them
+  let papersInSessions = sessions.map((e) => e.papers).flat();
+  // if the paper is in existingPapers, dont remove it from the papers array, and dont add it if its in the papersInSessions
+ 
+  papersInSessions = papersInSessions.filter((e) => ! existingPapers.includes(e));
+  
+  papersInSessions.map((e) => {
+    papers = papers.filter((paper) => paper.id !== e);
+  });
+
+  return papers;
+}
+
+
 
 let currentLoaddedSessionIndex = 0;
 

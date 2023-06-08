@@ -33,3 +33,20 @@ export async function PUT(request, { params }) {
     console.log(err);
   }
 }
+
+export async function POST(request, { params }) {
+  try {
+    let { id } = params;
+    const session = await request.json();
+    const response = await repo.createSession(id, session);
+    if (response.done) {
+      return NextResponse.json(response.session);
+    } else {
+      return NextResponse.json({
+        error: "session not created",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}

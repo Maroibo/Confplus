@@ -70,7 +70,7 @@ model Presentation {
   paper Paper @relation(fields: [paper_id], references: [paper_id])
   paper_id Int @unique
   session_id Int
-  session Session @relation(fields: [session_id], references: [session_id])
+  session Session @relation(fields: [session_id], references: [session_id], onDelete: Cascade)
 }
 
 model Review {
