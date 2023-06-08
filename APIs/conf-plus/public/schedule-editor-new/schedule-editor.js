@@ -135,12 +135,6 @@ window.onload = async () => {
     h2.appendChild(trashSvg.cloneNode(true));
   });
 
-  // Save button
-  const saveBtn = document.createElement("button");
-  saveBtn.innerText = "Save";
-  saveBtn.classList = "save-btn";
-  root.appendChild(saveBtn);
-
   // The pop up
   const editPopUp = document.createElement("div");
   editPopUp.classList = "edit-pop-up";
@@ -319,18 +313,10 @@ window.onload = async () => {
     svg.addEventListener("click", async (e) => await handleDelete(e))
   });
 
-  // Submit / Save
-  saveBtn.addEventListener("click", async (e) => {
-    clickedEditSvg = e.target;
-    await updateSession();
-  });
-
   editPopUpSubmitButton.addEventListener("click", async (e) => {
     if(type === "edit"){
-      console.log("edit");
       await updateSession();
-    } else{
-      console.log("add");
+    } else { 
       await addNewSession();
     }
   });
@@ -384,7 +370,7 @@ function handleHide() {
   }
 }
 
-function readInputs(e) {
+function readInputs() {
   const sessionId = currentSessionId;
   let presenterSelect = document.querySelector(".edit-pop-up-presenter-select");
   let dateSelect = document.querySelector(".edit-pop-up-date-select");
@@ -441,7 +427,6 @@ function readInputs(e) {
 
 async function handleEdit(sessionId) {
   currentSessionId = sessionId
-  console.log(currentSessionId);
   const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
 
   const thisSession = allSessions.find(session => session.session_id === parseInt(currentSessionId));
@@ -465,10 +450,7 @@ async function handleEdit(sessionId) {
   let fromTimeInput = document.querySelector(".edit-pop-up-from-time-input");
   let toTimeInput = document.querySelector(".edit-pop-up-to-time-input");
 
-    // Show the overlay and the pop up
-  editPopUp.style.display = "block";
-  editPopUpOverlay.style.display = "block";
-  
+
   // Filling the date select
   allDates.forEach((date) => {
     let option = document.createElement("option");
@@ -544,9 +526,11 @@ async function handleEdit(sessionId) {
   fromTimeInput.value = sessionFromTime;
   toTimeInput.value = sessionToTime;
 
+      // Show the overlay and the pop up
+      editPopUp.style.display = "block";
+      editPopUpOverlay.style.display = "block";
+
 }
-
-
 
 
 async function handleAddSession() {
@@ -563,12 +547,6 @@ async function handleAddSession() {
   let presenterSelect = document.querySelector(".edit-pop-up-presenter-select");
   let dateSelect = document.querySelector(".edit-pop-up-date-select");
   let locationSelect = document.querySelector(".edit-pop-up-location-select");
-  let fromTimeInput = document.querySelector(".edit-pop-up-from-time-input");
-  let toTimeInput = document.querySelector(".edit-pop-up-to-time-input");
-
-    // Show the overlay and the pop up
-  editPopUp.style.display = "block";
-  editPopUpOverlay.style.display = "block";
   
   // Filling the date select
   allDates.forEach((date) => {
@@ -617,6 +595,9 @@ async function handleAddSession() {
       presenterSelect.appendChild(option);
       }
   });
+      // Show the overlay and the pop up
+      editPopUp.style.display = "block";
+      editPopUpOverlay.style.display = "block";
 }
 
 async function addNewSession() {
@@ -626,6 +607,7 @@ async function addNewSession() {
     return;
   }
 
+  
   // Send to Database
   await submitToAPInewSession(sessionState, presentationsState);
   
@@ -633,7 +615,7 @@ async function addNewSession() {
   updateDOM();
   
   handleHide();
-  window.location.reload();
+  // window.location.reload();
 }
 
 async function submitToAPInewSession(sessionState, presentationsState) {
@@ -663,8 +645,6 @@ async function submitToAPInewSession(sessionState, presentationsState) {
   const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
   localStorage.setItem("currentConference", JSON.stringify(updatedConference));
 }
-
-
 
 function updateDOM() {
   // Delete all sessions
@@ -707,9 +687,6 @@ async function submitToAPI(sessionState, presentationsState) {
   localStorage.setItem("currentConference", JSON.stringify(updatedConference));
 }
 
-
-
-
 async function updateSession() {
   let {sessionState, presentationsState} = readInputs();
   if (sessionState === false || presentationsState === false) {
@@ -726,48 +703,6 @@ async function updateSession() {
   handleHide();
   window.location.reload();
 }
-
-// function updateDOM() {
-//   // Delete all sessions
-//   while (root.querySelector(".session")) {
-//     root.removeChild(root.querySelector(".session"));
-//   }
-
-//   // Add all sessions
-//   let sessions = JSON.parse(localStorage.getItem("currentConference")).session;
-//   addAllSessions(sessions);
-// }
-
-// async function submitToAPI(sessionState, presentationsState) {
-//   await fetch(`/api/conference/${sessionState.conference_id}/${sessionState.session_id}`, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(sessionState),
-//   });
-
-//   // Delete all of its presentations then add the new ones
-//   await fetch(`/api/presentation/${sessionState.session_id}`, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-
-//   // Add new presentations
-//   await fetch(`/api/presentation/${sessionState.session_id}`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(presentationsState),
-//   });
-
-//   const updatedConference = await fetch(`/api/conference/${sessionState.conference_id}`).then((res) => res.json());
-//   localStorage.setItem("currentConference", JSON.stringify(updatedConference));
-// }
-
 
 async function getAllPapers(existingPapers) {
   let papers = await fetch(`../api/paper`);
@@ -790,8 +725,6 @@ async function getAllPapers(existingPapers) {
 
   return papers;
 }
-
-
 
 let currentLoaddedSessionIndex = 0;
 
@@ -902,10 +835,10 @@ let addAllSessions = async (sessions) => {
   }
 };
 
-const displayMoreButton = () => {
-  let moreButton = document.createElement("button");
-  moreButton.innerHTML = "Load More";
-  moreButton.classList = "more-button";
-  moreButton.addEventListener("click", () => {});
-  return moreButton;
-};
+// const displayMoreButton = () => {
+//   let moreButton = document.createElement("button");
+//   moreButton.innerHTML = "Load More";
+//   moreButton.classList = "more-button";
+//   moreButton.addEventListener("click", () => {});
+//   return moreButton;
+// };

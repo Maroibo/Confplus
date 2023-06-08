@@ -115,16 +115,15 @@ function conferenceToHTML(conference) {
 
     conferenceCard.appendChild(conferenceDetailsContainer);
 
-    conferenceCard.addEventListener('click', () => {
-        const conferenceID = conferenceCard.dataset.conferenceID;
-        goToSchedule(conferenceID);
+    conferenceCard.addEventListener('click', async () => {
+        await goToSchedule(conference);
     });
 
     return conferenceCard;
 }
 
-function goToSchedule(conferenceID) {
-    localStorage["currentConference"] = `${conferenceID}`;
+async function goToSchedule(conference) {
+    localStorage.setItem("currentConference", JSON.stringify(conference));
     window.location.href = "../conference-schedule/confrence-schedule.html";
 }
 
