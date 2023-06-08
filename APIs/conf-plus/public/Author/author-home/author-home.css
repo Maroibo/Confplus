@@ -1,0 +1,143 @@
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 100px;
+    padding-top: 3em;
+    height: fit-content;
+}
+
+select {
+    font-weight: 500;
+    background-color: #9747FF;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    color: white;
+    height: 28px;
+    width: 120px;
+    margin-right: -9%;
+    padding: 5px;
+}
+
+.root h1 {
+    font-weight: 700;
+    font-size: 3em;
+    margin-bottom: 100px;
+}
+
+.root .filter {
+    align-self: center;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-right: 10%;
+    margin-top: 50px;
+    padding-left: 3px;
+}
+
+/* add styles to the add button to be the same size as the filter */
+.add-paper-button {
+    height: 28px;
+    width: 120px;
+    margin-right: 20px;
+    font-size: 15px;
+    padding: 1px;
+    border-radius: 4px;
+}
+
+.rapper-div {
+    width: 100%;
+    justify-content: flex-end;
+    display: flex;
+    padding-right: 20%;
+    align-items: center;
+}
+
+.paper-header span {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22.25px;
+    line-height: 18px;
+    text-align: center;
+    color: #5A1499;
+    margin-bottom: 30px;
+    height: 5px;
+    /* add elipsis if over flow */
+
+}
+
+.paper span:first-of-type {
+    text-align: left;
+}
+
+.paper-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    border-bottom: 1px solid #5A1499;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 0;
+}
+
+.papers {
+    width: 88%;
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+.paper {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    margin-top: 5px;
+    text-align: center;
+    color: #000000;
+    border-bottom: 1px solid #A4A8D1;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+.accepted {
+    background-color: #A0E8C7;
+    color: #198754;
+}
+
+.pending {
+    background-color: #FFE1A1;
+    color: #D96D20;
+}
+
+.rejected {
+    background-color: #FFA1A1;
+    color: #D92020;
+}
+
+.tag {
+    font: 10px;
+    padding: 5px;
+    width: 80px;
+    border-radius: 5px;
+    height: fit-content;
+}
+
+@media screen and (max-width:676px) {
+    .empty-container img {
+        width: 90%;
+    }
+
+    .empty-container p {
+        font-size: 2.6vw;
+    }
+
+    .papers {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+}
