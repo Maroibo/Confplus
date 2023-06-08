@@ -644,6 +644,33 @@ export async function createPresentations(presentationsState) {
   }
 }
 
+export async function createSession(id, sessionState) {
+  try {
+    const newSession = await prisma.session.create({
+      data: {
+        day: sessionState.day,
+        from_time: sessionState.from_time,
+        to_time: sessionState.to_time,
+        location_city: sessionState.location_city,
+        conference_id: parseInt(id),
+      }
+    });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      session: newSession,
+    };
+  } catch (error) {
+    return {
+      done: false,
+      session: null,
+    };
+  }
+}
+
+
+
+
 export async function updateSession(sessionId, sessionState) {
   try {
     const updatedSession = await prisma.session.update({

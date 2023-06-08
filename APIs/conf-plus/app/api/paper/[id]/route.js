@@ -15,6 +15,7 @@ export async function GET(request, { params }) {
     console.log(err);
   }
 }
+
 export async function POST(request, { params }) {
   try {
     let { id } = params;
