@@ -1,5 +1,4 @@
 import fs from "fs";
-import { nanoid } from "nanoid";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 // C create R read U update D delete
@@ -70,45 +69,8 @@ export async function readAllAcceptedPapers() {
     };
   }
 }
-export async function deleteSession(sessionId) {
-  try {
-    const deletedSession = await prisma.session.delete({
-      where: { session_id: sessionId },
-    });
-    await prisma.$disconnect();
-    // handle error
-    return {
-      done: true,
-      session: deletedSession,
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      done: false,
-      session: null,
-    };
-  }
-}
 
 export async function createPaper(paper) {
-  // const createdId = nanoid();
-  // if (validatePaper(paper)) {
-  //   const addedPaper = { ...paper, id: createdId };
-  //   let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
-  //   papers = JSON.parse(papers);
-  //   papers.push(addedPaper);
-  //   await fs.promises.writeFile(PAPER_PATH, JSON.stringify(papers));
-  //   return {
-  //     done: true,
-  //     paper: addedPaper,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     paper: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const createdPaper = await prisma.paper.create({
       data: paper,
@@ -165,21 +127,8 @@ function validatePaper(paper) {
   });
   return true;
 }
+
 export async function readPaper(id) {
-  // let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
-  // papers = JSON.parse(papers);
-  // let paper = papers.find((paper) => paper.id === id);
-  // if (paper) {
-  //   return {
-  //     done: true,
-  //     paper: paper,
-  //   };
-  // }
-  // return {
-  //   done: false,
-  //   paper: null,
-  // };
-  // rewrite this using prisma client
   try {
     const paper = await prisma.paper.findUnique({
       where: {
@@ -204,7 +153,7 @@ export async function readPaper(id) {
 
 export async function readPaperByAuthor(authorId) {
   const papers = await prisma.paper.findMany({
-    // include the accpeted attribute from the review table
+    // include the accepted attribute from the review table
     where: {
       Author_Paper: {
         some: {
@@ -227,24 +176,8 @@ export async function readPaperByAuthor(authorId) {
     papers: papers,
   };
 }
+
 export async function updateConference(id, conference) {
-  // let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
-  // conferences = JSON.parse(conferences);
-  // const index = conferences.findIndex((conference) => conference.id === id);
-  // conferences[index] = conference;
-  // await fs.promises.writeFile(CONFERENCE_PATH, JSON.stringify(conferences));
-  // if (index >= 0) {
-  //   return {
-  //     done: true,
-  //     conference: conference,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     conference: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const updatedConference = await prisma.conference.update({
       where: {
@@ -266,23 +199,6 @@ export async function updateConference(id, conference) {
 }
 
 export async function updatePaper(id, paper) {
-  // let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
-  // papers = JSON.parse(papers);
-  // const index = papers.findIndex((paper) => paper.id === id);
-  // if (index < 0) {
-  //   return {
-  //     done: false,
-  //     paper: null,
-  //   };
-  // }
-  // paper.id = id;
-  // papers[index] = paper;
-  // await fs.promises.writeFile(PAPER_PATH, JSON.stringify(papers));
-  // return {
-  //   done: true,
-  //   paper: paper,
-  // };
-  // rewrite this using prisma client
   try {
     const updatedPaper = await prisma.paper.update({
       where: {
@@ -304,23 +220,6 @@ export async function updatePaper(id, paper) {
 }
 
 export async function deletePaper(id) {
-  // let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
-  // papers = JSON.parse(papers);
-  // const index = papers.findIndex((paper) => paper.id === id);
-  // if (index < 0) {
-  //   return {
-  //     done: false,
-  //     paper: null,
-  //   };
-  // }
-  // const deletedPaper = papers[index];
-  // papers.splice(index, 1);
-  // await fs.promises.writeFile(PAPER_PATH, JSON.stringify(papers));
-  // return {
-  //   done: true,
-  //   paper: deletedPaper,
-  // };
-  // rewrite this using prisma client
   try {
     const deletedPaper = await prisma.paper.delete({
       where: {
@@ -339,23 +238,8 @@ export async function deletePaper(id) {
     };
   }
 }
+
 export async function createReviews(paper_id) {
-  // if (validateReview(review)) {
-  //   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  //   reviews = JSON.parse(reviews);
-  //   reviews.push(review);
-  //   await fs.promises.writeFile(REVIEW_PATH, JSON.stringify(reviews));
-  //   return {
-  //     done: true,
-  //     review: review,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     review: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const allReviewers = await prisma.reviewer.findMany();
     // select 2 distinct random reviewers
@@ -404,6 +288,7 @@ export async function createReviews(paper_id) {
     };
   }
 }
+
 function validateReview(review) {
   const reviewModel = [
     "reviewer",
@@ -432,47 +317,8 @@ function validateReview(review) {
   });
   return true;
 }
+
 export async function readReview(paperId, idType) {
-  // if (idType === "paper") {
-  //   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  //   reviews = JSON.parse(reviews);
-  //   let review = reviews.find((review) => review.paper === id);
-  //   if (review) {
-  //     return {
-  //       done: true,
-  //       review: review,
-  //     };
-  //   } else {
-  //     return {
-  //       done: false,
-  //       review: null,
-  //     };
-  //   }
-  // } else if (idType === "reviewer") {
-  //   let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  //   reviews = JSON.parse(reviews);
-  //   let parsedId = parseInt(id);
-  //   let review = reviews.filter(
-  //     (review) => review.reviewers.indexOf(parsedId) >= 0
-  //   );
-  //   if (review.length !== 0) {
-  //     return {
-  //       done: true,
-  //       review: review,
-  //     };
-  //   } else {
-  //     return {
-  //       done: false,
-  //       review: null,
-  //     };
-  //   }
-  // } else {
-  //   return {
-  //     done: false,
-  //     review: null,
-  //   };
-  // }
-  // rewrite this using prisma client there is not review id in the model so we search by the paper id and the reviewer id
   try {
     let review;
     if (idType === "paper") {
@@ -509,14 +355,8 @@ export async function readReview(paperId, idType) {
     };
   }
 }
+
 export async function readAllPapers() {
-  // let papers = await fs.promises.readFile(PAPER_PATH, "utf8");
-  // papers = JSON.parse(papers);
-  // return {
-  //   done: true,
-  //   papers: papers,
-  // };
-  // rewrite this using prisma client
   try {
     const papers = await prisma.paper.findMany(
       {
@@ -536,14 +376,8 @@ export async function readAllPapers() {
     };
   }
 }
+
 export async function readAllReviews() {
-  // let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  // reviews = JSON.parse(reviews);
-  // return {
-  //   done: true,
-  //   reviews: reviews,
-  // };
-  // rewrite this using prisma client
   try {
     const reviews = await prisma.review.findMany();
     await prisma.$disconnect();
@@ -558,14 +392,8 @@ export async function readAllReviews() {
     };
   }
 }
+
 export async function readAllConferences() {
-  // let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
-  // conferences = JSON.parse(conferences);
-  // return {
-  //   done: true,
-  //   conferences: conferences,
-  // };
-  // rewrite this using prisma client
   try {
     const conferences = await prisma.conference.findMany({
       include: {
@@ -591,13 +419,6 @@ export async function readAllConferences() {
 }
 
 export async function readAllInstitutions() {
-  // let institutions = await fs.promises.readFile(INSTITUTION_PATH, "utf8");
-  // institutions = JSON.parse(institutions);
-  // return {
-  //   done: true,
-  //   institutions: institutions,
-  // };
-  // rewrite this using prisma client
   try {
     const institutions = await prisma.institution.findMany();
     await prisma.$disconnect();
@@ -648,6 +469,7 @@ export async function deletePresentations(sessionId) {
     };
   }
 }
+
 export async function createPresentations(presentationsState) {
 
   try {
@@ -699,9 +521,6 @@ export async function createSession(id, sessionState) {
   }
 }
 
-
-
-
 export async function updateSession(sessionId, sessionState) {
   try {
     const updatedSession = await prisma.session.update({
@@ -728,14 +547,27 @@ export async function updateSession(sessionId, sessionState) {
   }
 }
 
+export async function deleteSession(sessionId) {
+  try {
+    const deletedSession = await prisma.session.delete({
+      where: { session_id: sessionId },
+    });
+    await prisma.$disconnect();
+    // handle error
+    return {
+      done: true,
+      session: deletedSession,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      session: null,
+    };
+  }
+}
+
 export async function readAllLocations() {
-  // let locations = await fs.promises.readFile(LOCATIONS_PATH, "utf8");
-  // locations = JSON.parse(locations);
-  // return {
-  //   done: true,
-  //   locations: locations,
-  // };
-  // rewrite this using prisma client
   try {
     const locations = await prisma.location.findMany();
     await prisma.$disconnect();
@@ -752,25 +584,6 @@ export async function readAllLocations() {
 }
 
 export async function deleteReview(id) {
-  // let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  // reviews = JSON.parse(reviews);
-  // const index = reviews.findIndex((review) => review.paper === id);
-  // console.log(reviews);
-  // if (index >= 0) {
-  //   const review = reviews[index];
-  //   reviews.splice(index, 1);
-  //   await fs.promises.writeFile(REVIEW_PATH, JSON.stringify(reviews));
-  //   return {
-  //     done: true,
-  //     review: review,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     review: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const review = await prisma.review.delete({
       where: {
@@ -789,18 +602,8 @@ export async function deleteReview(id) {
     };
   }
 }
+
 export async function createConference(conference) {
-  // const createdId = nanoid();
-  // const addedConference = { ...conference, id: createdId };
-  // let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
-  // conferences = JSON.parse(conferences);
-  // conferences.push(addedConference);
-  // await fs.promises.writeFile(CONFERENCE_PATH, JSON.stringify(conferences));
-  // return {
-  //   done: true,
-  //   conference: createdId,
-  // };
-  // rewrite this using prisma client
   try {
     const createdConference = await prisma.conference.create({
       data: conference,
@@ -817,22 +620,8 @@ export async function createConference(conference) {
     };
   }
 }
+
 export async function readConference(id) {
-  // let conferences = await fs.promises.readFile(CONFERENCE_PATH, "utf8");
-  // conferences = JSON.parse(conferences);
-  // let conference = conferences.find((conference) => conference.id === id);
-  // if (conference) {
-  //   return {
-  //     done: true,
-  //     conference: conference,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     conference: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const conference = await prisma.conference.findUnique({
       where: {
@@ -860,23 +649,6 @@ export async function readConference(id) {
 }
 
 export async function updateReview(id, review) {
-  // let reviews = await fs.promises.readFile(REVIEW_PATH, "utf8");
-  // reviews = JSON.parse(reviews);
-  // const index = reviews.findIndex((review) => review.paper === id);
-  // reviews[index] = review;
-  // await fs.promises.writeFile(REVIEW_PATH, JSON.stringify(reviews));
-  // if (index >= 0) {
-  //   return {
-  //     done: true,
-  //     review: review,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     review: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const updatedReview = await prisma.review.update({
       where: {
@@ -899,13 +671,6 @@ export async function updateReview(id, review) {
 }
 
 export async function readAllUsers() {
-  // let users = await fs.promises.readFile(USER_PATH, "utf8");
-  // users = JSON.parse(users);
-  // return {
-  //   done: true,
-  //   users: users,
-  // };
-  // rewrite this using prisma client
   try {
     const users = await prisma.user.findMany();
     await prisma.$disconnect();
@@ -920,6 +685,7 @@ export async function readAllUsers() {
     };
   }
 }
+
 export async function readUserByName(name) {
   try {
     const user = await prisma.user.findFirst({
@@ -946,21 +712,6 @@ export async function readUserByName(name) {
 }
 
 export async function readUser(id) {
-  // let users = await fs.promises.readFile(USER_PATH, "utf8");
-  // users = JSON.parse(users);
-  // let user = users.find((user) => `${user.id}` === id);
-  // if (user) {
-  //   return {
-  //     done: true,
-  //     user: user,
-  //   };
-  // } else {
-  //   return {
-  //     done: false,
-  //     user: null,
-  //   };
-  // }
-  // rewrite this using prisma client
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -984,8 +735,8 @@ export async function readUser(id) {
     };
   }
 }
+
 export async function readUserByEmailPassword(email, password) {
-  // write it in prisma
   try {
     const user = await prisma.user.findFirst({
       where: {
@@ -1011,15 +762,8 @@ export async function readUserByEmailPassword(email, password) {
     };
   }
 }
+
 export async function readOrganizers() {
-  // let users = await fs.promises.readFile(USER_PATH, "utf8");
-  // users = JSON.parse(users);
-  // let organizers = users.filter((user) => user.role === "organizer");
-  // return {
-  //   done: true,
-  //   users: organizers,
-  // };
-  // rewrite this using prisma client there is an entity called organizer
   try {
     const organizers = await prisma.organizer.findMany();
     await prisma.$disconnect();
@@ -1034,15 +778,8 @@ export async function readOrganizers() {
     };
   }
 }
+
 export async function readReviewers() {
-  // let users = await fs.promises.readFile(USER_PATH, "utf8");
-  // users = JSON.parse(users);
-  // let reviewers = users.filter((user) => user.role === "reviewer");
-  // return {
-  //   done: true,
-  //   users: reviewers,
-  // };
-  // rewrite this using prisma client there is an entity called reviewer
   try {
     const reviewers = await prisma.reviewer.findMany();
     await prisma.$disconnect();
@@ -1057,15 +794,8 @@ export async function readReviewers() {
     };
   }
 }
+
 export async function readAuthors() {
-  // let users = await fs.promises.readFile(USER_PATH, "utf8");
-  // users = JSON.parse(users);
-  // let authors = users.filter((user) => user.role === "author");
-  // return {
-  //   done: true,
-  //   users: authors,
-  // };
-  // rewrite this using prisma client there is an entity called author
   try {
     const authors = await prisma.author.findMany();
     await prisma.$disconnect();
@@ -1147,8 +877,9 @@ export async function avgAuthorsPerPaper() {
     };
   }
 }
+
+// get the number of conference sessions
 export async function noOfConferenceSessions() {
-  // get the number of conference sessions
   const sessions = await prisma.session.count();
   await prisma.$disconnect();
   return {
@@ -1156,15 +887,9 @@ export async function noOfConferenceSessions() {
     sessions: sessions,
   };
 }
+
+// get the number of presentations per session
 export async function avgPapersPerSession() {
-  // model Presentation {
-  //   presentation_id Int     @id @default(autoincrement())
-  //   paper Paper @relation(fields: [paper_id], references: [paper_id])
-  //   paper_id Int @unique
-  //   session_id Int
-  //   session Session @relation(fields: [session_id], references: [session_id])
-  // }
-  // get the number of presentations per session
   const presentationsPerSession = await prisma.presentation.groupBy({
     by: ["session_id"],
     _count: {

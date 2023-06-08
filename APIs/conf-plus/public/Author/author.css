@@ -300,6 +300,7 @@ input[type="submit"]:hover {
 }
 
 .popup .remove-author {
+    font-size: 15px;
     color: #FFFFFF;
     background: #5A1499;
     border-radius: 5px;
@@ -309,6 +310,7 @@ input[type="submit"]:hover {
     cursor: pointer;
     transition: 100ms ease-in-out;
     height: 30px;
+    width: 95%;
 }
 
 .main-author-container input {
