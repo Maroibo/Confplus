@@ -7,7 +7,7 @@ export async function GET(request) {
       return NextResponse.json(response.dates);
     } else {
       return NextResponse.json({
-        error: "There are no dates",
+        error: "Error finding dates",
       });
     }
   } catch (err) {

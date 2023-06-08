@@ -101,6 +101,10 @@ model Location {
   session Session[]
 }
 
+model Date {
+  day String @unique
+}
+
 model Session {
   session_id    Int        @id @default(autoincrement())
   conference_id Int
