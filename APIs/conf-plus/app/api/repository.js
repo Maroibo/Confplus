@@ -966,7 +966,6 @@ export async function readUser(id) {
         organizer: true,
       },
     });
-    console.log(id);
     await prisma.$disconnect();
     return {
       done: true,

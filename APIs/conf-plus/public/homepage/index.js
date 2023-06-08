@@ -1,11 +1,12 @@
 const conferenceCardsContainer = document.querySelector(".conference-cards-container");
 const conferencesContainer = document.querySelector(".conferences-container");
-
+let currentUser = null;
 window.onload = async () => {
+  const userID = localStorage["currentUser"];
+  const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
+  currentUser = user
     await userDisplayer();
     await getConferences();
-    const userID = localStorage["currentUser"];
-    const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
     if (user.organizer.length > 0) {
       const editScheduleBtn = document.querySelectorAll(".edit-schedule-btn");
       editScheduleBtn.forEach(btn => {btn.style.display = "block"})
@@ -34,6 +35,10 @@ async function showMoreConferences() {
         conferenceCardsContainer.appendChild(conferenceToHTML(conference));
       }
       conferencesList.splice(0, 3);
+      if (currentUser.organizer.length > 0) {
+        const editScheduleBtn = document.querySelectorAll(".edit-schedule-btn");
+        editScheduleBtn.forEach(btn => {btn.style.display = "block"})
+      }
 }
 
 async function getConferences() {
@@ -95,9 +100,7 @@ function conferenceToHTML(conference) {
         localStorage["currentConference"] = JSON.stringify(conference);
         window.location.href = "../schedule-editor-new/schedule-editor.html";
     });
-
     conferenceDetailsContainer.appendChild(editBtn);
-
     const calendarIcon = document.createElement("img");
     calendarIcon.src = "../recourses/icons/calendar.svg";
     calendarIcon.alt = "Calendar icon";

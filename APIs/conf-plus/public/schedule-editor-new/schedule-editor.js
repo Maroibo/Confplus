@@ -427,7 +427,13 @@ function readInputs() {
 
 async function handleEdit(sessionId) {
   currentSessionId = sessionId
-  const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  const allConfs = await fetch("/api/conference").then(res => res.json());
+  const allSessions = []
+  allConfs.forEach(conf => {
+    conf.session.forEach(session => {
+      allSessions.push(session)
+    })
+  })
 
   const thisSession = allSessions.find(session => session.session_id === parseInt(currentSessionId));
 
@@ -534,7 +540,14 @@ async function handleEdit(sessionId) {
 
 
 async function handleAddSession() {
-  const allSessions = JSON.parse(localStorage.getItem("currentConference")).session;
+  const allConfs = await fetch("/api/conference").then(res => res.json());
+  const allSessions = []
+  allConfs.forEach(conf => {
+    conf.session.forEach(session => {
+      allSessions.push(session)
+    })
+  })
+
   let allUsedPaperIDs = allSessions.map(session => session.presentation.map(presentation => presentation.paper_id)).flat();
 
   const { papers_presenters } = await fetch("/api/paper/accepted").then(res => res.json())
