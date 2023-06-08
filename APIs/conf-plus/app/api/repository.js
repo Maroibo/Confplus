@@ -1,6 +1,7 @@
 import fs from "fs";
 import { nanoid } from "nanoid";
 import { PrismaClient } from "@prisma/client";
+import exp from "constants";
 const prisma = new PrismaClient();
 // C create R read U update D delete
 const PAPER_PATH = "data/papers.json";
@@ -29,22 +30,24 @@ export async function readAllAcceptedPapers() {
         paper_id: {
           in: papers,
         },
-      }
+      },
     });
     let presenters = await prisma.author_Paper.findMany({
       where: {
-        AND: [{
-        paper_id: {
-          in: papers
-        }
-        },
-        {main_author: true}
-      ]},
+        AND: [
+          {
+            paper_id: {
+              in: papers,
+            },
+          },
+          { main_author: true },
+        ],
+      },
       select: {
         author: true,
       },
     });
-    
+
     let papers_presenters = [];
     for (let i = 0; i < papers.length; i++) {
       const paper = newPapers[i];
@@ -54,7 +57,6 @@ export async function readAllAcceptedPapers() {
         ...presenter,
       });
     }
-    
 
     await prisma.$disconnect();
     // handle error
@@ -643,11 +645,9 @@ export async function deletePresentations(sessionId) {
   }
 }
 export async function createPresentations(presentationsState) {
-
   try {
     let newPresentations = [];
     presentationsState.forEach(async (p) => {
-  
       const newPresentation = await prisma.presentation.create({
         data: {
           session_id: p.session_id,
@@ -678,7 +678,7 @@ export async function createSession(id, sessionState) {
         to_time: sessionState.to_time,
         location_city: sessionState.location_city,
         conference_id: parseInt(id),
-      }
+      },
     });
     await prisma.$disconnect();
     return {
@@ -693,9 +693,6 @@ export async function createSession(id, sessionState) {
   }
 }
 
-
-
-
 export async function updateSession(sessionId, sessionState) {
   try {
     const updatedSession = await prisma.session.update({
@@ -707,7 +704,7 @@ export async function updateSession(sessionId, sessionState) {
         from_time: sessionState.from_time,
         to_time: sessionState.to_time,
         location_city: sessionState.location_city,
-      }
+      },
     });
     await prisma.$disconnect();
     return {
@@ -1025,6 +1022,31 @@ export async function readOrganizers() {
     return {
       done: false,
       users: null,
+    };
+  }
+}
+
+export async function updateAuthor(id, author) {
+  try {
+    // update only the istitution id
+    const updatedAuthor = await prisma.author.update({
+      where: {
+        user_id: parseInt(id),
+      },
+      data: {
+        institution_id: author.institution_id,
+      },
+    });
+    await prisma.$disconnect();
+    return {
+      done: true,
+      author: updatedAuthor,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      done: false,
+      author: null,
     };
   }
 }

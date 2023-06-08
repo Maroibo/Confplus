@@ -2,7 +2,7 @@ window.onload = async () => {
   // Check if user is logged in or not an author
   const userID = localStorage["currentUser"];
   const user = await fetch(`../api/user/${userID}`).then((res) => res.json());
-  if (user.author.length === 0) window.location.href = "../login/login.html"
+  if (user.author.length === 0) window.location.href = "../login/login.html";
 
   // Display user
   await userDisplayer();
@@ -22,8 +22,7 @@ addAuthorButton.addEventListener("click", async () => {
   let authorName = document.querySelector(".search-div input").value;
   authorName = authorName.charAt(0).toUpperCase() + authorName.slice(1);
   const response = await fetch(`../api/user?name=${authorName}`);
-  const author = await response.json(); 
-
+  const author = await response.json();
   // const author = data.find(
   //   (author) =>
   //     author.first_name.toLowerCase() === authorName.toLowerCase() ||
@@ -120,9 +119,9 @@ const uniqueAuthors = (authorName) => {
 };
 const authorInfo = async (authorName) => {
   const author = authors.find(
-    (author) => (author.first_name + " " + author.last_name) === authorName
+    (author) => author.first_name + " " + author.last_name === authorName
   );
-  
+
   const containerDiv = document.createElement("div");
   containerDiv.classList.add("popup");
   const removePopupIcon = document.createElement("img");
@@ -133,7 +132,7 @@ const authorInfo = async (authorName) => {
   removePopupIcon.src = "../recourses/icons/xmark-solid.svg";
   removePopupIcon.classList.add("remove-popup");
   const authorNameInput = document.createElement("input");
-  authorNameInput.value = author.name;
+  authorNameInput.value = author.last_name + ", " + author.first_name;
   const authorEmailInput = document.createElement("input");
   authorEmailInput.value = author.email;
   authorNameInput.disabled = true;
@@ -150,12 +149,11 @@ const authorInfo = async (authorName) => {
   authorAffiliationSelect.appendChild(option);
   data.forEach((institution) => {
     const option = document.createElement("option");
-    option.value = institution.id;
+    option.value = institution.institution_id;
     option.innerHTML = institution.name;
     authorAffiliationSelect.appendChild(option);
   });
-  authorAffiliationSelect.value = author.institution_id;
-
+  authorAffiliationSelect.value = author.author[0].institution_id;
   const nameLabel = document.createElement("label");
   nameLabel.innerHTML = "Name";
   const emailLabel = document.createElement("label");
@@ -168,18 +166,23 @@ const authorInfo = async (authorName) => {
   mainAuthorInput.type = "radio";
 
   mainAuthorInput.checked = author.main;
-  
+
   mainAuthorInput.addEventListener("change", () => {
-
-      authors.forEach((author) => {
-        author.main = false;
-      });
-      author.main = true;
-
+    authors.forEach((author) => {
+      author.main = false;
+    });
+    author.main = true;
   });
 
-  authorAffiliationSelect.addEventListener("change", (e) => {
-    author.institution_id = e.target.value;
+  authorAffiliationSelect.addEventListener("change", async (e) => {
+    author.author[0].institution_id = e.target.value;
+    // send the new institution to the server
+    const response = await fetch(`../api/author/${author.author[0].user_id}`, {
+      method: "PUT",
+      body: JSON.stringify(author.author[0]),
+    });
+    const data = await response.json();
+    console.log(data.institution_id, author.institution_id);
   });
 
   const removeAuthorButton = document.createElement("button");
@@ -248,13 +251,29 @@ submitButton.addEventListener("click", async (e) => {
       method: "POST",
       body: JSON.stringify(await paperStateModifier(paperState)),
     });
+    // submit authorpaper
+    // {
+    //   authorid,
+    //   paperid,
+    //   main_author,
+    // }
+    authors.forEach(async (author) => {
+      const response = await fetch("../api/authorPaper", {
+        method: "POST",
+        body: JSON.stringify({
+          paper_id: data.paper_id,
+          author_id: author.author[0].user_id,
+          main_author: author.main,
+        }),
+      });
+      const data = await response.json();
+    });
     const data = await response.json();
-
     if (data.paper_id) {
       // Make authorPaper
       const authorPaper = await makeAuthorPaper(data.paper_id);
       const review = await makeAReview(data.paper_id);
-      window.location.reload();
+      // window.location.reload();
     }
   } else {
     alert("Please fill out all the fields");
@@ -276,7 +295,6 @@ const makeAuthorPaper = async (paper_id) => {
 };
 
 const validPaper = (paper) => {
-
   const { title, abstract, document } = paper;
 
   // check that all the fields are filled and check that all the information is valid and all the author info is filled out
@@ -287,10 +305,9 @@ const validPaper = (paper) => {
     document &&
     validAuthors(authors)
   ) {
-    
     return true;
   }
-  
+
   return false;
 };
 const validAuthors = (authors) => {
@@ -349,7 +366,7 @@ const makeAReview = async (paper_id) => {
   // };
   const reviewResponse = await fetch("../api/review", {
     method: "POST",
-    body: JSON.stringify({paper_id}),
+    body: JSON.stringify({ paper_id }),
   });
   const reviewData = await reviewResponse.json();
   return reviewData;
