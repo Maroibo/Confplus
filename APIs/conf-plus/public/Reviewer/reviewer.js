@@ -6,8 +6,6 @@ window.onload = async () => {
   await userDisplayer();
   const response = await fetch(`../api/review/${userID}?type=reviewer`);
   const filteredReviews = await response.json();
-  // Should get the filterd reviews from the repo using prisma
-  // const filteredReviews = reviews.filter((e) => e.done === "pending");
   filteredReviews.map(async (e) => {
     const card = await reviewCard(e);
     document.querySelector(".root").appendChild(card);
@@ -96,7 +94,7 @@ const userClickHandler = (event) => {
     if (userRole.innerHTML.toLowerCase() === "reviewer") {
       window.location.href = "../Reviewer/reviewer.html";
     } else if (userRole.innerHTML.toLowerCase() === "author") {
-      window.location.href = "../Author/author.html";
+      window.location.href = "../Author/author-home/author-home.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
       window.location.href = "../homepage/index.html";
     }
@@ -132,6 +130,11 @@ const reviewCard = async (review) => {
   reviewContainer.appendChild(paperTitle);
   reviewContainer.appendChild(paperAuthor);
   reviewContainer.appendChild(paperAbstract);
+  // create an element to show if the done is pending or not
+  const done = document.createElement("div");
+  done.innerHTML = review.done === "done" ? "Reviewed" : "Pending";
+  done.classList = review.done === "done" ? "tag done" : "tag pending";
+  reviewContainer.appendChild(done);
   reviewContainer.addEventListener("click", () => {
     localStorage["currentReview"] = JSON.stringify(review);
     window.location.href = "../Reviewer/review/review.html";

@@ -42,7 +42,7 @@ async function handleLogin() {
   results = results.user;
   localStorage["currentUser"] = `${results.user_id}`;
   if (results.author.length !== 0)
-    window.location.href = "../Author/author.html";
+    window.location.href = "../Author/author-home/author-home.html";
   else if (results.organizer.length !== 0)
     window.location.href = "../homepage/index.html";
   else if (results.reviewer.length !== 0)

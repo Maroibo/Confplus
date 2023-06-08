@@ -1,5 +1,4 @@
 window.onload = async () => {
-  // Check if user is logged in or not an author
   const userID = localStorage["currentUser"];
   const user1 = await fetch(`../api/user/${userID}`).then((res) => res.json());
   if (user1.organizer.length === 0)
@@ -16,6 +15,10 @@ window.onload = async () => {
   const avgPapers = await response3.json();
   const response4 = await fetch("../api/stats/noConfSessions");
   const noConfSessions = await response4.json();
+  const response5 = await fetch("../api/stats/avgPaperSession");
+  const avgPaperSession = await response5.json();
+  const avgPaperSessionDiv = document.querySelector("#avg-paper-session");
+  avgPaperSessionDiv.innerHTML = `${avgPaperSession.averageAuthorsPerPaper}`;
   const avgPapersDiv = document.querySelector("#avg-papers");
   avgPapersDiv.innerHTML = `${avgPapers.averageAuthorsPerPaper}`;
   const noConfSessionsDiv = document.querySelector("#no-conf-sessions");
@@ -92,9 +95,12 @@ let userDisplayer = async () => {
   const userName = document.createElement("span");
   userName.innerHTML = `${user.last_name}, ${user.first_name}`;
   const userRole = document.createElement("span");
-  if (user.author.length !== 0) userRole.innerHTML = "Author";
-  else if (user.reviewer.length !== 0) userRole.innerHTML = "Reviewer";
-  else if (user.organizer.length !== 0) userRole.innerHTML = "Organizer";
+  if (user.author.length > 0)
+      userRole.innerHTML = `Author`;
+    else if (user.reviewer.length > 0)
+      userRole.innerHTML = `Reviewer`;
+    else if (user.organizer.length > 0)
+      userRole.innerHTML = `Organizer`;
   const arrowDown = document.createElement("img");
   arrowDown.src = "../recourses/icons/angle-down-solid.svg";
   arrowDown.classList = "log-options";
@@ -110,7 +116,6 @@ let userDisplayer = async () => {
   nav.insertBefore(userDiv, loginOption);
   loginOption.remove();
 };
-
 const userClickHandler = (event) => {
   if (
     event.target.classList.contains("log-options") &&
@@ -131,7 +136,7 @@ const userClickHandler = (event) => {
       localStorage["currentUser"] = "";
       window.location.href = "../login/login.html";
     });
-    document.querySelector(".main-container").appendChild(logoutDiv);
+    document.querySelector(".root").appendChild(logoutDiv);
   } else if (
     event.target.classList.contains("log-options") &&
     document.querySelector(".logout") !== null
@@ -147,9 +152,9 @@ const userClickHandler = (event) => {
     if (userRole.innerHTML.toLowerCase() === "reviewer") {
       window.location.href = "../Reviewer/reviewer.html";
     } else if (userRole.innerHTML.toLowerCase() === "author") {
-      window.location.href = "../Author/author.html";
+      window.location.href = "../Author/author-home/author-home.html";
     } else if (userRole.innerHTML.toLowerCase() === "organizer") {
-      window.location.href = "../homepage/index.html";
+      window.location.href = "../conference-schedule/confrence-schedule.html";
     }
   }
 };
